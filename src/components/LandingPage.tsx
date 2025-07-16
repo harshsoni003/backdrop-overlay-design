@@ -25,11 +25,10 @@ const LandingPage = () => {
       <div className="max-w-6xl mx-auto px-6 py-20">
         <div className="text-center mb-16">
           <h2 className="text-5xl font-bold text-gray-900 mb-6">
-            Auto Insert <span className="text-red-600 underline decoration-2">text between</span> your images
+            Add Mac Background and <span className="text-red-600 underline decoration-2">Make your post viral</span>
           </h2>
           <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
-            Create pov-style Youtube thumbnails and other social media posts that
-            actually go viral.
+            Make your post look professional and reach millions of views using a Mac-style background.
           </p>
           <div className="flex items-center justify-center gap-4">
             <Link to="/editor">
