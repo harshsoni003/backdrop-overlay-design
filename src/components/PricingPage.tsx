@@ -37,10 +37,7 @@ const PricingPage = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
 
           {/* Monthly Plan */}
-          <Card className="relative border-2 border-black">
-            <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
-              <span className="bg-black text-white px-3 py-1 text-sm rounded-full">Most Popular</span>
-            </div>
+          <Card className="relative bg-white">
             <CardHeader>
               <CardTitle className="text-xl">Monthly</CardTitle>
               <CardDescription>For regular content creators</CardDescription>
@@ -72,7 +69,7 @@ const PricingPage = () => {
           </Card>
 
           {/* Lifetime Plan */}
-          <Card className="relative">
+          <Card className="relative bg-white">
             <CardHeader>
               <CardTitle className="text-xl">Lifetime</CardTitle>
               <CardDescription>One-time payment, forever access</CardDescription>
