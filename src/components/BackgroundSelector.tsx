@@ -93,21 +93,26 @@ export const BackgroundSelector = ({ selectedBackground, onBackgroundSelect }: B
     : backgroundOptions.filter(bg => bg.category === selectedCategory);
 
   return (
-    <Card className="p-4 bg-card">
-      <div className="flex items-center gap-2 mb-4">
-        <ImageIcon className="w-4 h-4" />
-        <h3 className="font-medium text-card-foreground">Background Gallery</h3>
+    <Card className="p-4 bg-card border-border/50 shadow-sm">
+      <div className="flex items-center gap-3 mb-4">
+        <div className="p-1.5 bg-primary/10 rounded-md">
+          <ImageIcon className="w-4 h-4 text-primary" />
+        </div>
+        <div>
+          <h4 className="font-medium text-card-foreground">Background Gallery</h4>
+          <p className="text-xs text-muted-foreground">Choose from preset backgrounds</p>
+        </div>
       </div>
       
       {/* Category Filter */}
-      <div className="flex gap-1 mb-4 overflow-x-auto">
+      <div className="flex gap-1 mb-4 overflow-x-auto pb-1">
         {categories.map((category) => (
           <Button
             key={category}
             variant={selectedCategory === category ? "default" : "outline"}
             size="sm"
             onClick={() => setSelectedCategory(category)}
-            className="text-xs whitespace-nowrap"
+            className="text-xs whitespace-nowrap h-7 px-3"
           >
             {category}
           </Button>
@@ -115,16 +120,16 @@ export const BackgroundSelector = ({ selectedBackground, onBackgroundSelect }: B
       </div>
 
       {/* Background Grid - Optimized for 1280x720 (16:9) */}
-      <ScrollArea className="h-96">
-        <div className="grid grid-cols-1 gap-4">
+      <ScrollArea className="h-80">
+        <div className="grid grid-cols-1 gap-3 pr-2">
           {filteredBackgrounds.map((background) => (
             <div
               key={background.id}
               className={cn(
-                "relative aspect-video rounded-lg overflow-hidden cursor-pointer border-2 transition-all duration-200 hover:scale-105",
+                "relative aspect-video rounded-lg overflow-hidden cursor-pointer border transition-all duration-300 hover:scale-[1.02] hover:shadow-md",
                 selectedBackground === background.id 
-                  ? "border-primary ring-2 ring-primary/20" 
-                  : "border-border hover:border-primary/50"
+                  ? "border-primary ring-2 ring-primary/30 shadow-lg" 
+                  : "border-border/50 hover:border-primary/50"
               )}
               onClick={() => onBackgroundSelect(background)}
             >
@@ -136,20 +141,20 @@ export const BackgroundSelector = ({ selectedBackground, onBackgroundSelect }: B
               
               {/* Selected indicator */}
               {selectedBackground === background.id && (
-                <div className="absolute inset-0 bg-primary/20 flex items-center justify-center">
-                  <div className="bg-primary text-primary-foreground rounded-full p-1">
+                <div className="absolute inset-0 bg-primary/10 flex items-center justify-center backdrop-blur-[1px]">
+                  <div className="bg-primary text-primary-foreground rounded-full p-1.5 shadow-lg">
                     <Check className="w-3 h-3" />
                   </div>
                 </div>
               )}
               
               {/* Background name and info */}
-              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-3">
-                <p className="text-white text-sm font-medium">
+              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent p-3">
+                <p className="text-white text-sm font-medium leading-tight">
                   {background.name}
                 </p>
-                <p className="text-white/70 text-xs">
-                  {background.category} • 1280x720
+                <p className="text-white/80 text-xs mt-0.5">
+                  {background.category}
                 </p>
               </div>
             </div>
