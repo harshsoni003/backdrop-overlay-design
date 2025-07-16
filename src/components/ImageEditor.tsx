@@ -167,25 +167,21 @@ export const ImageEditor = () => {
     }
   }, [textContent, fontSize, activeObject, fabricCanvas]);
 
-  // Apply border radius and border styling to active image using rounded rectangle mask
+  // Apply border radius and border styling to active image using fabric.js clipPath
   useEffect(() => {
     if (activeObject && activeObject.type === 'image' && fabricCanvas) {
       const radius = borderRadius[0];
       const width = borderWidth[0];
       
       if (radius > 0) {
-        // Create a rounded rectangle mask using the exact drawRoundedImage logic
-        const imgWidth = activeObject.width * activeObject.scaleX;
-        const imgHeight = activeObject.height * activeObject.scaleY;
-        
-        // Create a clipping path that matches the drawRoundedImage function
+        // Use fabric.js clipPath approach with Rect and rx/ry for curved borders
         const clipPath = new Rect({
-          width: imgWidth,
-          height: imgHeight,
           rx: radius,
           ry: radius,
+          width: activeObject.width,
+          height: activeObject.height,
           originX: 'center',
-          originY: 'center',
+          originY: 'center'
         });
         
         activeObject.set({
