@@ -266,7 +266,7 @@ export const ImageEditor = () => {
       <div className="flex-1 p-6 gradient-canvas">
         <div className="h-full flex flex-col">
           {/* Toolbar */}
-          <div className="mb-4 flex justify-center">
+          <div className="mb-4 flex justify-start ml-6">
             <Card className="p-3 bg-editor-toolbar border-border w-fit">
               <div className="flex items-center gap-2">
                 <Button
