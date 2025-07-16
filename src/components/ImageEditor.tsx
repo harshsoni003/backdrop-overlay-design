@@ -12,8 +12,7 @@ import defaultBg from "@/assets/default-bg.jpg";
 
 export const ImageEditor = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const imageInputRef = useRef<HTMLInputElement>(null);
-  const videoInputRef = useRef<HTMLInputElement>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const [fabricCanvas, setFabricCanvas] = useState<FabricCanvas | null>(null);
   const [activeObject, setActiveObject] = useState<any>(null);
   const [textContent, setTextContent] = useState("Sample Text");
@@ -71,7 +70,7 @@ export const ImageEditor = () => {
     setFabricCanvas(canvas);
     toast({
       title: "Canvas Ready!",
-      description: "Upload images or videos to get started",
+      description: "Upload an image or add text to get started",
     });
 
     return () => {
@@ -79,18 +78,17 @@ export const ImageEditor = () => {
     };
   }, []);
 
-  // Handle file upload (images and videos)
+  // Handle file upload (images only)
   const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (!file || !fabricCanvas) return;
 
     const isImage = file.type.startsWith('image/');
-    const isVideo = file.type.startsWith('video/');
 
-    if (!isImage && !isVideo) {
+    if (!isImage) {
       toast({
         title: "Invalid file type",
-        description: "Please upload an image or video file",
+        description: "Please upload an image file",
         variant: "destructive",
       });
       return;
@@ -100,123 +98,31 @@ export const ImageEditor = () => {
     reader.onload = (e) => {
       const fileUrl = e.target?.result as string;
       
-      if (isImage) {
-        // Handle image upload
-        FabricImage.fromURL(fileUrl).then((img) => {
-          // Scale image to fit canvas while maintaining aspect ratio
-          const canvasWidth = fabricCanvas.getWidth();
-          const canvasHeight = fabricCanvas.getHeight();
-          const scale = Math.min(canvasWidth / img.width!, canvasHeight / img.height!) * 0.7;
-          
-          img.set({
-            left: canvasWidth / 2,
-            top: canvasHeight / 2,
-            originX: 'center',
-            originY: 'center',
-            scaleX: scale,
-            scaleY: scale,
-          });
-
-          fabricCanvas.add(img);
-          fabricCanvas.setActiveObject(img);
-          fabricCanvas.renderAll();
-          
-          toast({
-            title: "Image uploaded!",
-            description: "Your image has been added to the canvas",
-          });
-        });
-      } else if (isVideo) {
-        // Handle video upload
-        const video = document.createElement('video');
-        video.src = fileUrl;
-        video.crossOrigin = 'anonymous';
-        video.muted = true;
-        video.loop = true;
+      // Handle image upload
+      FabricImage.fromURL(fileUrl).then((img) => {
+        // Scale image to fit canvas while maintaining aspect ratio
+        const canvasWidth = fabricCanvas.getWidth();
+        const canvasHeight = fabricCanvas.getHeight();
+        const scale = Math.min(canvasWidth / img.width!, canvasHeight / img.height!) * 0.7;
         
-        video.onloadedmetadata = () => {
-          // Create a canvas to capture video frame
-          const videoCanvas = document.createElement('canvas');
-          const videoCtx = videoCanvas.getContext('2d')!;
-          videoCanvas.width = video.videoWidth;
-          videoCanvas.height = video.videoHeight;
-          
-          // Draw first frame
-          videoCtx.drawImage(video, 0, 0);
-          const frameDataUrl = videoCanvas.toDataURL();
-          
-          // Create fabric image from video frame
-          FabricImage.fromURL(frameDataUrl).then((img) => {
-            const canvasWidth = fabricCanvas.getWidth();
-            const canvasHeight = fabricCanvas.getHeight();
-            const scale = Math.min(canvasWidth / img.width!, canvasHeight / img.height!) * 0.7;
-            
-            // Add custom properties to track this as a video
-            (img as any).isVideo = true;
-            (img as any).videoElement = video;
-            (img as any).videoCanvas = videoCanvas;
-            (img as any).videoContext = videoCtx;
-            
-            img.set({
-              left: canvasWidth / 2,
-              top: canvasHeight / 2,
-              originX: 'center',
-              originY: 'center',
-              scaleX: scale,
-              scaleY: scale,
-            });
+        img.set({
+          left: canvasWidth / 2,
+          top: canvasHeight / 2,
+          originX: 'center',
+          originY: 'center',
+          scaleX: scale,
+          scaleY: scale,
+        });
 
-            fabricCanvas.add(img);
-            fabricCanvas.setActiveObject(img);
-            fabricCanvas.renderAll();
-            
-            // Start video playback and update frames
-            video.play();
-            const updateVideoFrame = () => {
-              if ((img as any).isVideo && video.readyState >= 2) {
-                videoCtx.drawImage(video, 0, 0);
-                const newFrameDataUrl = videoCanvas.toDataURL();
-                // Create a new image and replace the fabric image
-                FabricImage.fromURL(newFrameDataUrl).then((newImg) => {
-                  // Copy properties from old image
-                  newImg.set({
-                    left: img.left,
-                    top: img.top,
-                    scaleX: img.scaleX,
-                    scaleY: img.scaleY,
-                    originX: img.originX,
-                    originY: img.originY,
-                    clipPath: img.clipPath,
-                  });
-                  // Add video properties
-                  (newImg as any).isVideo = true;
-                  (newImg as any).videoElement = video;
-                  (newImg as any).videoCanvas = videoCanvas;
-                  (newImg as any).videoContext = videoCtx;
-                  
-                  // Replace the old image
-                  fabricCanvas.remove(img);
-                  fabricCanvas.add(newImg);
-                  fabricCanvas.setActiveObject(newImg);
-                  fabricCanvas.renderAll();
-                  
-                  // Update reference
-                  img = newImg;
-                });
-              }
-              if ((img as any).isVideo) {
-                requestAnimationFrame(updateVideoFrame);
-              }
-            };
-            updateVideoFrame();
-            
-            toast({
-              title: "Video uploaded!",
-              description: "Your video has been added to the canvas",
-            });
-          });
-        };
-      }
+        fabricCanvas.add(img);
+        fabricCanvas.setActiveObject(img);
+        fabricCanvas.renderAll();
+        
+        toast({
+          title: "Image uploaded!",
+          description: "Your image has been added to the canvas",
+        });
+      });
     };
     reader.readAsDataURL(file);
   };
@@ -381,76 +287,27 @@ export const ImageEditor = () => {
     });
   };
 
-  // Download image or video
-  const downloadImage = async () => {
+  // Download image
+  const downloadImage = () => {
     if (!fabricCanvas) return;
 
-    // Check if there's a video in the canvas
-    const hasVideo = fabricCanvas.getObjects().some(obj => (obj as any).isVideo);
+    const dataURL = fabricCanvas.toDataURL({
+      format: 'png',
+      quality: 1,
+      multiplier: 2,
+    });
 
-    if (hasVideo) {
-      // Download as video
-      const stream = (canvasRef.current as any).captureStream(30); // 30 FPS
-      const mediaRecorder = new MediaRecorder(stream, {
-        mimeType: 'video/webm; codecs=vp9'
-      });
-      
-      const chunks: Blob[] = [];
-      
-      mediaRecorder.ondataavailable = (event) => {
-        if (event.data.size > 0) {
-          chunks.push(event.data);
-        }
-      };
-      
-      mediaRecorder.onstop = () => {
-        const blob = new Blob(chunks, { type: 'video/webm' });
-        const url = URL.createObjectURL(blob);
-        const link = document.createElement('a');
-        link.download = 'edited-video.webm';
-        link.href = url;
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-        URL.revokeObjectURL(url);
-        
-        toast({
-          title: "Video downloaded!",
-          description: "Your edited video has been saved",
-        });
-      };
-      
-      mediaRecorder.start();
-      
-      // Record for 5 seconds (adjust as needed)
-      setTimeout(() => {
-        mediaRecorder.stop();
-      }, 5000);
-      
-      toast({
-        title: "Recording video...",
-        description: "Please wait, recording for 5 seconds",
-      });
-    } else {
-      // Download as image
-      const dataURL = fabricCanvas.toDataURL({
-        format: 'png',
-        quality: 1,
-        multiplier: 2,
-      });
+    const link = document.createElement('a');
+    link.download = 'edited-image.png';
+    link.href = dataURL;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
 
-      const link = document.createElement('a');
-      link.download = 'edited-image.png';
-      link.href = dataURL;
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-
-      toast({
-        title: "Image downloaded!",
-        description: "Your edited image has been saved",
-      });
-    }
+    toast({
+      title: "Image downloaded!",
+      description: "Your edited image has been saved",
+    });
   };
 
   return (
@@ -462,21 +319,12 @@ export const ImageEditor = () => {
           <Card className="mb-6 p-4 bg-editor-toolbar border-border">
             <div className="flex items-center gap-4">
               <Button
-                onClick={() => imageInputRef.current?.click()}
+                onClick={() => fileInputRef.current?.click()}
                 variant="default"
                 className="gradient-primary shadow-elegant"
               >
                 <Upload className="w-4 h-4 mr-2" />
                 Upload Image
-              </Button>
-              
-              <Button
-                onClick={() => videoInputRef.current?.click()}
-                variant="default"
-                className="gradient-accent shadow-glow"
-              >
-                <Upload className="w-4 h-4 mr-2" />
-                Upload Video
               </Button>
               
               <Button
@@ -573,12 +421,12 @@ export const ImageEditor = () => {
           </div>
         </Card>
 
-        {/* Media Controls */}
-        {activeObject && activeObject.type === 'image' && (
-          <Card className="p-4 mb-6 bg-card">
-            <h3 className="font-medium mb-4 text-card-foreground">
-              {(activeObject as any).isVideo ? 'Video Settings' : 'Image Settings'}
-            </h3>
+         {/* Media Controls */}
+         {activeObject && activeObject.type === 'image' && (
+           <Card className="p-4 mb-6 bg-card">
+             <h3 className="font-medium mb-4 text-card-foreground">
+               Image Settings
+             </h3>
             
             <div>
               <Label className="text-sm font-medium">
@@ -612,32 +460,25 @@ export const ImageEditor = () => {
         {/* Instructions */}
         <Card className="p-4 bg-muted">
           <h3 className="font-medium mb-2 text-muted-foreground">Instructions</h3>
-          <div className="text-sm text-muted-foreground space-y-1">
-            <p>• Upload images or videos to overlay on the background</p>
-            <p>• Add text and customize it</p>
-            <p>• Apply border radius to images and videos</p>
-            <p>• Drag objects to reposition them</p>
-            <p>• Use corner handles to resize</p>
-            <p>• Double-click text to edit inline</p>
-          </div>
+           <div className="text-sm text-muted-foreground space-y-1">
+             <p>• Upload images to overlay on the background</p>
+             <p>• Add text and customize it</p>
+             <p>• Apply border radius to images</p>
+             <p>• Drag objects to reposition them</p>
+             <p>• Use corner handles to resize</p>
+             <p>• Double-click text to edit inline</p>
+           </div>
         </Card>
       </div>
 
-      {/* Hidden file inputs */}
-      <input
-        ref={imageInputRef}
-        type="file"
-        accept="image/*"
-        onChange={handleFileUpload}
-        className="hidden"
-      />
-      <input
-        ref={videoInputRef}
-        type="file"
-        accept="video/*"
-        onChange={handleFileUpload}
-        className="hidden"
-      />
-    </div>
-  );
-};
+       {/* Hidden file input */}
+       <input
+         ref={fileInputRef}
+         type="file"
+         accept="image/*"
+         onChange={handleFileUpload}
+         className="hidden"
+       />
+     </div>
+   );
+ };
