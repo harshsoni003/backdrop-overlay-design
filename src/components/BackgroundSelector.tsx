@@ -5,13 +5,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Check, Image as ImageIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-// Import background images
-import oceanSunset from "@/assets/backgrounds/ocean-sunset.jpg";
-import balloonNight from "@/assets/backgrounds/balloon-night.jpg";
-import mountainLake from "@/assets/backgrounds/mountain-lake.jpg";
-import mountainLayers from "@/assets/backgrounds/mountain-layers.jpg";
-import desertGradient from "@/assets/backgrounds/desert-gradient.jpg";
-import mountainSunrise from "@/assets/backgrounds/mountain-sunrise.jpg";
+// Import default background only
 import defaultBg from "@/assets/default-bg.jpg";
 
 export interface BackgroundOption {
@@ -31,38 +25,62 @@ const backgroundOptions: BackgroundOption[] = [
   {
     id: "ocean-sunset",
     name: "Ocean Sunset",
-    image: oceanSunset,
+    image: "/lovable-uploads/4ea1b169-b31c-4d23-900f-31b093972a0b.png",
     category: "Nature"
   },
   {
     id: "balloon-night",
     name: "Balloon Night",
-    image: balloonNight,
+    image: "/lovable-uploads/2b43ed90-a252-4cd1-927e-192dd4ee1a1e.png",
     category: "Fantasy"
   },
   {
     id: "mountain-lake",
     name: "Mountain Lake",
-    image: mountainLake,
+    image: "/lovable-uploads/f6118879-64aa-4984-ab90-69c7010b893e.png",
     category: "Nature"
   },
   {
     id: "mountain-layers",
     name: "Mountain Layers",
-    image: mountainLayers,
+    image: "/lovable-uploads/eb405c2d-69ef-4ac9-98fc-0c773030109f.png",
+    category: "Nature"
+  },
+  {
+    id: "snowy-peaks",
+    name: "Snowy Peaks",
+    image: "/lovable-uploads/14ec5711-4b96-47c2-846b-a2ef8da0f58d.png",
     category: "Nature"
   },
   {
     id: "desert-gradient",
     name: "Desert Vista",
-    image: desertGradient,
+    image: "/lovable-uploads/c2db0ae4-c657-480c-82ae-7cfc8e9d7f08.png",
     category: "Landscape"
   },
   {
-    id: "mountain-sunrise",
-    name: "Mountain Sunrise",
-    image: mountainSunrise,
+    id: "mountain-sunset",
+    name: "Mountain Sunset",
+    image: "/lovable-uploads/4e5516e4-daef-4db6-8d3a-7c6a4b16ed26.png",
     category: "Nature"
+  },
+  {
+    id: "ocean-waves",
+    name: "Ocean Waves",
+    image: "/lovable-uploads/20c14ad3-7de0-476a-a6f5-e46ffb8e8257.png",
+    category: "Nature"
+  },
+  {
+    id: "valley-golden",
+    name: "Valley Golden",
+    image: "/lovable-uploads/e3bb28ea-89fb-445e-a12c-da9bb9daec73.png",
+    category: "Nature"
+  },
+  {
+    id: "mountain-hiker",
+    name: "Mountain Hiker",
+    image: "/lovable-uploads/24711e9d-7e61-42fe-8fa0-71748aa71822.png",
+    category: "Adventure"
   }
 ];
 
