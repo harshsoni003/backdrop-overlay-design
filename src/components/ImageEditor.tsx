@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Canvas as FabricCanvas, FabricImage, Textbox } from "fabric";
+import { Canvas as FabricCanvas, FabricImage, Textbox, Rect } from "fabric";
 import { Upload, Download, Type, Move, RotateCcw, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -161,13 +161,31 @@ export const ImageEditor = () => {
     }
   }, [textContent, fontSize, activeObject, fabricCanvas]);
 
-  // Update active image border radius
+  // Update active image border radius using clipPath
   useEffect(() => {
     if (activeObject && activeObject.type === 'image') {
-      activeObject.set({
-        rx: borderRadius[0],
-        ry: borderRadius[0],
-      });
+      if (borderRadius[0] > 0) {
+        // Create a rounded rectangle for clipping
+        const clipPath = new Rect({
+          left: -activeObject.width / 2,
+          top: -activeObject.height / 2,
+          width: activeObject.width,
+          height: activeObject.height,
+          rx: borderRadius[0] / activeObject.scaleX,
+          ry: borderRadius[0] / activeObject.scaleY,
+          originX: 'center',
+          originY: 'center',
+        });
+        
+        activeObject.set({
+          clipPath: clipPath,
+        });
+      } else {
+        // Remove clipping when radius is 0
+        activeObject.set({
+          clipPath: null,
+        });
+      }
       fabricCanvas?.renderAll();
     }
   }, [borderRadius, activeObject, fabricCanvas]);
