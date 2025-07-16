@@ -26,8 +26,8 @@ export const ImageEditor = () => {
     if (!canvasRef.current) return;
 
     const canvas = new FabricCanvas(canvasRef.current, {
-      width: 800,
-      height: 600,
+      width: 1280,
+      height: 720,
       backgroundColor: "#ffffff",
     });
 
