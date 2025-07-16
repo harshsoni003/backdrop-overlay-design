@@ -1,23 +1,11 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
+import Navbar from "./Navbar";
 
 const LandingPage = () => {
   return (
     <div className="min-h-screen bg-white">
-      {/* Navigation */}
-      <nav className="flex items-center justify-between px-6 py-4 border-b">
-        <div className="flex items-center">
-          <h1 className="text-xl font-bold text-gray-900">FramePost</h1>
-        </div>
-        <div className="flex items-center gap-6">
-          <Link to="/pricing" className="text-gray-600 hover:text-gray-900">
-            Pricing
-          </Link>
-          <Button variant="default" className="bg-black text-white hover:bg-gray-800">
-            Sign In
-          </Button>
-        </div>
-      </nav>
+      <Navbar />
 
       {/* Hero Section */}
       <div className="max-w-6xl mx-auto px-6 py-20">

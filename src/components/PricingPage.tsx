@@ -2,26 +2,12 @@ import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Check } from "lucide-react";
+import Navbar from "./Navbar";
 
 const PricingPage = () => {
   return (
     <div className="min-h-screen bg-white">
-      {/* Navigation */}
-      <nav className="flex items-center justify-between px-6 py-4 border-b">
-        <div className="flex items-center">
-          <Link to="/">
-            <h1 className="text-xl font-bold text-gray-900">FramePost</h1>
-          </Link>
-        </div>
-        <div className="flex items-center gap-6">
-          <Link to="/" className="text-gray-600 hover:text-gray-900">
-            Home
-          </Link>
-          <Button variant="default" className="bg-black text-white hover:bg-gray-800">
-            Sign In
-          </Button>
-        </div>
-      </nav>
+      <Navbar />
 
       {/* Pricing Section */}
       <div className="max-w-6xl mx-auto px-6 py-20">
