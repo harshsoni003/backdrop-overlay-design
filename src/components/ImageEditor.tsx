@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Canvas as FabricCanvas, FabricImage, Textbox, Rect } from "fabric";
+import { Canvas as FabricCanvas, FabricImage, Textbox, Rect, FabricObject } from "fabric";
 import { Upload, Download, Type, Move, RotateCcw, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -78,15 +78,18 @@ export const ImageEditor = () => {
     };
   }, []);
 
-  // Handle file upload
+  // Handle file upload (images and videos)
   const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (!file || !fabricCanvas) return;
 
-    if (!file.type.startsWith('image/')) {
+    const isImage = file.type.startsWith('image/');
+    const isVideo = file.type.startsWith('video/');
+
+    if (!isImage && !isVideo) {
       toast({
         title: "Invalid file type",
-        description: "Please upload an image file",
+        description: "Please upload an image or video file",
         variant: "destructive",
       });
       return;
@@ -94,32 +97,125 @@ export const ImageEditor = () => {
 
     const reader = new FileReader();
     reader.onload = (e) => {
-      const imageUrl = e.target?.result as string;
+      const fileUrl = e.target?.result as string;
       
-      FabricImage.fromURL(imageUrl).then((img) => {
-        // Scale image to fit canvas while maintaining aspect ratio
-        const canvasWidth = fabricCanvas.getWidth();
-        const canvasHeight = fabricCanvas.getHeight();
-        const scale = Math.min(canvasWidth / img.width!, canvasHeight / img.height!) * 0.7;
-        
-        img.set({
-          left: canvasWidth / 2,
-          top: canvasHeight / 2,
-          originX: 'center',
-          originY: 'center',
-          scaleX: scale,
-          scaleY: scale,
-        });
+      if (isImage) {
+        // Handle image upload
+        FabricImage.fromURL(fileUrl).then((img) => {
+          // Scale image to fit canvas while maintaining aspect ratio
+          const canvasWidth = fabricCanvas.getWidth();
+          const canvasHeight = fabricCanvas.getHeight();
+          const scale = Math.min(canvasWidth / img.width!, canvasHeight / img.height!) * 0.7;
+          
+          img.set({
+            left: canvasWidth / 2,
+            top: canvasHeight / 2,
+            originX: 'center',
+            originY: 'center',
+            scaleX: scale,
+            scaleY: scale,
+          });
 
-        fabricCanvas.add(img);
-        fabricCanvas.setActiveObject(img);
-        fabricCanvas.renderAll();
-        
-        toast({
-          title: "Image uploaded!",
-          description: "Your image has been added to the canvas",
+          fabricCanvas.add(img);
+          fabricCanvas.setActiveObject(img);
+          fabricCanvas.renderAll();
+          
+          toast({
+            title: "Image uploaded!",
+            description: "Your image has been added to the canvas",
+          });
         });
-      });
+      } else if (isVideo) {
+        // Handle video upload
+        const video = document.createElement('video');
+        video.src = fileUrl;
+        video.crossOrigin = 'anonymous';
+        video.muted = true;
+        video.loop = true;
+        
+        video.onloadedmetadata = () => {
+          // Create a canvas to capture video frame
+          const videoCanvas = document.createElement('canvas');
+          const videoCtx = videoCanvas.getContext('2d')!;
+          videoCanvas.width = video.videoWidth;
+          videoCanvas.height = video.videoHeight;
+          
+          // Draw first frame
+          videoCtx.drawImage(video, 0, 0);
+          const frameDataUrl = videoCanvas.toDataURL();
+          
+          // Create fabric image from video frame
+          FabricImage.fromURL(frameDataUrl).then((img) => {
+            const canvasWidth = fabricCanvas.getWidth();
+            const canvasHeight = fabricCanvas.getHeight();
+            const scale = Math.min(canvasWidth / img.width!, canvasHeight / img.height!) * 0.7;
+            
+            // Add custom properties to track this as a video
+            (img as any).isVideo = true;
+            (img as any).videoElement = video;
+            (img as any).videoCanvas = videoCanvas;
+            (img as any).videoContext = videoCtx;
+            
+            img.set({
+              left: canvasWidth / 2,
+              top: canvasHeight / 2,
+              originX: 'center',
+              originY: 'center',
+              scaleX: scale,
+              scaleY: scale,
+            });
+
+            fabricCanvas.add(img);
+            fabricCanvas.setActiveObject(img);
+            fabricCanvas.renderAll();
+            
+            // Start video playback and update frames
+            video.play();
+            const updateVideoFrame = () => {
+              if ((img as any).isVideo && video.readyState >= 2) {
+                videoCtx.drawImage(video, 0, 0);
+                const newFrameDataUrl = videoCanvas.toDataURL();
+                // Create a new image and replace the fabric image
+                FabricImage.fromURL(newFrameDataUrl).then((newImg) => {
+                  // Copy properties from old image
+                  newImg.set({
+                    left: img.left,
+                    top: img.top,
+                    scaleX: img.scaleX,
+                    scaleY: img.scaleY,
+                    originX: img.originX,
+                    originY: img.originY,
+                    clipPath: img.clipPath,
+                  });
+                  // Add video properties
+                  (newImg as any).isVideo = true;
+                  (newImg as any).videoElement = video;
+                  (newImg as any).videoCanvas = videoCanvas;
+                  (newImg as any).videoContext = videoCtx;
+                  
+                  // Replace the old image
+                  fabricCanvas.remove(img);
+                  fabricCanvas.add(newImg);
+                  fabricCanvas.setActiveObject(newImg);
+                  fabricCanvas.renderAll();
+                  
+                  // Update reference
+                  img = newImg;
+                });
+              }
+              if ((img as any).isVideo) {
+                requestAnimationFrame(updateVideoFrame);
+              }
+            };
+            updateVideoFrame();
+            
+            toast({
+              title: "Video uploaded!",
+              description: "Your video has been added to the canvas",
+            });
+          });
+        };
+      }
     };
     reader.readAsDataURL(file);
   };
@@ -321,7 +417,7 @@ export const ImageEditor = () => {
                 className="gradient-primary shadow-elegant"
               >
                 <Upload className="w-4 h-4 mr-2" />
-                Upload Image
+                Upload Media
               </Button>
               
               <Button
@@ -418,10 +514,12 @@ export const ImageEditor = () => {
           </div>
         </Card>
 
-        {/* Image Controls */}
+        {/* Media Controls */}
         {activeObject && activeObject.type === 'image' && (
           <Card className="p-4 mb-6 bg-card">
-            <h3 className="font-medium mb-4 text-card-foreground">Image Settings</h3>
+            <h3 className="font-medium mb-4 text-card-foreground">
+              {(activeObject as any).isVideo ? 'Video Settings' : 'Image Settings'}
+            </h3>
             
             <div>
               <Label className="text-sm font-medium">
@@ -456,8 +554,9 @@ export const ImageEditor = () => {
         <Card className="p-4 bg-muted">
           <h3 className="font-medium mb-2 text-muted-foreground">Instructions</h3>
           <div className="text-sm text-muted-foreground space-y-1">
-            <p>• Upload an image to overlay on the background</p>
+            <p>• Upload images or videos to overlay on the background</p>
             <p>• Add text and customize it</p>
+            <p>• Apply border radius to images and videos</p>
             <p>• Drag objects to reposition them</p>
             <p>• Use corner handles to resize</p>
             <p>• Double-click text to edit inline</p>
@@ -469,7 +568,7 @@ export const ImageEditor = () => {
       <input
         ref={fileInputRef}
         type="file"
-        accept="image/*"
+        accept="image/*,video/*"
         onChange={handleFileUpload}
         className="hidden"
       />
