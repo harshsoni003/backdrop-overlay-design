@@ -10,6 +10,7 @@ import { toast } from "@/hooks/use-toast";
 import { BackgroundSelector, BackgroundOption } from "@/components/BackgroundSelector";
 import defaultBg from "@/assets/default-bg.jpg";
 
+// Image Editor Component - Refactored to remove video functionality
 export const ImageEditor = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
