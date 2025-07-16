@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
-import { Canvas as FabricCanvas, FabricImage, Textbox, Rect, FabricObject, Path } from "fabric";
-import { Upload, Download, Type, Move, RotateCcw, Trash2 } from "lucide-react";
+import { Canvas as FabricCanvas, FabricImage, Rect, FabricObject, Path } from "fabric";
+import { Upload, Download, Move, RotateCcw, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -16,8 +16,6 @@ export const ImageEditor = () => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [fabricCanvas, setFabricCanvas] = useState<FabricCanvas | null>(null);
   const [activeObject, setActiveObject] = useState<any>(null);
-  const [textContent, setTextContent] = useState("Sample Text");
-  const [fontSize, setFontSize] = useState([24]);
   const [selectedBackgroundId, setSelectedBackgroundId] = useState("abstract");
   const [borderRadius, setBorderRadius] = useState([0]);
 
@@ -71,7 +69,7 @@ export const ImageEditor = () => {
     setFabricCanvas(canvas);
     toast({
       title: "Canvas Ready!",
-      description: "Upload an image or add text to get started",
+      description: "Upload an image to get started",
     });
 
     return () => {
@@ -128,42 +126,6 @@ export const ImageEditor = () => {
     reader.readAsDataURL(file);
   };
 
-  // Add text to canvas
-  const addText = () => {
-    if (!fabricCanvas) return;
-
-    const text = new Textbox(textContent, {
-      left: fabricCanvas.getWidth() / 2,
-      top: fabricCanvas.getHeight() / 2,
-      originX: 'center',
-      originY: 'center',
-      fontSize: fontSize[0],
-      fill: '#ffffff',
-      fontFamily: 'Arial',
-      textAlign: 'center',
-      // Remove shadow for now to avoid type issues
-    });
-
-    fabricCanvas.add(text);
-    fabricCanvas.setActiveObject(text);
-    fabricCanvas.renderAll();
-    
-    toast({
-      title: "Text added!",
-      description: "You can now edit and position your text",
-    });
-  };
-
-  // Update active text properties
-  useEffect(() => {
-    if (activeObject && activeObject.type === 'textbox') {
-      activeObject.set({
-        text: textContent,
-        fontSize: fontSize[0],
-      });
-      fabricCanvas?.renderAll();
-    }
-  }, [textContent, fontSize, activeObject, fabricCanvas]);
 
   // Apply border radius to active image using fabric.js clipPath
   useEffect(() => {
@@ -315,14 +277,6 @@ export const ImageEditor = () => {
                 Upload Image
               </Button>
               
-              <Button
-                onClick={addText}
-                variant="secondary"
-              >
-                <Type className="w-4 h-4 mr-2" />
-                Add Text
-              </Button>
-              
               {activeObject && (
                 <Button
                   onClick={deleteActiveObject}
@@ -380,40 +334,6 @@ export const ImageEditor = () => {
           selectedBackground={selectedBackgroundId}
           onBackgroundSelect={handleBackgroundSelect}
         />
-
-        {/* Text Controls */}
-        <Card className="p-4 mb-6 bg-card">
-          <h3 className="font-medium mb-4 text-card-foreground">Text Settings</h3>
-          
-          <div className="space-y-4">
-            <div>
-              <Label htmlFor="text-content" className="text-sm font-medium">
-                Text Content
-              </Label>
-              <Input
-                id="text-content"
-                value={textContent}
-                onChange={(e) => setTextContent(e.target.value)}
-                placeholder="Enter your text"
-                className="mt-1"
-              />
-            </div>
-            
-            <div>
-              <Label className="text-sm font-medium">
-                Font Size: {fontSize[0]}px
-              </Label>
-              <Slider
-                value={fontSize}
-                onValueChange={setFontSize}
-                max={100}
-                min={12}
-                step={1}
-                className="mt-2"
-              />
-            </div>
-          </div>
-        </Card>
 
         {/* Image Controls */}
         {activeObject && activeObject.type === 'image' && (
