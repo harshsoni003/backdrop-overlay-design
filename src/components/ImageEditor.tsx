@@ -270,10 +270,10 @@ export const ImageEditor = () => {
       />
 
       {/* Canvas Area */}
-      <div className="flex-1 pl-2 -mr-2 py-6 gradient-canvas">
+      <div className="flex-1 pl-1 -mr-2 py-6 gradient-canvas">
         <div className="h-full flex flex-col">
           {/* Toolbar */}
-          <div className="mb-4 flex justify-start ml-2">
+          <div className="mb-4 flex justify-start ml-0">
             <Card className="p-3 bg-editor-toolbar border-border w-fit">
               <div className="flex items-center gap-2">
                 <Button
@@ -320,7 +320,7 @@ export const ImageEditor = () => {
           </div>
 
           {/* Canvas Container */}
-          <div className="flex-1 flex items-center justify-start ml-1">
+          <div className="flex-1 flex items-center justify-start ml-0">
             <div 
               className="shadow-soft rounded-2xl overflow-hidden border border-border transform origin-center"
               style={{ 
