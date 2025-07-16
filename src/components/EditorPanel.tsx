@@ -36,18 +36,6 @@ export const EditorPanel = ({
 
       {/* Panel Content */}
       <div className="p-6 space-y-6">
-        {/* Background Selection */}
-        <div className="space-y-4">
-          <div className="flex items-center gap-2 pb-2">
-            <div className="w-1 h-6 bg-gradient-to-b from-primary to-primary/50 rounded-full"></div>
-            <h3 className="font-medium text-foreground">Background</h3>
-          </div>
-          <BackgroundSelector
-            selectedBackground={selectedBackgroundId}
-            onBackgroundSelect={onBackgroundSelect}
-          />
-        </div>
-
         {/* Image Controls */}
         {activeObject && activeObject.type === 'image' && (
           <div className="space-y-4">
@@ -88,6 +76,18 @@ export const EditorPanel = ({
             </Card>
           </div>
         )}
+
+        {/* Background Selection */}
+        <div className="space-y-4">
+          <div className="flex items-center gap-2 pb-2">
+            <div className="w-1 h-6 bg-gradient-to-b from-primary to-primary/50 rounded-full"></div>
+            <h3 className="font-medium text-foreground">Background</h3>
+          </div>
+          <BackgroundSelector
+            selectedBackground={selectedBackgroundId}
+            onBackgroundSelect={onBackgroundSelect}
+          />
+        </div>
 
         {/* Empty State */}
         {!activeObject && (
