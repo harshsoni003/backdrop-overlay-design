@@ -34,34 +34,7 @@ const PricingPage = () => {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-          {/* Starter Plan */}
-          <Card className="relative">
-            <CardHeader>
-              <CardTitle className="text-xl">Starter</CardTitle>
-              <CardDescription>Perfect for trying out</CardDescription>
-              <div className="text-3xl font-bold">$9<span className="text-lg font-normal">/month</span></div>
-            </CardHeader>
-            <CardContent>
-              <ul className="space-y-3">
-                <li className="flex items-center gap-2">
-                  <Check className="w-4 h-4 text-green-600" />
-                  <span>5 posts per month</span>
-                </li>
-                <li className="flex items-center gap-2">
-                  <Check className="w-4 h-4 text-green-600" />
-                  <span>Weekly updates</span>
-                </li>
-                <li className="flex items-center gap-2">
-                  <Check className="w-4 h-4 text-green-600" />
-                  <span>3 Mac backgrounds</span>
-                </li>
-              </ul>
-              <Button className="w-full mt-6" variant="outline">
-                Get Started
-              </Button>
-            </CardContent>
-          </Card>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
 
           {/* Monthly Plan */}
           <Card className="relative border-2 border-black">
