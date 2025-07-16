@@ -12,7 +12,8 @@ import defaultBg from "@/assets/default-bg.jpg";
 
 export const ImageEditor = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const fileInputRef = useRef<HTMLInputElement>(null);
+  const imageInputRef = useRef<HTMLInputElement>(null);
+  const videoInputRef = useRef<HTMLInputElement>(null);
   const [fabricCanvas, setFabricCanvas] = useState<FabricCanvas | null>(null);
   const [activeObject, setActiveObject] = useState<any>(null);
   const [textContent, setTextContent] = useState("Sample Text");
@@ -461,12 +462,21 @@ export const ImageEditor = () => {
           <Card className="mb-6 p-4 bg-editor-toolbar border-border">
             <div className="flex items-center gap-4">
               <Button
-                onClick={() => fileInputRef.current?.click()}
+                onClick={() => imageInputRef.current?.click()}
                 variant="default"
                 className="gradient-primary shadow-elegant"
               >
                 <Upload className="w-4 h-4 mr-2" />
-                Upload Media
+                Upload Image
+              </Button>
+              
+              <Button
+                onClick={() => videoInputRef.current?.click()}
+                variant="default"
+                className="gradient-accent shadow-glow"
+              >
+                <Upload className="w-4 h-4 mr-2" />
+                Upload Video
               </Button>
               
               <Button
@@ -613,11 +623,18 @@ export const ImageEditor = () => {
         </Card>
       </div>
 
-      {/* Hidden file input */}
+      {/* Hidden file inputs */}
       <input
-        ref={fileInputRef}
+        ref={imageInputRef}
         type="file"
-        accept="image/*,video/*"
+        accept="image/*"
+        onChange={handleFileUpload}
+        className="hidden"
+      />
+      <input
+        ref={videoInputRef}
+        type="file"
+        accept="video/*"
         onChange={handleFileUpload}
         className="hidden"
       />
