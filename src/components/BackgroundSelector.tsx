@@ -93,7 +93,7 @@ export const BackgroundSelector = ({ selectedBackground, onBackgroundSelect }: B
     : backgroundOptions.filter(bg => bg.category === selectedCategory);
 
   return (
-    <Card className="py-4 pr-4 pl-1 bg-card border-border/50 shadow-sm" style={{ transform: 'scale(1)', zoom: 1 }}>
+    <Card className="py-4 pr-4 pl-1 bg-card border-border/50 shadow-sm">
       <div className="flex items-center gap-3 mb-4">
         <div className="p-1.5 bg-primary/10 rounded-md">
           <ImageIcon className="w-4 h-4 text-primary" />
@@ -105,7 +105,7 @@ export const BackgroundSelector = ({ selectedBackground, onBackgroundSelect }: B
       </div>
       
       {/* Category Filter */}
-      <div className="flex gap-1 mb-4 overflow-hidden pb-1">
+      <div className="flex gap-1 mb-4 overflow-x-auto pb-1">
         {categories.map((category) => (
           <Button
             key={category}

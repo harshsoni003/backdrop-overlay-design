@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Canvas as FabricCanvas, FabricImage, Rect, FabricObject, Path } from "fabric";
-import { Upload, Download, Move, RotateCcw, Trash2, Settings2, Image as ImageIcon, ZoomIn, ZoomOut, RotateCw } from "lucide-react";
+import { Upload, Download, Move, RotateCcw, Trash2, Settings2, Image as ImageIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -18,7 +18,6 @@ export const ImageEditor = () => {
   const [activeObject, setActiveObject] = useState<any>(null);
   const [selectedBackgroundId, setSelectedBackgroundId] = useState("mountain-hiker");
   const [borderRadius, setBorderRadius] = useState([0]);
-  const [zoomLevel, setZoomLevel] = useState(1);
 
   // Initialize canvas
   useEffect(() => {
@@ -238,48 +237,6 @@ export const ImageEditor = () => {
     });
   };
 
-  // Zoom functions
-  const zoomIn = () => {
-    if (!fabricCanvas) return;
-    
-    const newZoom = Math.min(zoomLevel * 1.2, 3); // Max zoom 3x
-    fabricCanvas.setZoom(newZoom);
-    setZoomLevel(newZoom);
-    fabricCanvas.renderAll();
-    
-    toast({
-      title: "Zoomed in",
-      description: `Zoom level: ${Math.round(newZoom * 100)}%`,
-    });
-  };
-
-  const zoomOut = () => {
-    if (!fabricCanvas) return;
-    
-    const newZoom = Math.max(zoomLevel / 1.2, 0.5); // Min zoom 0.5x
-    fabricCanvas.setZoom(newZoom);
-    setZoomLevel(newZoom);
-    fabricCanvas.renderAll();
-    
-    toast({
-      title: "Zoomed out",
-      description: `Zoom level: ${Math.round(newZoom * 100)}%`,
-    });
-  };
-
-  const resetZoom = () => {
-    if (!fabricCanvas) return;
-    
-    fabricCanvas.setZoom(1);
-    setZoomLevel(1);
-    fabricCanvas.renderAll();
-    
-    toast({
-      title: "Zoom reset",
-      description: "Zoom level: 100%",
-    });
-  };
-
   // Download image
   const downloadImage = () => {
     if (!fabricCanvas) return;
@@ -304,9 +261,9 @@ export const ImageEditor = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background flex overflow-x-hidden">
+    <div className="min-h-screen bg-background flex">
       {/* Canvas Area */}
-      <div className="flex-1 p-6 gradient-canvas overflow-hidden">
+      <div className="flex-1 p-6 gradient-canvas">
         <div className="h-full flex flex-col">
           {/* Toolbar */}
           <div className="mb-4 flex justify-start ml-6">
@@ -342,35 +299,6 @@ export const ImageEditor = () => {
                   Reset
                 </Button>
                 
-                <div className="flex items-center gap-1 border-l border-border/50 pl-2 ml-2">
-                  <Button
-                    onClick={zoomOut}
-                    variant="outline"
-                    size="sm"
-                    className="px-2"
-                  >
-                    <ZoomOut className="w-4 h-4" />
-                  </Button>
-                  
-                  <Button
-                    onClick={resetZoom}
-                    variant="outline"
-                    size="sm"
-                    className="px-2 text-xs min-w-[60px]"
-                  >
-                    {Math.round(zoomLevel * 100)}%
-                  </Button>
-                  
-                  <Button
-                    onClick={zoomIn}
-                    variant="outline"
-                    size="sm"
-                    className="px-2"
-                  >
-                    <ZoomIn className="w-4 h-4" />
-                  </Button>
-                </div>
-
                 <Button
                   onClick={downloadImage}
                   variant="default"
@@ -384,26 +312,23 @@ export const ImageEditor = () => {
             </Card>
           </div>
 
-          <div className="flex-1 flex items-center justify-center overflow-hidden p-4">
+          {/* Canvas Container */}
+          <div className="flex-1 flex items-center justify-start ml-4">
             <div 
-              className="shadow-soft rounded-2xl overflow-hidden border border-border flex-1"
+              className="shadow-soft rounded-2xl overflow-hidden border border-border transform origin-center"
               style={{ 
-                borderRadius: '16px',
-                width: '100%',
-                height: '100%',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center'
+                transform: 'scale(0.65)',
+                borderRadius: '16px'
               }}
             >
-              <canvas ref={canvasRef} className="block rounded-2xl max-w-full max-h-full" style={{ borderRadius: '16px', objectFit: 'contain' }} />
+              <canvas ref={canvasRef} className="block rounded-2xl" style={{ borderRadius: '16px' }} />
             </div>
           </div>
         </div>
       </div>
 
       {/* Editor Panel */}
-      <div className="w-96 bg-editor-panel border-l border-border">
+      <div className="w-80 bg-editor-panel border-l border-border">
         {/* Panel Header */}
         <div className="p-6 border-b border-border bg-gradient-to-r from-background/50 to-background/30">
           <div className="flex items-center gap-3">
