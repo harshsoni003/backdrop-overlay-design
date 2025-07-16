@@ -270,7 +270,7 @@ export const ImageEditor = () => {
       />
 
       {/* Canvas Area */}
-      <div className="flex-1 pl-6 pr-0 py-6 gradient-canvas">
+      <div className="flex-1 pl-6 pr-2 py-6 gradient-canvas">
         <div className="h-full flex flex-col">
           {/* Toolbar */}
           <div className="mb-4 flex justify-start ml-6">
