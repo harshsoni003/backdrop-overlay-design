@@ -167,28 +167,39 @@ export const ImageEditor = () => {
     }
   }, [textContent, fontSize, activeObject, fabricCanvas]);
 
-  // Apply border radius and border styling to active image using canvas-based rounded rectangle
+  // Apply border radius and border styling to active image using drawRoundedImage canvas logic
   useEffect(() => {
     if (activeObject && activeObject.type === 'image' && fabricCanvas) {
       const radius = borderRadius[0];
       const width = borderWidth[0];
       
       if (radius > 0) {
-        // Create a rounded rectangle clipPath using the canvas technique
+        // Use the exact drawRoundedImage logic with quadraticCurveTo approach
         const imgWidth = activeObject.width * activeObject.scaleX;
         const imgHeight = activeObject.height * activeObject.scaleY;
+        const x = 0;
+        const y = 0;
         
-        // Create a path that matches the drawRoundedImage logic
+        // Create path matching the drawRoundedImage function:
+        // ctx.moveTo(x + radius, y);
+        // ctx.lineTo(x + width - radius, y);
+        // ctx.quadraticCurveTo(x + width, y, x + width, y + radius);
+        // ctx.lineTo(x + width, y + height - radius);
+        // ctx.quadraticCurveTo(x + width, y + height, x + width - radius, y + height);
+        // ctx.lineTo(x + radius, y + height);
+        // ctx.quadraticCurveTo(x, y + height, x, y + height - radius);
+        // ctx.lineTo(x, y + radius);
+        // ctx.quadraticCurveTo(x, y, x + radius, y);
         const clipPath = new Path(`
-          M ${radius} 0
-          L ${imgWidth - radius} 0
-          Q ${imgWidth} 0 ${imgWidth} ${radius}
-          L ${imgWidth} ${imgHeight - radius}
-          Q ${imgWidth} ${imgHeight} ${imgWidth - radius} ${imgHeight}
-          L ${radius} ${imgHeight}
-          Q 0 ${imgHeight} 0 ${imgHeight - radius}
-          L 0 ${radius}
-          Q 0 0 ${radius} 0
+          M ${x + radius} ${y}
+          L ${x + imgWidth - radius} ${y}
+          Q ${x + imgWidth} ${y} ${x + imgWidth} ${y + radius}
+          L ${x + imgWidth} ${y + imgHeight - radius}
+          Q ${x + imgWidth} ${y + imgHeight} ${x + imgWidth - radius} ${y + imgHeight}
+          L ${x + radius} ${y + imgHeight}
+          Q ${x} ${y + imgHeight} ${x} ${y + imgHeight - radius}
+          L ${x} ${y + radius}
+          Q ${x} ${y} ${x + radius} ${y}
           Z
         `, {
           originX: 'center',
