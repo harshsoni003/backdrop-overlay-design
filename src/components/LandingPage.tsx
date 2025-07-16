@@ -44,7 +44,7 @@ const LandingPage = () => {
         </div>
 
         {/* Image Grid */}
-        
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div className="rounded-lg overflow-hidden shadow-lg">
             <img 
               src="/lovable-uploads/bf20a559-ddbd-4d6f-bca9-8f238979fcb1.png" 
