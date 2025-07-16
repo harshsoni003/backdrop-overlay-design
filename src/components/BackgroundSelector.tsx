@@ -84,7 +84,7 @@ interface BackgroundSelectorProps {
 export const BackgroundSelector = ({ selectedBackground, onBackgroundSelect }: BackgroundSelectorProps) => {
 
   return (
-    <Card className="py-4 pr-4 pl-1 bg-white border-border/50 shadow-sm">
+    <Card className="w-full py-4 pr-4 pl-1 bg-white border-border/50 shadow-sm">
       <div className="flex items-center gap-3 mb-4">
         <div className="p-1.5 bg-primary/10 rounded-md">
           <ImageIcon className="w-4 h-4 text-primary" />
