@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
 import { toast } from "@/hooks/use-toast";
+import { BackgroundSelector, BackgroundOption } from "@/components/BackgroundSelector";
 import defaultBg from "@/assets/default-bg.jpg";
 
 export const ImageEditor = () => {
@@ -16,7 +17,7 @@ export const ImageEditor = () => {
   const [activeObject, setActiveObject] = useState<any>(null);
   const [textContent, setTextContent] = useState("Sample Text");
   const [fontSize, setFontSize] = useState([24]);
-  const [backgroundImage, setBackgroundImage] = useState<string | null>(null);
+  const [selectedBackgroundId, setSelectedBackgroundId] = useState("abstract");
 
   // Initialize canvas
   useEffect(() => {
@@ -38,7 +39,7 @@ export const ImageEditor = () => {
       });
       canvas.backgroundImage = img;
       canvas.renderAll();
-      setBackgroundImage(defaultBg);
+      setSelectedBackgroundId("abstract");
     });
 
     // Handle object selection
@@ -162,23 +163,44 @@ export const ImageEditor = () => {
     });
   };
 
+  // Handle background selection
+  const handleBackgroundSelect = (background: BackgroundOption) => {
+    if (!fabricCanvas) return;
+    
+    FabricImage.fromURL(background.image).then((img) => {
+      img.set({
+        selectable: false,
+        evented: false,
+        scaleX: 1,
+        scaleY: 1,
+      });
+      fabricCanvas.backgroundImage = img;
+      fabricCanvas.renderAll();
+      setSelectedBackgroundId(background.id);
+      
+      toast({
+        title: "Background changed!",
+        description: `Applied ${background.name} background`,
+      });
+    });
+  };
+
   // Reset canvas
   const resetCanvas = () => {
     if (!fabricCanvas) return;
     
     fabricCanvas.clear();
-    if (backgroundImage) {
-      FabricImage.fromURL(backgroundImage).then((img) => {
-        img.set({
-          selectable: false,
-          evented: false,
-          scaleX: 1,
-          scaleY: 1,
-        });
-        fabricCanvas.backgroundImage = img;
-        fabricCanvas.renderAll();
+    // Restore the currently selected background
+    FabricImage.fromURL(defaultBg).then((img) => {
+      img.set({
+        selectable: false,
+        evented: false,
+        scaleX: 1,
+        scaleY: 1,
       });
-    }
+      fabricCanvas.backgroundImage = img;
+      fabricCanvas.renderAll();
+    });
     
     toast({
       title: "Canvas reset",
@@ -280,6 +302,12 @@ export const ImageEditor = () => {
       <div className="w-80 bg-editor-panel border-l border-border p-6">
         <h2 className="text-xl font-semibold mb-6 text-foreground">Editor Panel</h2>
         
+        {/* Background Selection */}
+        <BackgroundSelector
+          selectedBackground={selectedBackgroundId}
+          onBackgroundSelect={handleBackgroundSelect}
+        />
+
         {/* Text Controls */}
         <Card className="p-4 mb-6 bg-card">
           <h3 className="font-medium mb-4 text-card-foreground">Text Settings</h3>
