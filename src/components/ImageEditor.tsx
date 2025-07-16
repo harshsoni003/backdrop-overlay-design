@@ -312,9 +312,9 @@ export const ImageEditor = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background flex">
+    <div className="h-screen bg-background flex overflow-hidden">
       {/* Canvas Area */}
-      <div className="flex-1 p-6 gradient-canvas">
+      <div className="flex-1 p-6 gradient-canvas overflow-hidden">
         <div className="h-full flex flex-col">
           {/* Toolbar */}
           <Card className="mb-6 p-4 bg-editor-toolbar border-border">
@@ -370,16 +370,16 @@ export const ImageEditor = () => {
           </Card>
 
           {/* Canvas Container */}
-          <div className="flex-1 flex items-center justify-center">
-            <div className="shadow-soft rounded-lg overflow-hidden border border-border transform scale-75 origin-center">
-              <canvas ref={canvasRef} className="block" />
+          <div className="flex-1 flex items-center justify-center overflow-hidden">
+            <div className="shadow-soft rounded-lg overflow-hidden border border-border max-w-full max-h-full">
+              <canvas ref={canvasRef} className="block max-w-full max-h-full object-contain" style={{ width: '100%', height: 'auto', maxWidth: '960px', maxHeight: '540px' }} />
             </div>
           </div>
         </div>
       </div>
 
       {/* Editor Panel */}
-      <div className="w-80 bg-editor-panel border-l border-border p-6">
+      <div className="w-80 bg-editor-panel border-l border-border p-6 overflow-auto shrink-0">
         <h2 className="text-xl font-semibold mb-6 text-foreground">Editor Panel</h2>
         
         {/* Background Selection */}
