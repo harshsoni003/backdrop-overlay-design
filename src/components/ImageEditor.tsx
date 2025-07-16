@@ -259,16 +259,7 @@ export const ImageEditor = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background flex flex-col">
-      {/* Editor Panel */}
-      <EditorPanel
-        selectedBackgroundId={selectedBackgroundId}
-        onBackgroundSelect={handleBackgroundSelect}
-        activeObject={activeObject}
-        borderRadius={borderRadius}
-        setBorderRadius={setBorderRadius}
-      />
-
+    <div className="min-h-screen bg-background flex">
       {/* Canvas Area */}
       <div className="flex-1 p-6 gradient-canvas">
         <div className="h-full flex flex-col">
@@ -333,6 +324,15 @@ export const ImageEditor = () => {
           </div>
         </div>
       </div>
+
+      {/* Editor Panel */}
+      <EditorPanel
+        selectedBackgroundId={selectedBackgroundId}
+        onBackgroundSelect={handleBackgroundSelect}
+        activeObject={activeObject}
+        borderRadius={borderRadius}
+        setBorderRadius={setBorderRadius}
+      />
 
        {/* Hidden file input */}
        <input
