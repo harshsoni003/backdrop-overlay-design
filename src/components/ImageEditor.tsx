@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Canvas as FabricCanvas, FabricImage, Textbox, Rect, FabricObject } from "fabric";
+import { Canvas as FabricCanvas, FabricImage, Textbox, Rect, FabricObject, Path } from "fabric";
 import { Upload, Download, Type, Move, RotateCcw, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -167,19 +167,30 @@ export const ImageEditor = () => {
     }
   }, [textContent, fontSize, activeObject, fabricCanvas]);
 
-  // Apply border radius and border styling to active image
+  // Apply border radius and border styling to active image using canvas-based rounded rectangle
   useEffect(() => {
     if (activeObject && activeObject.type === 'image' && fabricCanvas) {
       const radius = borderRadius[0];
       const width = borderWidth[0];
       
       if (radius > 0) {
-        // Create a rounded rectangle clipPath
-        const clipPath = new Rect({
-          width: activeObject.width * activeObject.scaleX,
-          height: activeObject.height * activeObject.scaleY,
-          rx: radius,
-          ry: radius,
+        // Create a rounded rectangle clipPath using the canvas technique
+        const imgWidth = activeObject.width * activeObject.scaleX;
+        const imgHeight = activeObject.height * activeObject.scaleY;
+        
+        // Create a path that matches the drawRoundedImage logic
+        const clipPath = new Path(`
+          M ${radius} 0
+          L ${imgWidth - radius} 0
+          Q ${imgWidth} 0 ${imgWidth} ${radius}
+          L ${imgWidth} ${imgHeight - radius}
+          Q ${imgWidth} ${imgHeight} ${imgWidth - radius} ${imgHeight}
+          L ${radius} ${imgHeight}
+          Q 0 ${imgHeight} 0 ${imgHeight - radius}
+          L 0 ${radius}
+          Q 0 0 ${radius} 0
+          Z
+        `, {
           originX: 'center',
           originY: 'center',
         });
