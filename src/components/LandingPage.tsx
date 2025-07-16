@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Twitter } from "lucide-react";
 
 const LandingPage = () => {
   return (
@@ -8,13 +7,12 @@ const LandingPage = () => {
       {/* Navigation */}
       <nav className="flex items-center justify-between px-6 py-4 border-b">
         <div className="flex items-center">
-          <h1 className="text-xl font-bold text-gray-900">text-in-between</h1>
+          <h1 className="text-xl font-bold text-gray-900">FramePost</h1>
         </div>
         <div className="flex items-center gap-6">
-          <Link to="#" className="text-gray-600 hover:text-gray-900">
+          <Link to="/pricing" className="text-gray-600 hover:text-gray-900">
             Pricing
           </Link>
-          <Twitter className="w-5 h-5 text-gray-600" />
           <Button variant="default" className="bg-black text-white hover:bg-gray-800">
             Sign In
           </Button>
