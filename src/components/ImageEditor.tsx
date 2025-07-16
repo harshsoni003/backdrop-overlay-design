@@ -261,9 +261,9 @@ export const ImageEditor = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background flex">
+    <div className="min-h-screen bg-background flex overflow-x-hidden">
       {/* Canvas Area */}
-      <div className="flex-1 p-6 gradient-canvas">
+      <div className="flex-1 p-6 gradient-canvas overflow-hidden">
         <div className="h-full flex flex-col">
           {/* Toolbar */}
           <div className="mb-4 flex justify-start ml-6">
@@ -313,12 +313,15 @@ export const ImageEditor = () => {
           </div>
 
           {/* Canvas Container */}
-          <div className="flex-1 flex items-center justify-start ml-4">
+          <div className="flex-1 flex items-center justify-start ml-4 overflow-hidden">
             <div 
               className="shadow-soft rounded-2xl overflow-hidden border border-border transform origin-center"
               style={{ 
                 transform: 'scale(0.65)',
-                borderRadius: '16px'
+                borderRadius: '16px',
+                width: '100%',
+                maxWidth: '1280px',
+                aspectRatio: '16/9'
               }}
             >
               <canvas ref={canvasRef} className="block rounded-2xl" style={{ borderRadius: '16px' }} />
@@ -328,7 +331,7 @@ export const ImageEditor = () => {
       </div>
 
       {/* Editor Panel */}
-      <div className="w-80 bg-editor-panel border-l border-border">
+      <div className="w-96 bg-editor-panel border-l border-border">
         {/* Panel Header */}
         <div className="p-6 border-b border-border bg-gradient-to-r from-background/50 to-background/30">
           <div className="flex items-center gap-3">
