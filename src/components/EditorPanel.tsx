@@ -20,7 +20,7 @@ export const EditorPanel = ({
   setBorderRadius,
 }: EditorPanelProps) => {
   return (
-    <div className="w-80 bg-editor-panel border-l border-border">
+    <div className="w-80 bg-editor-panel border-r border-border">
       {/* Panel Header */}
       <div className="p-6 border-b border-border bg-gradient-to-r from-background/50 to-background/30">
         <div className="flex items-center gap-3">
