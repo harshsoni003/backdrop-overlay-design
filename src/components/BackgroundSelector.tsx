@@ -90,8 +90,8 @@ export const BackgroundSelector = ({ selectedBackground, onBackgroundSelect }: B
           <ImageIcon className="w-4 h-4 text-primary" />
         </div>
         <div>
-          <h4 className="font-medium text-card-foreground">Background Gallery</h4>
-          <p className="text-xs text-muted-foreground">Choose from preset backgrounds</p>
+          <h4 className="font-medium text-gray-900">Background Gallery</h4>
+          <p className="text-xs text-gray-600">Choose from preset backgrounds</p>
         </div>
       </div>
       
