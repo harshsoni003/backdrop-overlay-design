@@ -29,33 +29,30 @@ export const ImageEditor = () => {
       backgroundColor: "#ffffff",
     });
 
-    // Set default background with proper scaling
+    // Set default background with adaptive sizing
     FabricImage.fromURL("/lovable-uploads/24711e9d-7e61-42fe-8fa0-71748aa71822.png").then((img) => {
-      // Scale image to fit canvas while maintaining aspect ratio
-      const canvasWidth = canvas.getWidth();
-      const canvasHeight = canvas.getHeight();
-      const imgAspectRatio = img.width! / img.height!;
-      const canvasAspectRatio = canvasWidth / canvasHeight;
+      // Resize canvas to match background image dimensions
+      const imgWidth = img.width!;
+      const imgHeight = img.height!;
       
-      let scale;
-      if (imgAspectRatio > canvasAspectRatio) {
-        // Image is wider than canvas - fit by height
-        scale = canvasHeight / img.height!;
-      } else {
-        // Image is taller than canvas - fit by width
-        scale = canvasWidth / img.width!;
-      }
+      // Set canvas dimensions to match the background image
+      canvas.setDimensions({
+        width: imgWidth,
+        height: imgHeight
+      });
       
+      // Set background image without scaling
       img.set({
         selectable: false,
         evented: false,
-        scaleX: scale,
-        scaleY: scale,
-        left: canvasWidth / 2,
-        top: canvasHeight / 2,
+        scaleX: 1,
+        scaleY: 1,
+        left: imgWidth / 2,
+        top: imgHeight / 2,
         originX: 'center',
         originY: 'center',
       });
+      
       canvas.backgroundImage = img;
       canvas.renderAll();
       setSelectedBackgroundId("mountain-hiker");
@@ -184,31 +181,28 @@ export const ImageEditor = () => {
     if (!fabricCanvas) return;
     
     FabricImage.fromURL(background.image).then((img) => {
-      // Scale image to fit canvas while maintaining aspect ratio
-      const canvasWidth = fabricCanvas.getWidth();
-      const canvasHeight = fabricCanvas.getHeight();
-      const imgAspectRatio = img.width! / img.height!;
-      const canvasAspectRatio = canvasWidth / canvasHeight;
+      // Resize canvas to match background image dimensions
+      const imgWidth = img.width!;
+      const imgHeight = img.height!;
       
-      let scale;
-      if (imgAspectRatio > canvasAspectRatio) {
-        // Image is wider than canvas - fit by height
-        scale = canvasHeight / img.height!;
-      } else {
-        // Image is taller than canvas - fit by width
-        scale = canvasWidth / img.width!;
-      }
+      // Set canvas dimensions to match the background image
+      fabricCanvas.setDimensions({
+        width: imgWidth,
+        height: imgHeight
+      });
       
+      // Set background image without scaling
       img.set({
         selectable: false,
         evented: false,
-        scaleX: scale,
-        scaleY: scale,
-        left: canvasWidth / 2,
-        top: canvasHeight / 2,
+        scaleX: 1,
+        scaleY: 1,
+        left: imgWidth / 2,
+        top: imgHeight / 2,
         originX: 'center',
         originY: 'center',
       });
+      
       fabricCanvas.backgroundImage = img;
       fabricCanvas.renderAll();
       setSelectedBackgroundId(background.id);
@@ -225,34 +219,33 @@ export const ImageEditor = () => {
     if (!fabricCanvas) return;
     
     fabricCanvas.clear();
-    // Restore the Mountain Hiker background with proper scaling
+    // Restore the Mountain Hiker background with adaptive sizing
     FabricImage.fromURL("/lovable-uploads/24711e9d-7e61-42fe-8fa0-71748aa71822.png").then((img) => {
-      const canvasWidth = fabricCanvas.getWidth();
-      const canvasHeight = fabricCanvas.getHeight();
-      const imgAspectRatio = img.width! / img.height!;
-      const canvasAspectRatio = canvasWidth / canvasHeight;
+      // Resize canvas to match background image dimensions
+      const imgWidth = img.width!;
+      const imgHeight = img.height!;
       
-      let scale;
-      if (imgAspectRatio > canvasAspectRatio) {
-        // Image is wider than canvas - fit by height
-        scale = canvasHeight / img.height!;
-      } else {
-        // Image is taller than canvas - fit by width
-        scale = canvasWidth / img.width!;
-      }
+      // Set canvas dimensions to match the background image
+      fabricCanvas.setDimensions({
+        width: imgWidth,
+        height: imgHeight
+      });
       
+      // Set background image without scaling
       img.set({
         selectable: false,
         evented: false,
-        scaleX: scale,
-        scaleY: scale,
-        left: canvasWidth / 2,
-        top: canvasHeight / 2,
+        scaleX: 1,
+        scaleY: 1,
+        left: imgWidth / 2,
+        top: imgHeight / 2,
         originX: 'center',
         originY: 'center',
       });
+      
       fabricCanvas.backgroundImage = img;
       fabricCanvas.renderAll();
+      setSelectedBackgroundId("mountain-hiker");
     });
     
     toast({
@@ -337,18 +330,16 @@ export const ImageEditor = () => {
           </div>
 
           {/* Canvas Container */}
-          <div className="flex-1 flex items-center justify-start ml-4 overflow-hidden">
+          <div className="flex-1 flex items-center justify-center overflow-hidden">
             <div 
-              className="shadow-soft rounded-2xl overflow-hidden border border-border transform origin-center"
+              className="shadow-soft rounded-2xl overflow-hidden border border-border"
               style={{ 
-                transform: 'scale(0.65)',
                 borderRadius: '16px',
-                width: '100%',
-                maxWidth: '1280px',
-                aspectRatio: '16/9'
+                maxWidth: '90%',
+                maxHeight: '90%'
               }}
             >
-              <canvas ref={canvasRef} className="block rounded-2xl" style={{ borderRadius: '16px' }} />
+              <canvas ref={canvasRef} className="block rounded-2xl max-w-full max-h-full" style={{ borderRadius: '16px' }} />
             </div>
           </div>
         </div>
