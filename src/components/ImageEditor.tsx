@@ -165,21 +165,30 @@ export const ImageEditor = () => {
   useEffect(() => {
     if (activeObject && activeObject.type === 'image') {
       if (borderRadius[0] > 0) {
-        // Get the scaled dimensions of the image
-        const scaledWidth = activeObject.getScaledWidth();
-        const scaledHeight = activeObject.getScaledHeight();
+        // Calculate actual visible dimensions
+        const imageWidth = activeObject.width * activeObject.scaleX;
+        const imageHeight = activeObject.height * activeObject.scaleY;
         
-        // Create a rounded rectangle for clipping using scaled dimensions
+        console.log('Image dimensions:', {
+          originalWidth: activeObject.width,
+          originalHeight: activeObject.height,
+          scaleX: activeObject.scaleX,
+          scaleY: activeObject.scaleY,
+          calculatedWidth: imageWidth,
+          calculatedHeight: imageHeight,
+          borderRadius: borderRadius[0]
+        });
+        
+        // Create a rounded rectangle for clipping that matches the image exactly
         const clipPath = new Rect({
-          left: -scaledWidth / 2,
-          top: -scaledHeight / 2,
-          width: scaledWidth,
-          height: scaledHeight,
+          left: -imageWidth / 2,
+          top: -imageHeight / 2,
+          width: imageWidth,
+          height: imageHeight,
           rx: borderRadius[0],
           ry: borderRadius[0],
           originX: 'center',
           originY: 'center',
-          absolutePositioned: true,
         });
         
         activeObject.set({
