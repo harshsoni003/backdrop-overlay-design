@@ -39,27 +39,27 @@ const PricingPage = () => {
           {/* Monthly Plan */}
           <Card className="relative bg-white">
             <CardHeader>
-              <CardTitle className="text-xl">Monthly</CardTitle>
-              <CardDescription>For regular content creators</CardDescription>
-              <div className="text-3xl font-bold">$22<span className="text-lg font-normal">/month</span></div>
+              <CardTitle className="text-xl text-gray-900">Monthly</CardTitle>
+              <CardDescription className="text-gray-600">For regular content creators</CardDescription>
+              <div className="text-3xl font-bold text-gray-900">$22<span className="text-lg font-normal text-gray-600">/month</span></div>
             </CardHeader>
             <CardContent>
               <ul className="space-y-3">
                 <li className="flex items-center gap-2">
                   <Check className="w-4 h-4 text-green-600" />
-                  <span>Unlimited posts</span>
+                  <span className="text-gray-700">Unlimited posts</span>
                 </li>
                 <li className="flex items-center gap-2">
                   <Check className="w-4 h-4 text-green-600" />
-                  <span>Weekly updates</span>
+                  <span className="text-gray-700">Weekly updates</span>
                 </li>
                 <li className="flex items-center gap-2">
                   <Check className="w-4 h-4 text-green-600" />
-                  <span>Limited Mac backgrounds</span>
+                  <span className="text-gray-700">Limited Mac backgrounds</span>
                 </li>
                 <li className="flex items-center gap-2">
                   <Check className="w-4 h-4 text-green-600" />
-                  <span>Priority support</span>
+                  <span className="text-gray-700">Priority support</span>
                 </li>
               </ul>
               <Button className="w-full mt-6 bg-black text-white hover:bg-gray-800">
@@ -71,31 +71,31 @@ const PricingPage = () => {
           {/* Lifetime Plan */}
           <Card className="relative bg-white">
             <CardHeader>
-              <CardTitle className="text-xl">Lifetime</CardTitle>
-              <CardDescription>One-time payment, forever access</CardDescription>
-              <div className="text-3xl font-bold">$67<span className="text-lg font-normal"> once</span></div>
+              <CardTitle className="text-xl text-gray-900">Lifetime</CardTitle>
+              <CardDescription className="text-gray-600">One-time payment, forever access</CardDescription>
+              <div className="text-3xl font-bold text-gray-900">$67<span className="text-lg font-normal text-gray-600"> once</span></div>
             </CardHeader>
             <CardContent>
               <ul className="space-y-3">
                 <li className="flex items-center gap-2">
                   <Check className="w-4 h-4 text-green-600" />
-                  <span>Unlimited posts</span>
+                  <span className="text-gray-700">Unlimited posts</span>
                 </li>
                 <li className="flex items-center gap-2">
                   <Check className="w-4 h-4 text-green-600" />
-                  <span>Weekly updates</span>
+                  <span className="text-gray-700">Weekly updates</span>
                 </li>
                 <li className="flex items-center gap-2">
                   <Check className="w-4 h-4 text-green-600" />
-                  <span>Unlimited Mac backgrounds</span>
+                  <span className="text-gray-700">Unlimited Mac backgrounds</span>
                 </li>
                 <li className="flex items-center gap-2">
                   <Check className="w-4 h-4 text-green-600" />
-                  <span>Priority support</span>
+                  <span className="text-gray-700">Priority support</span>
                 </li>
                 <li className="flex items-center gap-2">
                   <Check className="w-4 h-4 text-green-600" />
-                  <span>Lifetime access</span>
+                  <span className="text-gray-700">Lifetime access</span>
                 </li>
               </ul>
               <Button className="w-full mt-6" variant="outline">
