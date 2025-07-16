@@ -266,8 +266,8 @@ export const ImageEditor = () => {
       <div className="flex-1 p-6 gradient-canvas">
         <div className="h-full flex flex-col">
           {/* Toolbar */}
-          <Card className="mb-6 p-4 bg-editor-toolbar border-border">
-            <div className="flex items-center gap-4">
+          <Card className="mb-4 p-3 bg-editor-toolbar border-border">
+            <div className="flex items-center gap-3">
               <Button
                 onClick={() => fileInputRef.current?.click()}
                 variant="default"
