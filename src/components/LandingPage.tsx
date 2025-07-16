@@ -44,21 +44,7 @@ const LandingPage = () => {
         </div>
 
         {/* Image Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          <div className="rounded-lg overflow-hidden shadow-lg">
-            <img 
-              src="/lovable-uploads/431cfbb8-3173-4425-9c6e-6e6b67c1c00e.png" 
-              alt="POV example" 
-              className="w-full h-64 object-cover"
-            />
-          </div>
-          <div className="rounded-lg overflow-hidden shadow-lg">
-            <img 
-              src="/lovable-uploads/00c27498-06df-4160-b69e-d88926b9fda1.png" 
-              alt="Shine bright example" 
-              className="w-full h-64 object-cover"
-            />
-          </div>
+        
           <div className="rounded-lg overflow-hidden shadow-lg">
             <img 
               src="/lovable-uploads/bf20a559-ddbd-4d6f-bca9-8f238979fcb1.png" 
