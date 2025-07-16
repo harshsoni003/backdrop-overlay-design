@@ -96,7 +96,7 @@ export const BackgroundSelector = ({ selectedBackground, onBackgroundSelect }: B
       </div>
       
       {/* Background Grid - Optimized for 1280x720 (16:9) */}
-      <ScrollArea className="h-80">
+      <ScrollArea className="h-[500px]">
         <div className="grid grid-cols-1 gap-3 pr-2">
           {backgroundOptions.map((background) => (
             <div
