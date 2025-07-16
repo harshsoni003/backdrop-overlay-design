@@ -11,6 +11,7 @@ import balloonNight from "@/assets/backgrounds/balloon-night.jpg";
 import mountainLake from "@/assets/backgrounds/mountain-lake.jpg";
 import mountainLayers from "@/assets/backgrounds/mountain-layers.jpg";
 import desertGradient from "@/assets/backgrounds/desert-gradient.jpg";
+import mountainSunrise from "@/assets/backgrounds/mountain-sunrise.jpg";
 import defaultBg from "@/assets/default-bg.jpg";
 
 export interface BackgroundOption {
@@ -56,6 +57,12 @@ const backgroundOptions: BackgroundOption[] = [
     name: "Desert Vista",
     image: desertGradient,
     category: "Landscape"
+  },
+  {
+    id: "mountain-sunrise",
+    name: "Mountain Sunrise",
+    image: mountainSunrise,
+    category: "Nature"
   }
 ];
 
