@@ -19,7 +19,7 @@ export const ImageEditor = () => {
   const [textContent, setTextContent] = useState("Sample Text");
   const [fontSize, setFontSize] = useState([24]);
   const [borderRadius, setBorderRadius] = useState([0]);
-  const [selectedBackgroundId, setSelectedBackgroundId] = useState("mountain-sunrise");
+  const [selectedBackgroundId, setSelectedBackgroundId] = useState("abstract");
 
   // Initialize canvas
   useEffect(() => {
@@ -32,7 +32,7 @@ export const ImageEditor = () => {
     });
 
     // Set default background with proper scaling
-    FabricImage.fromURL("/lovable-uploads/773f53f5-699d-4a3d-892b-7191cf2ee3c6.png").then((img) => {
+    FabricImage.fromURL(defaultBg).then((img) => {
       // Scale image to fit canvas while maintaining aspect ratio
       const canvasWidth = canvas.getWidth();
       const canvasHeight = canvas.getHeight();
@@ -52,7 +52,7 @@ export const ImageEditor = () => {
       });
       canvas.backgroundImage = img;
       canvas.renderAll();
-      setSelectedBackgroundId("mountain-sunrise");
+      setSelectedBackgroundId("abstract");
     });
 
     // Handle object selection
@@ -261,7 +261,7 @@ export const ImageEditor = () => {
     
     fabricCanvas.clear();
     // Restore the currently selected background with proper scaling
-    FabricImage.fromURL("/lovable-uploads/773f53f5-699d-4a3d-892b-7191cf2ee3c6.png").then((img) => {
+    FabricImage.fromURL(defaultBg).then((img) => {
       const canvasWidth = fabricCanvas.getWidth();
       const canvasHeight = fabricCanvas.getHeight();
       const scaleX = canvasWidth / img.width!;
@@ -280,7 +280,6 @@ export const ImageEditor = () => {
       });
       fabricCanvas.backgroundImage = img;
       fabricCanvas.renderAll();
-      setSelectedBackgroundId("mountain-sunrise");
     });
     
     toast({
@@ -313,9 +312,9 @@ export const ImageEditor = () => {
   };
 
   return (
-    <div className="h-screen bg-background flex overflow-hidden">
+    <div className="min-h-screen bg-background flex">
       {/* Canvas Area */}
-      <div className="flex-1 p-6 gradient-canvas overflow-hidden">
+      <div className="flex-1 p-6 gradient-canvas">
         <div className="h-full flex flex-col">
           {/* Toolbar */}
           <Card className="mb-6 p-4 bg-editor-toolbar border-border">
@@ -371,16 +370,16 @@ export const ImageEditor = () => {
           </Card>
 
           {/* Canvas Container */}
-          <div className="flex-1 flex items-center justify-center overflow-hidden">
-            <div className="shadow-soft rounded-lg overflow-hidden border border-border max-w-full max-h-full">
-              <canvas ref={canvasRef} className="block max-w-full max-h-full object-contain" style={{ width: '100%', height: 'auto', maxWidth: '960px', maxHeight: '540px' }} />
+          <div className="flex-1 flex items-center justify-center">
+            <div className="shadow-soft rounded-lg overflow-hidden border border-border">
+              <canvas ref={canvasRef} className="block" />
             </div>
           </div>
         </div>
       </div>
 
       {/* Editor Panel */}
-      <div className="w-80 bg-editor-panel border-l border-border p-6 overflow-auto shrink-0">
+      <div className="w-80 bg-editor-panel border-l border-border p-6">
         <h2 className="text-xl font-semibold mb-6 text-foreground">Editor Panel</h2>
         
         {/* Background Selection */}
