@@ -313,8 +313,8 @@ export const ImageEditor = () => {
           </div>
 
           {/* Canvas Container */}
-          <div className="flex-1 flex items-center justify-start ml-6">
-            <div
+          <div className="flex-1 flex items-center justify-center">
+            <div 
               className="shadow-soft rounded-2xl overflow-hidden border border-border transform origin-center"
               style={{ 
                 transform: 'scale(0.65)',
