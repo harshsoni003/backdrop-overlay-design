@@ -22,7 +22,7 @@ export const EditorPanel = ({
   return (
     <div className="w-80 bg-white border-r border-gray-200 shadow-sm">
       {/* Panel Header */}
-      <div className="p-6 border-b border-gray-100 bg-gradient-to-r from-gray-50 to-white">
+      <div className="p-6 border-b border-gray-100 bg-white">
         <div className="flex items-center gap-3">
           <div className="p-2 bg-blue-50 rounded-lg">
             <Settings2 className="w-5 h-5 text-blue-600" />
