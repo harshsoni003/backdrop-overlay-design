@@ -71,7 +71,7 @@ export const ImageEditor = () => {
     setFabricCanvas(canvas);
     toast({
       title: "Canvas Ready!",
-      description: "Upload an image or add text to get started",
+      description: "Upload images or videos to get started",
     });
 
     return () => {
