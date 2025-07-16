@@ -34,10 +34,10 @@ export const ImageEditor = () => {
     // Apply dotted pattern background using CSS
     if (canvasRef.current) {
       canvasRef.current.style.background = `
-        radial-gradient(circle at 1px 1px, #9ca3af 1px, transparent 0)
+        radial-gradient(circle at 1px 1px, #6b7280 1px, transparent 0)
       `;
       canvasRef.current.style.backgroundSize = '20px 20px';
-      canvasRef.current.style.backgroundColor = '#f8f9fa';
+      canvasRef.current.style.backgroundColor = '#ffffff';
     }
 
     // No default background image - keep dotted pattern only
