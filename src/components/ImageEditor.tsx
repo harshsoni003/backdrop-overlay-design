@@ -274,7 +274,7 @@ export const ImageEditor = () => {
         <div className="h-full flex flex-col">
           {/* Toolbar */}
           <div className="mb-4 flex justify-start ml-0">
-            <Card className="p-3 bg-editor-toolbar border-border w-fit">
+            <Card className="p-3 bg-white border-border w-fit">
               <div className="flex items-center gap-2">
                 <Button
                   onClick={() => fileInputRef.current?.click()}
