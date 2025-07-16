@@ -29,13 +29,24 @@ export const ImageEditor = () => {
       backgroundColor: "#ffffff",
     });
 
-    // Set default background
+    // Set default background with proper scaling
     FabricImage.fromURL(defaultBg).then((img) => {
+      // Scale image to fit canvas while maintaining aspect ratio
+      const canvasWidth = canvas.getWidth();
+      const canvasHeight = canvas.getHeight();
+      const scaleX = canvasWidth / img.width!;
+      const scaleY = canvasHeight / img.height!;
+      const scale = Math.max(scaleX, scaleY); // Use max to cover entire canvas
+      
       img.set({
         selectable: false,
         evented: false,
-        scaleX: 1,
-        scaleY: 1,
+        scaleX: scale,
+        scaleY: scale,
+        left: canvasWidth / 2,
+        top: canvasHeight / 2,
+        originX: 'center',
+        originY: 'center',
       });
       canvas.backgroundImage = img;
       canvas.renderAll();
@@ -168,11 +179,22 @@ export const ImageEditor = () => {
     if (!fabricCanvas) return;
     
     FabricImage.fromURL(background.image).then((img) => {
+      // Scale image to fit canvas while maintaining aspect ratio
+      const canvasWidth = fabricCanvas.getWidth();
+      const canvasHeight = fabricCanvas.getHeight();
+      const scaleX = canvasWidth / img.width!;
+      const scaleY = canvasHeight / img.height!;
+      const scale = Math.max(scaleX, scaleY); // Use max to cover entire canvas
+      
       img.set({
         selectable: false,
         evented: false,
-        scaleX: 1,
-        scaleY: 1,
+        scaleX: scale,
+        scaleY: scale,
+        left: canvasWidth / 2,
+        top: canvasHeight / 2,
+        originX: 'center',
+        originY: 'center',
       });
       fabricCanvas.backgroundImage = img;
       fabricCanvas.renderAll();
@@ -190,13 +212,23 @@ export const ImageEditor = () => {
     if (!fabricCanvas) return;
     
     fabricCanvas.clear();
-    // Restore the currently selected background
+    // Restore the currently selected background with proper scaling
     FabricImage.fromURL(defaultBg).then((img) => {
+      const canvasWidth = fabricCanvas.getWidth();
+      const canvasHeight = fabricCanvas.getHeight();
+      const scaleX = canvasWidth / img.width!;
+      const scaleY = canvasHeight / img.height!;
+      const scale = Math.max(scaleX, scaleY);
+      
       img.set({
         selectable: false,
         evented: false,
-        scaleX: 1,
-        scaleY: 1,
+        scaleX: scale,
+        scaleY: scale,
+        left: canvasWidth / 2,
+        top: canvasHeight / 2,
+        originX: 'center',
+        originY: 'center',
       });
       fabricCanvas.backgroundImage = img;
       fabricCanvas.renderAll();
