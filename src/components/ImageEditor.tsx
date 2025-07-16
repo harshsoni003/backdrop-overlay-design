@@ -20,6 +20,8 @@ export const ImageEditor = () => {
   const [fontSize, setFontSize] = useState([24]);
   const [selectedBackgroundId, setSelectedBackgroundId] = useState("abstract");
   const [borderRadius, setBorderRadius] = useState([0]);
+  const [borderWidth, setBorderWidth] = useState([0]);
+  const [borderColor, setBorderColor] = useState("#ffffff");
 
   // Initialize canvas
   useEffect(() => {
@@ -165,10 +167,11 @@ export const ImageEditor = () => {
     }
   }, [textContent, fontSize, activeObject, fabricCanvas]);
 
-  // Apply border radius to active image
+  // Apply border radius and border styling to active image
   useEffect(() => {
     if (activeObject && activeObject.type === 'image' && fabricCanvas) {
       const radius = borderRadius[0];
+      const width = borderWidth[0];
       
       if (radius > 0) {
         // Create a rounded rectangle clipPath
@@ -191,9 +194,22 @@ export const ImageEditor = () => {
         });
       }
       
+      // Apply border styling
+      if (width > 0) {
+        activeObject.set({
+          stroke: borderColor,
+          strokeWidth: width,
+        });
+      } else {
+        activeObject.set({
+          stroke: undefined,
+          strokeWidth: 0,
+        });
+      }
+      
       fabricCanvas.renderAll();
     }
-  }, [borderRadius, activeObject, fabricCanvas]);
+  }, [borderRadius, borderWidth, borderColor, activeObject, fabricCanvas]);
 
   // Delete active object
   const deleteActiveObject = () => {
@@ -434,6 +450,33 @@ export const ImageEditor = () => {
                   min={0}
                   step={1}
                   className="mt-2"
+                />
+              </div>
+              
+              <div>
+                <Label className="text-sm font-medium">
+                  Border Width: {borderWidth[0]}px
+                </Label>
+                <Slider
+                  value={borderWidth}
+                  onValueChange={setBorderWidth}
+                  max={20}
+                  min={0}
+                  step={1}
+                  className="mt-2"
+                />
+              </div>
+              
+              <div>
+                <Label htmlFor="border-color" className="text-sm font-medium">
+                  Border Color
+                </Label>
+                <Input
+                  id="border-color"
+                  type="color"
+                  value={borderColor}
+                  onChange={(e) => setBorderColor(e.target.value)}
+                  className="mt-1 h-10"
                 />
               </div>
             </div>
