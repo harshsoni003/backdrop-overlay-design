@@ -20,8 +20,6 @@ export const ImageEditor = () => {
   const [fontSize, setFontSize] = useState([24]);
   const [selectedBackgroundId, setSelectedBackgroundId] = useState("abstract");
   const [borderRadius, setBorderRadius] = useState([0]);
-  const [borderWidth, setBorderWidth] = useState([0]);
-  const [borderColor, setBorderColor] = useState("#ffffff");
 
   // Initialize canvas
   useEffect(() => {
@@ -167,11 +165,10 @@ export const ImageEditor = () => {
     }
   }, [textContent, fontSize, activeObject, fabricCanvas]);
 
-  // Apply border radius and border styling to active image using fabric.js clipPath
+  // Apply border radius to active image using fabric.js clipPath
   useEffect(() => {
     if (activeObject && activeObject.type === 'image' && fabricCanvas) {
       const radius = borderRadius[0];
-      const width = borderWidth[0];
       
       if (radius > 0) {
         // Use fabric.js clipPath approach with Rect and rx/ry for curved borders
@@ -194,22 +191,9 @@ export const ImageEditor = () => {
         });
       }
       
-      // Apply border styling
-      if (width > 0) {
-        activeObject.set({
-          stroke: borderColor,
-          strokeWidth: width,
-        });
-      } else {
-        activeObject.set({
-          stroke: undefined,
-          strokeWidth: 0,
-        });
-      }
-      
       fabricCanvas.renderAll();
     }
-  }, [borderRadius, borderWidth, borderColor, activeObject, fabricCanvas]);
+  }, [borderRadius, activeObject, fabricCanvas]);
 
   // Delete active object
   const deleteActiveObject = () => {
@@ -452,61 +436,10 @@ export const ImageEditor = () => {
                   className="mt-2"
                 />
               </div>
-              
-              <div>
-                <Label className="text-sm font-medium">
-                  Border Width: {borderWidth[0]}px
-                </Label>
-                <Slider
-                  value={borderWidth}
-                  onValueChange={setBorderWidth}
-                  max={20}
-                  min={0}
-                  step={1}
-                  className="mt-2"
-                />
-              </div>
-              
-              <div>
-                <Label htmlFor="border-color" className="text-sm font-medium">
-                  Border Color
-                </Label>
-                <Input
-                  id="border-color"
-                  type="color"
-                  value={borderColor}
-                  onChange={(e) => setBorderColor(e.target.value)}
-                  className="mt-1 h-10"
-                />
-              </div>
             </div>
           </Card>
         )}
 
-        {/* Object Info */}
-        {activeObject && (
-          <Card className="p-4 mb-6 bg-card">
-            <h3 className="font-medium mb-2 text-card-foreground">Selected Object</h3>
-            <p className="text-sm text-muted-foreground">
-              Type: {activeObject.type}
-            </p>
-            <p className="text-sm text-muted-foreground">
-              Position: ({Math.round(activeObject.left)}, {Math.round(activeObject.top)})
-            </p>
-          </Card>
-        )}
-
-        {/* Instructions */}
-        <Card className="p-4 bg-muted">
-          <h3 className="font-medium mb-2 text-muted-foreground">Instructions</h3>
-           <div className="text-sm text-muted-foreground space-y-1">
-             <p>• Upload images to overlay on the background</p>
-             <p>• Add text and customize it</p>
-             <p>• Drag objects to reposition them</p>
-             <p>• Use corner handles to resize</p>
-             <p>• Double-click text to edit inline</p>
-           </div>
-        </Card>
       </div>
 
        {/* Hidden file input */}
