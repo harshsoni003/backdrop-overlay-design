@@ -17,6 +17,7 @@ export const ImageEditor = () => {
   const [activeObject, setActiveObject] = useState<any>(null);
   const [textContent, setTextContent] = useState("Sample Text");
   const [fontSize, setFontSize] = useState([24]);
+  const [borderRadius, setBorderRadius] = useState([0]);
   const [selectedBackgroundId, setSelectedBackgroundId] = useState("abstract");
 
   // Initialize canvas
@@ -159,6 +160,17 @@ export const ImageEditor = () => {
       fabricCanvas?.renderAll();
     }
   }, [textContent, fontSize, activeObject, fabricCanvas]);
+
+  // Update active image border radius
+  useEffect(() => {
+    if (activeObject && activeObject.type === 'image') {
+      activeObject.set({
+        rx: borderRadius[0],
+        ry: borderRadius[0],
+      });
+      fabricCanvas?.renderAll();
+    }
+  }, [borderRadius, activeObject, fabricCanvas]);
 
   // Delete active object
   const deleteActiveObject = () => {
@@ -373,6 +385,27 @@ export const ImageEditor = () => {
             </div>
           </div>
         </Card>
+
+        {/* Image Controls */}
+        {activeObject && activeObject.type === 'image' && (
+          <Card className="p-4 mb-6 bg-card">
+            <h3 className="font-medium mb-4 text-card-foreground">Image Settings</h3>
+            
+            <div>
+              <Label className="text-sm font-medium">
+                Border Radius: {borderRadius[0]}px
+              </Label>
+              <Slider
+                value={borderRadius}
+                onValueChange={setBorderRadius}
+                max={100}
+                min={0}
+                step={1}
+                className="mt-2"
+              />
+            </div>
+          </Card>
+        )}
 
         {/* Object Info */}
         {activeObject && (
