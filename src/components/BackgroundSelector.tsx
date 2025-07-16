@@ -126,7 +126,7 @@ export const BackgroundSelector = ({ selectedBackground, onBackgroundSelect }: B
         ))}
       </div>
 
-      {/* Background Grid - Larger size to show original images */}
+      {/* Background Grid - Optimized for 1280x720 (16:9) */}
       <ScrollArea className="h-96">
         <div className="grid grid-cols-1 gap-4">
           {filteredBackgrounds.map((background) => (
@@ -161,7 +161,7 @@ export const BackgroundSelector = ({ selectedBackground, onBackgroundSelect }: B
                   {background.name}
                 </p>
                 <p className="text-white/70 text-xs">
-                  {background.category} • Original Quality
+                  {background.category} • 1280x720
                 </p>
               </div>
             </div>
