@@ -280,7 +280,7 @@ export const ImageEditor = () => {
                   onClick={() => fileInputRef.current?.click()}
                   variant="default"
                   size="sm"
-                  className="gradient-primary shadow-elegant"
+                  className="bg-purple-600 hover:bg-purple-700 text-white"
                 >
                   <Upload className="w-4 h-4 mr-2" />
                   Upload Image
@@ -310,7 +310,7 @@ export const ImageEditor = () => {
                   onClick={downloadImage}
                   variant="default"
                   size="sm"
-                  className="gradient-accent shadow-glow"
+                  className="bg-cyan-500 hover:bg-cyan-600 text-white"
                 >
                   <Download className="w-4 h-4 mr-2" />
                   Download
