@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Canvas as FabricCanvas, FabricImage, Rect, FabricObject, Path } from "fabric";
-import { Upload, Download, Move, RotateCcw, Trash2, Settings2, Image as ImageIcon } from "lucide-react";
+import { Upload, Download, Move, RotateCcw, Trash2, Settings2, Image as ImageIcon, ZoomIn, ZoomOut, RotateCw } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -18,6 +18,7 @@ export const ImageEditor = () => {
   const [activeObject, setActiveObject] = useState<any>(null);
   const [selectedBackgroundId, setSelectedBackgroundId] = useState("mountain-hiker");
   const [borderRadius, setBorderRadius] = useState([0]);
+  const [zoomLevel, setZoomLevel] = useState(1);
 
   // Initialize canvas
   useEffect(() => {
@@ -237,6 +238,48 @@ export const ImageEditor = () => {
     });
   };
 
+  // Zoom functions
+  const zoomIn = () => {
+    if (!fabricCanvas) return;
+    
+    const newZoom = Math.min(zoomLevel * 1.2, 3); // Max zoom 3x
+    fabricCanvas.setZoom(newZoom);
+    setZoomLevel(newZoom);
+    fabricCanvas.renderAll();
+    
+    toast({
+      title: "Zoomed in",
+      description: `Zoom level: ${Math.round(newZoom * 100)}%`,
+    });
+  };
+
+  const zoomOut = () => {
+    if (!fabricCanvas) return;
+    
+    const newZoom = Math.max(zoomLevel / 1.2, 0.5); // Min zoom 0.5x
+    fabricCanvas.setZoom(newZoom);
+    setZoomLevel(newZoom);
+    fabricCanvas.renderAll();
+    
+    toast({
+      title: "Zoomed out",
+      description: `Zoom level: ${Math.round(newZoom * 100)}%`,
+    });
+  };
+
+  const resetZoom = () => {
+    if (!fabricCanvas) return;
+    
+    fabricCanvas.setZoom(1);
+    setZoomLevel(1);
+    fabricCanvas.renderAll();
+    
+    toast({
+      title: "Zoom reset",
+      description: "Zoom level: 100%",
+    });
+  };
+
   // Download image
   const downloadImage = () => {
     if (!fabricCanvas) return;
@@ -299,6 +342,35 @@ export const ImageEditor = () => {
                   Reset
                 </Button>
                 
+                <div className="flex items-center gap-1 border-l border-border/50 pl-2 ml-2">
+                  <Button
+                    onClick={zoomOut}
+                    variant="outline"
+                    size="sm"
+                    className="px-2"
+                  >
+                    <ZoomOut className="w-4 h-4" />
+                  </Button>
+                  
+                  <Button
+                    onClick={resetZoom}
+                    variant="outline"
+                    size="sm"
+                    className="px-2 text-xs min-w-[60px]"
+                  >
+                    {Math.round(zoomLevel * 100)}%
+                  </Button>
+                  
+                  <Button
+                    onClick={zoomIn}
+                    variant="outline"
+                    size="sm"
+                    className="px-2"
+                  >
+                    <ZoomIn className="w-4 h-4" />
+                  </Button>
+                </div>
+
                 <Button
                   onClick={downloadImage}
                   variant="default"
