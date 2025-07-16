@@ -19,6 +19,7 @@ export const ImageEditor = () => {
   const [textContent, setTextContent] = useState("Sample Text");
   const [fontSize, setFontSize] = useState([24]);
   const [selectedBackgroundId, setSelectedBackgroundId] = useState("abstract");
+  const [borderRadius, setBorderRadius] = useState([0]);
 
   // Initialize canvas
   useEffect(() => {
@@ -163,6 +164,36 @@ export const ImageEditor = () => {
       fabricCanvas?.renderAll();
     }
   }, [textContent, fontSize, activeObject, fabricCanvas]);
+
+  // Apply border radius to active image
+  useEffect(() => {
+    if (activeObject && activeObject.type === 'image' && fabricCanvas) {
+      const radius = borderRadius[0];
+      
+      if (radius > 0) {
+        // Create a rounded rectangle clipPath
+        const clipPath = new Rect({
+          width: activeObject.width * activeObject.scaleX,
+          height: activeObject.height * activeObject.scaleY,
+          rx: radius,
+          ry: radius,
+          originX: 'center',
+          originY: 'center',
+        });
+        
+        activeObject.set({
+          clipPath: clipPath,
+        });
+      } else {
+        // Remove clipPath if radius is 0
+        activeObject.set({
+          clipPath: undefined,
+        });
+      }
+      
+      fabricCanvas.renderAll();
+    }
+  }, [borderRadius, activeObject, fabricCanvas]);
 
   // Delete active object
   const deleteActiveObject = () => {
@@ -384,14 +415,28 @@ export const ImageEditor = () => {
           </div>
         </Card>
 
-        {/* Media Controls - Removed border radius */}
+        {/* Image Controls */}
         {activeObject && activeObject.type === 'image' && (
           <Card className="p-4 mb-6 bg-card">
             <h3 className="font-medium mb-4 text-card-foreground">
               Image Settings
             </h3>
             
-            {/* Border radius control removed */}
+            <div className="space-y-4">
+              <div>
+                <Label className="text-sm font-medium">
+                  Border Radius: {borderRadius[0]}px
+                </Label>
+                <Slider
+                  value={borderRadius}
+                  onValueChange={setBorderRadius}
+                  max={50}
+                  min={0}
+                  step={1}
+                  className="mt-2"
+                />
+              </div>
+            </div>
           </Card>
         )}
 
