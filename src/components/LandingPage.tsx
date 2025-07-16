@@ -1,8 +1,6 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Twitter } from "lucide-react";
-import macCodingBg from "@/assets/mac-coding-bg.jpg";
-import macWorkspaceBg from "@/assets/mac-workspace-bg.jpg";
 
 const LandingPage = () => {
   return (
@@ -26,11 +24,12 @@ const LandingPage = () => {
       {/* Hero Section */}
       <div className="max-w-6xl mx-auto px-6 py-20">
         <div className="text-center mb-16">
-          <h2 className="text-5xl font-bold text-gray-900 mb-6 animate-fade-in">
-            Add Mac Background to <span className="text-red-600 underline decoration-2">Your Image</span>
+          <h2 className="text-5xl font-bold text-gray-900 mb-6">
+            Auto Insert <span className="text-red-600 underline decoration-2">text between</span> your images
           </h2>
-          <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto animate-fade-in">
-            Transform your photos with stunning Mac computer backgrounds for professional presentations and social media.
+          <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
+            Create pov-style Youtube thumbnails and other social media posts that
+            actually go viral.
           </p>
           <div className="flex items-center justify-center gap-4">
             <Link to="/editor">
@@ -45,19 +44,26 @@ const LandingPage = () => {
         </div>
 
         {/* Image Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-          <div className="rounded-lg overflow-hidden shadow-lg hover-scale animate-fade-in">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="rounded-lg overflow-hidden shadow-lg">
             <img 
-              src={macCodingBg} 
-              alt="Mac with code background example" 
-              className="w-full h-64 object-cover transition-transform duration-300 hover:scale-110"
+              src="/lovable-uploads/bf20a559-ddbd-4d6f-bca9-8f238979fcb1.png" 
+              alt="MVP launch example" 
+              className="w-full h-64 object-cover"
             />
           </div>
-          <div className="rounded-lg overflow-hidden shadow-lg hover-scale animate-fade-in">
+          <div className="rounded-lg overflow-hidden shadow-lg">
             <img 
-              src={macWorkspaceBg} 
-              alt="Mac workspace background example" 
-              className="w-full h-64 object-cover transition-transform duration-300 hover:scale-110"
+              src="/lovable-uploads/3fe44c63-cd4d-479a-bb87-6667ea8a0a8e.png" 
+              alt="Profile example" 
+              className="w-full h-64 object-cover"
+            />
+          </div>
+          <div className="rounded-lg overflow-hidden shadow-lg">
+            <img 
+              src="/lovable-uploads/c8c53bed-e823-4e3c-88c5-fa6a2802b755.png" 
+              alt="SaaS launch example" 
+              className="w-full h-64 object-cover"
             />
           </div>
         </div>
