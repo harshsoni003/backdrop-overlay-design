@@ -34,9 +34,17 @@ export const ImageEditor = () => {
       // Scale image to fit canvas while maintaining aspect ratio
       const canvasWidth = canvas.getWidth();
       const canvasHeight = canvas.getHeight();
-      const scaleX = canvasWidth / img.width!;
-      const scaleY = canvasHeight / img.height!;
-      const scale = Math.max(scaleX, scaleY); // Use max to cover entire canvas
+      const imgAspectRatio = img.width! / img.height!;
+      const canvasAspectRatio = canvasWidth / canvasHeight;
+      
+      let scale;
+      if (imgAspectRatio > canvasAspectRatio) {
+        // Image is wider than canvas - fit by height
+        scale = canvasHeight / img.height!;
+      } else {
+        // Image is taller than canvas - fit by width
+        scale = canvasWidth / img.width!;
+      }
       
       img.set({
         selectable: false,
@@ -179,9 +187,17 @@ export const ImageEditor = () => {
       // Scale image to fit canvas while maintaining aspect ratio
       const canvasWidth = fabricCanvas.getWidth();
       const canvasHeight = fabricCanvas.getHeight();
-      const scaleX = canvasWidth / img.width!;
-      const scaleY = canvasHeight / img.height!;
-      const scale = Math.max(scaleX, scaleY); // Use max to cover entire canvas
+      const imgAspectRatio = img.width! / img.height!;
+      const canvasAspectRatio = canvasWidth / canvasHeight;
+      
+      let scale;
+      if (imgAspectRatio > canvasAspectRatio) {
+        // Image is wider than canvas - fit by height
+        scale = canvasHeight / img.height!;
+      } else {
+        // Image is taller than canvas - fit by width
+        scale = canvasWidth / img.width!;
+      }
       
       img.set({
         selectable: false,
@@ -213,9 +229,17 @@ export const ImageEditor = () => {
     FabricImage.fromURL("/lovable-uploads/24711e9d-7e61-42fe-8fa0-71748aa71822.png").then((img) => {
       const canvasWidth = fabricCanvas.getWidth();
       const canvasHeight = fabricCanvas.getHeight();
-      const scaleX = canvasWidth / img.width!;
-      const scaleY = canvasHeight / img.height!;
-      const scale = Math.max(scaleX, scaleY);
+      const imgAspectRatio = img.width! / img.height!;
+      const canvasAspectRatio = canvasWidth / canvasHeight;
+      
+      let scale;
+      if (imgAspectRatio > canvasAspectRatio) {
+        // Image is wider than canvas - fit by height
+        scale = canvasHeight / img.height!;
+      } else {
+        // Image is taller than canvas - fit by width
+        scale = canvasWidth / img.width!;
+      }
       
       img.set({
         selectable: false,
