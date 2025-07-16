@@ -16,7 +16,7 @@ export const ImageEditor = () => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [fabricCanvas, setFabricCanvas] = useState<FabricCanvas | null>(null);
   const [activeObject, setActiveObject] = useState<any>(null);
-  const [selectedBackgroundId, setSelectedBackgroundId] = useState("abstract");
+  const [selectedBackgroundId, setSelectedBackgroundId] = useState("mountain-hiker");
   const [borderRadius, setBorderRadius] = useState([0]);
 
   // Initialize canvas
@@ -30,7 +30,7 @@ export const ImageEditor = () => {
     });
 
     // Set default background with proper scaling
-    FabricImage.fromURL(defaultBg).then((img) => {
+    FabricImage.fromURL("/lovable-uploads/24711e9d-7e61-42fe-8fa0-71748aa71822.png").then((img) => {
       // Scale image to fit canvas while maintaining aspect ratio
       const canvasWidth = canvas.getWidth();
       const canvasHeight = canvas.getHeight();
@@ -50,7 +50,7 @@ export const ImageEditor = () => {
       });
       canvas.backgroundImage = img;
       canvas.renderAll();
-      setSelectedBackgroundId("abstract");
+      setSelectedBackgroundId("mountain-hiker");
     });
 
     // Handle object selection
@@ -209,8 +209,8 @@ export const ImageEditor = () => {
     if (!fabricCanvas) return;
     
     fabricCanvas.clear();
-    // Restore the currently selected background with proper scaling
-    FabricImage.fromURL(defaultBg).then((img) => {
+    // Restore the Mountain Hiker background with proper scaling
+    FabricImage.fromURL("/lovable-uploads/24711e9d-7e61-42fe-8fa0-71748aa71822.png").then((img) => {
       const canvasWidth = fabricCanvas.getWidth();
       const canvasHeight = fabricCanvas.getHeight();
       const scaleX = canvasWidth / img.width!;

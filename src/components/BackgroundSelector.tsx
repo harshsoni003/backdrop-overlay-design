@@ -17,16 +17,10 @@ export interface BackgroundOption {
 
 const backgroundOptions: BackgroundOption[] = [
   {
-    id: "abstract",
-    name: "Abstract Gradient",
-    image: defaultBg,
-    category: "Abstract"
-  },
-  {
-    id: "starry-night",
-    name: "Starry Night",
-    image: "/lovable-uploads/acda846d-1310-4de5-ab2a-ff890515b8f6.png",
-    category: "Night"
+    id: "mountain-hiker",
+    name: "Mountain Hiker",
+    image: "/lovable-uploads/24711e9d-7e61-42fe-8fa0-71748aa71822.png",
+    category: "Adventure"
   },
   {
     id: "ocean-sunset",
@@ -81,12 +75,6 @@ const backgroundOptions: BackgroundOption[] = [
     name: "Valley Golden",
     image: "/lovable-uploads/e3bb28ea-89fb-445e-a12c-da9bb9daec73.png",
     category: "Nature"
-  },
-  {
-    id: "mountain-hiker",
-    name: "Mountain Hiker",
-    image: "/lovable-uploads/24711e9d-7e61-42fe-8fa0-71748aa71822.png",
-    category: "Adventure"
   }
 ];
 
