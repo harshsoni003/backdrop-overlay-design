@@ -1,6 +1,4 @@
-import { useState } from "react";
 import { Card } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Check, Image as ImageIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -84,13 +82,6 @@ interface BackgroundSelectorProps {
 }
 
 export const BackgroundSelector = ({ selectedBackground, onBackgroundSelect }: BackgroundSelectorProps) => {
-  const [selectedCategory, setSelectedCategory] = useState<string>("All");
-  
-  const categories = ["All", ...Array.from(new Set(backgroundOptions.map(bg => bg.category)))];
-  
-  const filteredBackgrounds = selectedCategory === "All" 
-    ? backgroundOptions 
-    : backgroundOptions.filter(bg => bg.category === selectedCategory);
 
   return (
     <Card className="py-4 pr-4 pl-1 bg-white border-border/50 shadow-sm">
@@ -104,25 +95,10 @@ export const BackgroundSelector = ({ selectedBackground, onBackgroundSelect }: B
         </div>
       </div>
       
-      {/* Category Filter */}
-      <div className="flex gap-1 mb-4 overflow-x-auto pb-1">
-        {categories.map((category) => (
-          <Button
-            key={category}
-            variant={selectedCategory === category ? "default" : "outline"}
-            size="sm"
-            onClick={() => setSelectedCategory(category)}
-            className="text-xs whitespace-nowrap h-7 px-3"
-          >
-            {category}
-          </Button>
-        ))}
-      </div>
-
       {/* Background Grid - Optimized for 1280x720 (16:9) */}
       <ScrollArea className="h-80">
         <div className="grid grid-cols-1 gap-3 pr-2">
-          {filteredBackgrounds.map((background) => (
+          {backgroundOptions.map((background) => (
             <div
               key={background.id}
               className={cn(
