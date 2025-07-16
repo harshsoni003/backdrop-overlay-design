@@ -28,7 +28,7 @@ export const ImageEditor = () => {
     const canvas = new FabricCanvas(canvasRef.current, {
       width: 800,
       height: 600,
-      backgroundColor: "transparent",
+      backgroundColor: "#ffffff",
     });
 
     // Set default background with proper scaling
@@ -371,12 +371,7 @@ export const ImageEditor = () => {
 
           {/* Canvas Container */}
           <div className="flex-1 flex items-center justify-center">
-            <div className="shadow-soft rounded-lg overflow-hidden border border-border" 
-                 style={{
-                   background: 'radial-gradient(circle at 1px 1px, #d0d0d0 1px, transparent 0)',
-                   backgroundSize: '20px 20px',
-                   backgroundColor: '#ffffff'
-                 }}>
+            <div className="shadow-soft rounded-lg overflow-hidden border border-border">
               <canvas ref={canvasRef} className="block" />
             </div>
           </div>
