@@ -18,7 +18,6 @@ export const ImageEditor = () => {
   const [activeObject, setActiveObject] = useState<any>(null);
   const [textContent, setTextContent] = useState("Sample Text");
   const [fontSize, setFontSize] = useState([24]);
-  const [borderRadius, setBorderRadius] = useState([0]);
   const [selectedBackgroundId, setSelectedBackgroundId] = useState("abstract");
 
   // Initialize canvas
@@ -164,49 +163,6 @@ export const ImageEditor = () => {
       fabricCanvas?.renderAll();
     }
   }, [textContent, fontSize, activeObject, fabricCanvas]);
-
-  // Update active image border radius using clipPath
-  useEffect(() => {
-    if (activeObject && activeObject.type === 'image') {
-      if (borderRadius[0] > 0) {
-        // Calculate actual visible dimensions
-        const imageWidth = activeObject.width * activeObject.scaleX;
-        const imageHeight = activeObject.height * activeObject.scaleY;
-        
-        console.log('Image dimensions:', {
-          originalWidth: activeObject.width,
-          originalHeight: activeObject.height,
-          scaleX: activeObject.scaleX,
-          scaleY: activeObject.scaleY,
-          calculatedWidth: imageWidth,
-          calculatedHeight: imageHeight,
-          borderRadius: borderRadius[0]
-        });
-        
-        // Create a rounded rectangle for clipping that matches the image exactly
-        const clipPath = new Rect({
-          left: -imageWidth / 2,
-          top: -imageHeight / 2,
-          width: imageWidth,
-          height: imageHeight,
-          rx: borderRadius[0],
-          ry: borderRadius[0],
-          originX: 'center',
-          originY: 'center',
-        });
-        
-        activeObject.set({
-          clipPath: clipPath,
-        });
-      } else {
-        // Remove clipping when radius is 0
-        activeObject.set({
-          clipPath: null,
-        });
-      }
-      fabricCanvas?.renderAll();
-    }
-  }, [borderRadius, activeObject, fabricCanvas]);
 
   // Delete active object
   const deleteActiveObject = () => {
@@ -371,8 +327,14 @@ export const ImageEditor = () => {
 
           {/* Canvas Container */}
           <div className="flex-1 flex items-center justify-center">
-            <div className="shadow-soft rounded-lg overflow-hidden border border-border transform scale-55 origin-center">
-              <canvas ref={canvasRef} className="block" />
+            <div 
+              className="shadow-soft rounded-2xl overflow-hidden border border-border transform origin-center"
+              style={{ 
+                transform: 'scale(0.65)',
+                borderRadius: '16px'
+              }}
+            >
+              <canvas ref={canvasRef} className="block rounded-2xl" style={{ borderRadius: '16px' }} />
             </div>
           </div>
         </div>
@@ -422,26 +384,14 @@ export const ImageEditor = () => {
           </div>
         </Card>
 
-         {/* Media Controls */}
-         {activeObject && activeObject.type === 'image' && (
-           <Card className="p-4 mb-6 bg-card">
-             <h3 className="font-medium mb-4 text-card-foreground">
-               Image Settings
-             </h3>
+        {/* Media Controls - Removed border radius */}
+        {activeObject && activeObject.type === 'image' && (
+          <Card className="p-4 mb-6 bg-card">
+            <h3 className="font-medium mb-4 text-card-foreground">
+              Image Settings
+            </h3>
             
-            <div>
-              <Label className="text-sm font-medium">
-                Border Radius: {borderRadius[0]}px
-              </Label>
-              <Slider
-                value={borderRadius}
-                onValueChange={setBorderRadius}
-                max={100}
-                min={0}
-                step={1}
-                className="mt-2"
-              />
-            </div>
+            {/* Border radius control removed */}
           </Card>
         )}
 
@@ -464,7 +414,6 @@ export const ImageEditor = () => {
            <div className="text-sm text-muted-foreground space-y-1">
              <p>• Upload images to overlay on the background</p>
              <p>• Add text and customize it</p>
-             <p>• Apply border radius to images</p>
              <p>• Drag objects to reposition them</p>
              <p>• Use corner handles to resize</p>
              <p>• Double-click text to edit inline</p>
