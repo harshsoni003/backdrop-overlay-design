@@ -165,18 +165,17 @@ export const ImageEditor = () => {
   useEffect(() => {
     if (activeObject && activeObject.type === 'image') {
       if (borderRadius[0] > 0) {
-        // Create a rounded rectangle for clipping that exactly matches the image
+        // Create a rounded rectangle for clipping using the original image dimensions
         const clipPath = new Rect({
-          left: 0,
-          top: 0,
+          left: -activeObject.width / 2,
+          top: -activeObject.height / 2,
           width: activeObject.width,
           height: activeObject.height,
           rx: borderRadius[0] / activeObject.scaleX, // Adjust radius for scaling
           ry: borderRadius[0] / activeObject.scaleY, // Adjust radius for scaling
-          originX: 'left',
-          originY: 'top',
-          fill: 'transparent', // Ensure it's transparent
-          stroke: 'transparent', // No stroke
+          originX: 'center',
+          originY: 'center',
+          absolutePositioned: true,
         });
         
         activeObject.set({
