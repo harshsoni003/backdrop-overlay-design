@@ -1,0 +1,353 @@
+import { useEffect, useRef, useState } from "react";
+import { Canvas as FabricCanvas, FabricImage, Textbox } from "fabric";
+import { Upload, Download, Type, Move, RotateCcw, Trash2 } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Slider } from "@/components/ui/slider";
+import { toast } from "@/hooks/use-toast";
+import defaultBg from "@/assets/default-bg.jpg";
+
+export const ImageEditor = () => {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [fabricCanvas, setFabricCanvas] = useState<FabricCanvas | null>(null);
+  const [activeObject, setActiveObject] = useState<any>(null);
+  const [textContent, setTextContent] = useState("Sample Text");
+  const [fontSize, setFontSize] = useState([24]);
+  const [backgroundImage, setBackgroundImage] = useState<string | null>(null);
+
+  // Initialize canvas
+  useEffect(() => {
+    if (!canvasRef.current) return;
+
+    const canvas = new FabricCanvas(canvasRef.current, {
+      width: 800,
+      height: 600,
+      backgroundColor: "#ffffff",
+    });
+
+    // Set default background
+    FabricImage.fromURL(defaultBg).then((img) => {
+      img.set({
+        selectable: false,
+        evented: false,
+        scaleX: 1,
+        scaleY: 1,
+      });
+      canvas.backgroundImage = img;
+      canvas.renderAll();
+      setBackgroundImage(defaultBg);
+    });
+
+    // Handle object selection
+    canvas.on('selection:created', (e) => {
+      setActiveObject(e.selected[0]);
+    });
+
+    canvas.on('selection:updated', (e) => {
+      setActiveObject(e.selected[0]);
+    });
+
+    canvas.on('selection:cleared', () => {
+      setActiveObject(null);
+    });
+
+    setFabricCanvas(canvas);
+    toast({
+      title: "Canvas Ready!",
+      description: "Upload an image or add text to get started",
+    });
+
+    return () => {
+      canvas.dispose();
+    };
+  }, []);
+
+  // Handle file upload
+  const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file || !fabricCanvas) return;
+
+    if (!file.type.startsWith('image/')) {
+      toast({
+        title: "Invalid file type",
+        description: "Please upload an image file",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const imageUrl = e.target?.result as string;
+      
+      FabricImage.fromURL(imageUrl).then((img) => {
+        // Scale image to fit canvas while maintaining aspect ratio
+        const canvasWidth = fabricCanvas.getWidth();
+        const canvasHeight = fabricCanvas.getHeight();
+        const scale = Math.min(canvasWidth / img.width!, canvasHeight / img.height!) * 0.7;
+        
+        img.set({
+          left: canvasWidth / 2,
+          top: canvasHeight / 2,
+          originX: 'center',
+          originY: 'center',
+          scaleX: scale,
+          scaleY: scale,
+        });
+
+        fabricCanvas.add(img);
+        fabricCanvas.setActiveObject(img);
+        fabricCanvas.renderAll();
+        
+        toast({
+          title: "Image uploaded!",
+          description: "Your image has been added to the canvas",
+        });
+      });
+    };
+    reader.readAsDataURL(file);
+  };
+
+  // Add text to canvas
+  const addText = () => {
+    if (!fabricCanvas) return;
+
+    const text = new Textbox(textContent, {
+      left: fabricCanvas.getWidth() / 2,
+      top: fabricCanvas.getHeight() / 2,
+      originX: 'center',
+      originY: 'center',
+      fontSize: fontSize[0],
+      fill: '#ffffff',
+      fontFamily: 'Arial',
+      textAlign: 'center',
+      // Remove shadow for now to avoid type issues
+    });
+
+    fabricCanvas.add(text);
+    fabricCanvas.setActiveObject(text);
+    fabricCanvas.renderAll();
+    
+    toast({
+      title: "Text added!",
+      description: "You can now edit and position your text",
+    });
+  };
+
+  // Update active text properties
+  useEffect(() => {
+    if (activeObject && activeObject.type === 'textbox') {
+      activeObject.set({
+        text: textContent,
+        fontSize: fontSize[0],
+      });
+      fabricCanvas?.renderAll();
+    }
+  }, [textContent, fontSize, activeObject, fabricCanvas]);
+
+  // Delete active object
+  const deleteActiveObject = () => {
+    if (!fabricCanvas || !activeObject) return;
+    
+    fabricCanvas.remove(activeObject);
+    fabricCanvas.renderAll();
+    setActiveObject(null);
+    
+    toast({
+      title: "Object deleted",
+      description: "The selected object has been removed",
+    });
+  };
+
+  // Reset canvas
+  const resetCanvas = () => {
+    if (!fabricCanvas) return;
+    
+    fabricCanvas.clear();
+    if (backgroundImage) {
+      FabricImage.fromURL(backgroundImage).then((img) => {
+        img.set({
+          selectable: false,
+          evented: false,
+          scaleX: 1,
+          scaleY: 1,
+        });
+        fabricCanvas.backgroundImage = img;
+        fabricCanvas.renderAll();
+      });
+    }
+    
+    toast({
+      title: "Canvas reset",
+      description: "All objects have been cleared",
+    });
+  };
+
+  // Download image
+  const downloadImage = () => {
+    if (!fabricCanvas) return;
+
+    const dataURL = fabricCanvas.toDataURL({
+      format: 'png',
+      quality: 1,
+      multiplier: 2,
+    });
+
+    const link = document.createElement('a');
+    link.download = 'edited-image.png';
+    link.href = dataURL;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+
+    toast({
+      title: "Image downloaded!",
+      description: "Your edited image has been saved",
+    });
+  };
+
+  return (
+    <div className="min-h-screen bg-background flex">
+      {/* Canvas Area */}
+      <div className="flex-1 p-6 gradient-canvas">
+        <div className="h-full flex flex-col">
+          {/* Toolbar */}
+          <Card className="mb-6 p-4 bg-editor-toolbar border-border">
+            <div className="flex items-center gap-4">
+              <Button
+                onClick={() => fileInputRef.current?.click()}
+                variant="default"
+                className="gradient-primary shadow-elegant"
+              >
+                <Upload className="w-4 h-4 mr-2" />
+                Upload Image
+              </Button>
+              
+              <Button
+                onClick={addText}
+                variant="secondary"
+              >
+                <Type className="w-4 h-4 mr-2" />
+                Add Text
+              </Button>
+              
+              {activeObject && (
+                <Button
+                  onClick={deleteActiveObject}
+                  variant="destructive"
+                  size="sm"
+                >
+                  <Trash2 className="w-4 h-4 mr-2" />
+                  Delete
+                </Button>
+              )}
+              
+              <Button
+                onClick={resetCanvas}
+                variant="outline"
+                size="sm"
+              >
+                <RotateCcw className="w-4 h-4 mr-2" />
+                Reset
+              </Button>
+              
+              <div className="ml-auto">
+                <Button
+                  onClick={downloadImage}
+                  variant="default"
+                  className="gradient-accent shadow-glow"
+                >
+                  <Download className="w-4 h-4 mr-2" />
+                  Download
+                </Button>
+              </div>
+            </div>
+          </Card>
+
+          {/* Canvas Container */}
+          <div className="flex-1 flex items-center justify-center">
+            <div className="shadow-soft rounded-lg overflow-hidden border border-border">
+              <canvas ref={canvasRef} className="block" />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Editor Panel */}
+      <div className="w-80 bg-editor-panel border-l border-border p-6">
+        <h2 className="text-xl font-semibold mb-6 text-foreground">Editor Panel</h2>
+        
+        {/* Text Controls */}
+        <Card className="p-4 mb-6 bg-card">
+          <h3 className="font-medium mb-4 text-card-foreground">Text Settings</h3>
+          
+          <div className="space-y-4">
+            <div>
+              <Label htmlFor="text-content" className="text-sm font-medium">
+                Text Content
+              </Label>
+              <Input
+                id="text-content"
+                value={textContent}
+                onChange={(e) => setTextContent(e.target.value)}
+                placeholder="Enter your text"
+                className="mt-1"
+              />
+            </div>
+            
+            <div>
+              <Label className="text-sm font-medium">
+                Font Size: {fontSize[0]}px
+              </Label>
+              <Slider
+                value={fontSize}
+                onValueChange={setFontSize}
+                max={100}
+                min={12}
+                step={1}
+                className="mt-2"
+              />
+            </div>
+          </div>
+        </Card>
+
+        {/* Object Info */}
+        {activeObject && (
+          <Card className="p-4 mb-6 bg-card">
+            <h3 className="font-medium mb-2 text-card-foreground">Selected Object</h3>
+            <p className="text-sm text-muted-foreground">
+              Type: {activeObject.type}
+            </p>
+            <p className="text-sm text-muted-foreground">
+              Position: ({Math.round(activeObject.left)}, {Math.round(activeObject.top)})
+            </p>
+          </Card>
+        )}
+
+        {/* Instructions */}
+        <Card className="p-4 bg-muted">
+          <h3 className="font-medium mb-2 text-muted-foreground">Instructions</h3>
+          <div className="text-sm text-muted-foreground space-y-1">
+            <p>• Upload an image to overlay on the background</p>
+            <p>• Add text and customize it</p>
+            <p>• Drag objects to reposition them</p>
+            <p>• Use corner handles to resize</p>
+            <p>• Double-click text to edit inline</p>
+          </div>
+        </Card>
+      </div>
+
+      {/* Hidden file input */}
+      <input
+        ref={fileInputRef}
+        type="file"
+        accept="image/*"
+        onChange={handleFileUpload}
+        className="hidden"
+      />
+    </div>
+  );
+};
