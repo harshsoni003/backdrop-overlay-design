@@ -380,27 +380,76 @@ export const ImageEditor = () => {
     });
   };
 
-  // Download image
-  const downloadImage = () => {
+  // Download image or video
+  const downloadImage = async () => {
     if (!fabricCanvas) return;
 
-    const dataURL = fabricCanvas.toDataURL({
-      format: 'png',
-      quality: 1,
-      multiplier: 2,
-    });
+    // Check if there's a video in the canvas
+    const hasVideo = fabricCanvas.getObjects().some(obj => (obj as any).isVideo);
 
-    const link = document.createElement('a');
-    link.download = 'edited-image.png';
-    link.href = dataURL;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+    if (hasVideo) {
+      // Download as video
+      const stream = (canvasRef.current as any).captureStream(30); // 30 FPS
+      const mediaRecorder = new MediaRecorder(stream, {
+        mimeType: 'video/webm; codecs=vp9'
+      });
+      
+      const chunks: Blob[] = [];
+      
+      mediaRecorder.ondataavailable = (event) => {
+        if (event.data.size > 0) {
+          chunks.push(event.data);
+        }
+      };
+      
+      mediaRecorder.onstop = () => {
+        const blob = new Blob(chunks, { type: 'video/webm' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.download = 'edited-video.webm';
+        link.href = url;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        URL.revokeObjectURL(url);
+        
+        toast({
+          title: "Video downloaded!",
+          description: "Your edited video has been saved",
+        });
+      };
+      
+      mediaRecorder.start();
+      
+      // Record for 5 seconds (adjust as needed)
+      setTimeout(() => {
+        mediaRecorder.stop();
+      }, 5000);
+      
+      toast({
+        title: "Recording video...",
+        description: "Please wait, recording for 5 seconds",
+      });
+    } else {
+      // Download as image
+      const dataURL = fabricCanvas.toDataURL({
+        format: 'png',
+        quality: 1,
+        multiplier: 2,
+      });
 
-    toast({
-      title: "Image downloaded!",
-      description: "Your edited image has been saved",
-    });
+      const link = document.createElement('a');
+      link.download = 'edited-image.png';
+      link.href = dataURL;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+
+      toast({
+        title: "Image downloaded!",
+        description: "Your edited image has been saved",
+      });
+    }
   };
 
   return (
