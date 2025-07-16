@@ -17,6 +17,12 @@ export interface BackgroundOption {
 
 const backgroundOptions: BackgroundOption[] = [
   {
+    id: "mountain-sunrise",
+    name: "Mountain Sunrise",
+    image: "/lovable-uploads/773f53f5-699d-4a3d-892b-7191cf2ee3c6.png",
+    category: "Nature"
+  },
+  {
     id: "abstract",
     name: "Abstract Gradient",
     image: defaultBg,
