@@ -28,20 +28,32 @@ export const ImageEditor = () => {
     const canvas = new FabricCanvas(canvasRef.current, {
       width: 800,
       height: 600,
-      backgroundColor: "transparent",
+      backgroundColor: "#ffffff",
     });
 
-    // Apply dotted pattern background using CSS
-    if (canvasRef.current) {
-      canvasRef.current.style.background = `
-        radial-gradient(circle at 1px 1px, #6b7280 1px, transparent 0)
-      `;
-      canvasRef.current.style.backgroundSize = '20px 20px';
-      canvasRef.current.style.backgroundColor = '#ffffff';
-    }
-
-    // No default background image - keep dotted pattern only
-    setSelectedBackgroundId("dotted");
+    // Set default background with proper scaling
+    FabricImage.fromURL(defaultBg).then((img) => {
+      // Scale image to fit canvas while maintaining aspect ratio
+      const canvasWidth = canvas.getWidth();
+      const canvasHeight = canvas.getHeight();
+      const scaleX = canvasWidth / img.width!;
+      const scaleY = canvasHeight / img.height!;
+      const scale = Math.max(scaleX, scaleY); // Use max to cover entire canvas
+      
+      img.set({
+        selectable: false,
+        evented: false,
+        scaleX: scale,
+        scaleY: scale,
+        left: canvasWidth / 2,
+        top: canvasHeight / 2,
+        originX: 'center',
+        originY: 'center',
+      });
+      canvas.backgroundImage = img;
+      canvas.renderAll();
+      setSelectedBackgroundId("abstract");
+    });
 
     // Handle object selection
     canvas.on('selection:created', (e) => {
@@ -126,7 +138,7 @@ export const ImageEditor = () => {
       originX: 'center',
       originY: 'center',
       fontSize: fontSize[0],
-      fill: '#1f2937',
+      fill: '#ffffff',
       fontFamily: 'Arial',
       textAlign: 'center',
       // Remove shadow for now to avoid type issues
@@ -248,9 +260,27 @@ export const ImageEditor = () => {
     if (!fabricCanvas) return;
     
     fabricCanvas.clear();
-    // Keep dotted pattern background - no background image
-    fabricCanvas.backgroundImage = null;
-    fabricCanvas.renderAll();
+    // Restore the currently selected background with proper scaling
+    FabricImage.fromURL(defaultBg).then((img) => {
+      const canvasWidth = fabricCanvas.getWidth();
+      const canvasHeight = fabricCanvas.getHeight();
+      const scaleX = canvasWidth / img.width!;
+      const scaleY = canvasHeight / img.height!;
+      const scale = Math.max(scaleX, scaleY);
+      
+      img.set({
+        selectable: false,
+        evented: false,
+        scaleX: scale,
+        scaleY: scale,
+        left: canvasWidth / 2,
+        top: canvasHeight / 2,
+        originX: 'center',
+        originY: 'center',
+      });
+      fabricCanvas.backgroundImage = img;
+      fabricCanvas.renderAll();
+    });
     
     toast({
       title: "Canvas reset",
