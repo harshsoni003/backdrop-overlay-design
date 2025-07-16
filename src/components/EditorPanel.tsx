@@ -20,7 +20,7 @@ export const EditorPanel = ({
   setBorderRadius,
 }: EditorPanelProps) => {
   return (
-    <div className="h-64 bg-editor-panel border-t border-border">
+    <div className="h-64 bg-editor-panel border-b border-border">
       {/* Panel Header */}
       <div className="px-6 py-4 border-b border-border bg-gradient-to-r from-background/50 to-background/30">
         <div className="flex items-center gap-3">
@@ -34,24 +34,26 @@ export const EditorPanel = ({
         </div>
       </div>
 
-      {/* Panel Content */}
-      <div className="p-6 h-full overflow-y-auto">
-        <div className="flex gap-8 h-full">
+      {/* Panel Content - Horizontal Scrolling */}
+      <div className="p-6 h-full overflow-x-auto overflow-y-hidden">
+        <div className="flex gap-8 h-full min-w-max">
           {/* Background Selection */}
-          <div className="flex-1 min-w-0">
+          <div className="flex-shrink-0 min-w-80">
             <div className="flex items-center gap-2 pb-4">
               <div className="w-1 h-6 bg-gradient-to-b from-primary to-primary/50 rounded-full"></div>
               <h3 className="font-medium text-foreground">Background</h3>
             </div>
-            <BackgroundSelector
-              selectedBackground={selectedBackgroundId}
-              onBackgroundSelect={onBackgroundSelect}
-            />
+            <div className="pr-4">
+              <BackgroundSelector
+                selectedBackground={selectedBackgroundId}
+                onBackgroundSelect={onBackgroundSelect}
+              />
+            </div>
           </div>
 
           {/* Image Controls */}
           {activeObject && activeObject.type === 'image' && (
-            <div className="flex-1 min-w-0">
+            <div className="flex-shrink-0 min-w-80">
               <div className="flex items-center gap-2 pb-4">
                 <div className="w-1 h-6 bg-gradient-to-b from-accent to-accent/50 rounded-full"></div>
                 <h3 className="font-medium text-foreground">Image Settings</h3>
@@ -92,7 +94,7 @@ export const EditorPanel = ({
 
           {/* Empty State */}
           {!activeObject && (
-            <div className="flex-1 min-w-0 flex items-center justify-center">
+            <div className="flex-shrink-0 min-w-80 flex items-center justify-center">
               <div className="text-center">
                 <div className="w-12 h-12 bg-muted/30 rounded-full flex items-center justify-center mx-auto mb-3">
                   <ImageIcon className="w-6 h-6 text-muted-foreground/50" />
