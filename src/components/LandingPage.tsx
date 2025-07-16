@@ -6,12 +6,18 @@ const LandingPage = () => {
   return (
     <div className="min-h-screen bg-white">
       {/* Navigation */}
-      <nav className="flex items-center justify-between px-6 py-4 border-b">
+      <nav className="flex items-center justify-between px-8 py-6 border-b bg-white/80 backdrop-blur-sm">
         <div className="flex items-center">
-          <h1 className="text-xl font-bold text-gray-900">Upload → Frame → Post</h1>
+          <h1 className="text-2xl font-bold text-gray-900 tracking-tight">
+            <span className="text-black">Upload</span>
+            <span className="text-gray-400 mx-2">→</span>
+            <span className="text-black">Frame</span>
+            <span className="text-gray-400 mx-2">→</span>
+            <span className="text-black">Post</span>
+          </h1>
         </div>
         <div className="flex items-center gap-4">
-          <Button variant="default" className="bg-black text-white hover:bg-gray-800">
+          <Button variant="default" className="bg-black text-white hover:bg-gray-800 rounded-full px-6 py-2 font-medium transition-all duration-200">
             Sign In
           </Button>
         </div>
