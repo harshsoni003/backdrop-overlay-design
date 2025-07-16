@@ -25,7 +25,7 @@ const LandingPage = () => {
       <div className="max-w-6xl mx-auto px-6 py-20">
         <div className="text-center mb-16">
           <h2 className="text-5xl font-bold text-gray-900 mb-6">
-            Add Mac Background and <span className="text-red-600 underline decoration-2">Make your post viral</span>
+            Add Mac Background and <span className="text-red-600 underline decoration-2">in your post.</span>
           </h2>
           <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
             Make your post look professional and reach millions of views using a Mac-style background.
