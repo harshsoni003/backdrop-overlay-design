@@ -44,27 +44,34 @@ const LandingPage = () => {
         </div>
 
         {/* Image Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          <div className="rounded-lg overflow-hidden shadow-lg">
-            <img 
-              src="/lovable-uploads/bf20a559-ddbd-4d6f-bca9-8f238979fcb1.png" 
-              alt="MVP launch example" 
-              className="w-full h-64 object-cover"
-            />
+        <div className="space-y-8">
+          {/* First row with 2 images */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div className="rounded-lg overflow-hidden shadow-lg">
+              <img 
+                src="/lovable-uploads/bf20a559-ddbd-4d6f-bca9-8f238979fcb1.png" 
+                alt="MVP launch example" 
+                className="w-full h-64 object-cover"
+              />
+            </div>
+            <div className="rounded-lg overflow-hidden shadow-lg">
+              <img 
+                src="/lovable-uploads/3fe44c63-cd4d-479a-bb87-6667ea8a0a8e.png" 
+                alt="Profile example" 
+                className="w-full h-64 object-cover"
+              />
+            </div>
           </div>
-          <div className="rounded-lg overflow-hidden shadow-lg">
-            <img 
-              src="/lovable-uploads/3fe44c63-cd4d-479a-bb87-6667ea8a0a8e.png" 
-              alt="Profile example" 
-              className="w-full h-64 object-cover"
-            />
-          </div>
-          <div className="rounded-lg overflow-hidden shadow-lg">
-            <img 
-              src="/lovable-uploads/c8c53bed-e823-4e3c-88c5-fa6a2802b755.png" 
-              alt="SaaS launch example" 
-              className="w-full h-64 object-cover"
-            />
+          
+          {/* Second row with 1 image */}
+          <div className="flex justify-center">
+            <div className="rounded-lg overflow-hidden shadow-lg w-full md:w-1/2">
+              <img 
+                src="/lovable-uploads/c8c53bed-e823-4e3c-88c5-fa6a2802b755.png" 
+                alt="SaaS launch example" 
+                className="w-full h-64 object-cover"
+              />
+            </div>
           </div>
         </div>
       </div>
