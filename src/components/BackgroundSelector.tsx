@@ -105,7 +105,7 @@ export const BackgroundSelector = ({ selectedBackground, onBackgroundSelect }: B
       </div>
       
       {/* Category Filter */}
-      <div className="flex gap-1 mb-4 overflow-x-auto pb-1">
+      <div className="flex gap-1 mb-4 overflow-hidden pb-1">
         {categories.map((category) => (
           <Button
             key={category}
