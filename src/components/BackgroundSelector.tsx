@@ -23,6 +23,12 @@ const backgroundOptions: BackgroundOption[] = [
     category: "Abstract"
   },
   {
+    id: "starry-night",
+    name: "Starry Night",
+    image: "/lovable-uploads/acda846d-1310-4de5-ab2a-ff890515b8f6.png",
+    category: "Night"
+  },
+  {
     id: "ocean-sunset",
     name: "Ocean Sunset",
     image: "/lovable-uploads/4ea1b169-b31c-4d23-900f-31b093972a0b.png",
@@ -120,9 +126,9 @@ export const BackgroundSelector = ({ selectedBackground, onBackgroundSelect }: B
         ))}
       </div>
 
-      {/* Background Grid */}
-      <ScrollArea className="h-64">
-        <div className="grid grid-cols-2 gap-2">
+      {/* Background Grid - Larger size to show original images */}
+      <ScrollArea className="h-96">
+        <div className="grid grid-cols-1 gap-4">
           {filteredBackgrounds.map((background) => (
             <div
               key={background.id}
@@ -149,10 +155,13 @@ export const BackgroundSelector = ({ selectedBackground, onBackgroundSelect }: B
                 </div>
               )}
               
-              {/* Background name */}
-              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-2">
-                <p className="text-white text-xs font-medium truncate">
+              {/* Background name and info */}
+              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-3">
+                <p className="text-white text-sm font-medium">
                   {background.name}
+                </p>
+                <p className="text-white/70 text-xs">
+                  {background.category} • Original Quality
                 </p>
               </div>
             </div>
