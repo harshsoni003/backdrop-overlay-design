@@ -266,49 +266,51 @@ export const ImageEditor = () => {
       <div className="flex-1 p-6 gradient-canvas">
         <div className="h-full flex flex-col">
           {/* Toolbar */}
-          <Card className="mb-4 p-3 bg-editor-toolbar border-border">
-            <div className="flex items-center gap-3">
-              <Button
-                onClick={() => fileInputRef.current?.click()}
-                variant="default"
-                className="gradient-primary shadow-elegant"
-              >
-                <Upload className="w-4 h-4 mr-2" />
-                Upload Image
-              </Button>
-              
-              {activeObject && (
+          <div className="mb-4 flex justify-center">
+            <Card className="p-3 bg-editor-toolbar border-border w-fit">
+              <div className="flex items-center gap-2">
                 <Button
-                  onClick={deleteActiveObject}
-                  variant="destructive"
+                  onClick={() => fileInputRef.current?.click()}
+                  variant="default"
+                  size="sm"
+                  className="gradient-primary shadow-elegant"
+                >
+                  <Upload className="w-4 h-4 mr-2" />
+                  Upload Image
+                </Button>
+                
+                {activeObject && (
+                  <Button
+                    onClick={deleteActiveObject}
+                    variant="destructive"
+                    size="sm"
+                  >
+                    <Trash2 className="w-4 h-4 mr-2" />
+                    Delete
+                  </Button>
+                )}
+                
+                <Button
+                  onClick={resetCanvas}
+                  variant="outline"
                   size="sm"
                 >
-                  <Trash2 className="w-4 h-4 mr-2" />
-                  Delete
+                  <RotateCcw className="w-4 h-4 mr-2" />
+                  Reset
                 </Button>
-              )}
-              
-              <Button
-                onClick={resetCanvas}
-                variant="outline"
-                size="sm"
-              >
-                <RotateCcw className="w-4 h-4 mr-2" />
-                Reset
-              </Button>
-              
-              <div className="ml-auto">
+                
                 <Button
                   onClick={downloadImage}
                   variant="default"
+                  size="sm"
                   className="gradient-accent shadow-glow"
                 >
                   <Download className="w-4 h-4 mr-2" />
                   Download
                 </Button>
               </div>
-            </div>
-          </Card>
+            </Card>
+          </div>
 
           {/* Canvas Container */}
           <div className="flex-1 flex items-center justify-center">
