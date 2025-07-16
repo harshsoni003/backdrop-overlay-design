@@ -318,8 +318,7 @@ export const ImageEditor = () => {
         <div className="h-full flex flex-col">
           {/* Toolbar */}
           <Card className="mb-6 p-4 bg-editor-toolbar border-border">
-            <div className="flex items-center justify-center">
-              <div className="flex items-center gap-4 max-w-4xl">
+            <div className="flex items-center gap-4">
               <Button
                 onClick={() => fileInputRef.current?.click()}
                 variant="default"
@@ -366,7 +365,6 @@ export const ImageEditor = () => {
                   <Download className="w-4 h-4 mr-2" />
                   Download
                 </Button>
-              </div>
               </div>
             </div>
           </Card>
