@@ -371,7 +371,7 @@ export const ImageEditor = () => {
 
           {/* Canvas Container */}
           <div className="flex-1 flex items-center justify-center">
-            <div className="shadow-soft rounded-lg overflow-hidden border border-border">
+            <div className="shadow-soft rounded-lg overflow-hidden border border-border transform scale-75 origin-center">
               <canvas ref={canvasRef} className="block" />
             </div>
           </div>
