@@ -29,7 +29,18 @@ const LandingPage = () => {
         </div>
 
         {/* Image Grid */}
-        <div className="space-y-8">
+        <div className="space-y-12 max-w-5xl mx-auto">
+          {/* New row with combined image */}
+          <div className="flex justify-center">
+            <div className="rounded-lg overflow-hidden shadow-lg w-full">
+              <img 
+                src="/lovable-uploads/39c7d306-afd8-4ca4-a940-83bf730662fc.png" 
+                alt="Twitter profile examples with Mac backgrounds" 
+                className="w-full"
+              />
+            </div>
+          </div>
+          
           {/* First row with 2 images */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div className="rounded-lg overflow-hidden shadow-lg">
