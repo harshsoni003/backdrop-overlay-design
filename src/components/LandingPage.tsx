@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import Navbar from "./Navbar";
 
 const LandingPage = () => {
@@ -18,35 +17,12 @@ const LandingPage = () => {
             Make your post look professional and reach millions of views using a Mac-style background.
           </p>
           
-          <div className="flex items-center justify-center gap-4 mb-8">
+          <div className="flex justify-center mb-8">
             <Link to="/editor">
               <Button size="lg" className="bg-black text-white hover:bg-gray-800 px-8">
                 Try Now
               </Button>
             </Link>
-            <Dialog>
-              <DialogTrigger asChild>
-                <Button variant="outline" size="lg" className="px-8">
-                  Demo
-                </Button>
-              </DialogTrigger>
-              <DialogContent className="max-w-4xl max-h-[80vh] overflow-auto">
-                <div className="flex flex-col items-center">
-                  <h3 className="text-xl font-semibold mb-4">See it in Action</h3>
-                  <div className="w-full flex justify-center">
-                    <iframe
-                      src="https://player.cloudinary.com/embed/?cloud_name=dhea2aqxb&public_id=maciframe_fxpusi&profile=cld-default"
-                      width="800"
-                      height="450"
-                      allow="autoplay; fullscreen; encrypted-media; picture-in-picture"
-                      allowFullScreen
-                      frameBorder="0"
-                      className="rounded-lg"
-                    ></iframe>
-                  </div>
-                </div>
-              </DialogContent>
-            </Dialog>
           </div>
 
           {/* Video Container */}
