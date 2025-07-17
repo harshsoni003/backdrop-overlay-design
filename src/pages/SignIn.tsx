@@ -96,10 +96,10 @@ const SignIn = () => {
           
           <div className="relative">
             <div className="absolute inset-0 flex items-center">
-              <span className="w-full border-t" />
+              <span className="w-full border-t bg-white" />
             </div>
             <div className="relative flex justify-center text-xs uppercase">
-              <span className="bg-white px-2 text-neutral-600">
+              <span className="bg-white px-2 text-neutral-600 z-10">
                 Or continue with
               </span>
             </div>
