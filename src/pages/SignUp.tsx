@@ -113,7 +113,7 @@ const SignUp = () => {
         <CardContent className="space-y-4">
           <Button
             variant="outline"
-            className="w-full border-neutral-300 text-black hover:bg-neutral-100"
+            className="w-full bg-white border-neutral-300 text-black hover:bg-neutral-50"
             onClick={handleGoogleSignUp}
             type="button"
           >
