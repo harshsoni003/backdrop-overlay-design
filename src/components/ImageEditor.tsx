@@ -270,12 +270,12 @@ export const ImageEditor = () => {
       />
 
       {/* Canvas Area */}
-      <div className="flex-1 py-6 gradient-canvas overflow-hidden ml-[380px] mr-4">
+      <div className="flex-1 py-6 gradient-canvas overflow-hidden ml-[400px]">
         <div className="h-full flex flex-col">
           {/* Toolbar */}
-          <div className="mb-4 flex justify-center">
-            <Card className="p-4 bg-white border-border w-fit mx-auto">
-              <div className="flex items-center gap-4">
+          <div className="mb-4 flex justify-start ml-0">
+            <Card className="p-3 bg-white border-border w-fit">
+              <div className="flex items-center gap-2">
                 <Button
                   onClick={() => fileInputRef.current?.click()}
                   variant="default"
