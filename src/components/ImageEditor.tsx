@@ -259,164 +259,89 @@ export const ImageEditor = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background">
-      {/* Mobile Layout - Stack vertically */}
-      <div className="lg:hidden flex flex-col min-h-screen">
-        {/* Mobile Toolbar */}
-        <div className="p-4 bg-white border-b border-border">
-          <div className="flex flex-wrap items-center gap-2">
-            <Button
-              onClick={() => fileInputRef.current?.click()}
-              variant="default"
-              size="sm"
-              className="bg-purple-600 hover:bg-purple-700 text-white"
-            >
-              <Upload className="w-4 h-4 mr-1" />
-              Upload
-            </Button>
-            
-            {activeObject && (
-              <Button
-                onClick={deleteActiveObject}
-                variant="destructive"
-                size="sm"
-              >
-                <Trash2 className="w-4 h-4 mr-1" />
-                Delete
-              </Button>
-            )}
-            
-            <Button
-              onClick={resetCanvas}
-              variant="outline"
-              size="sm"
-            >
-              <RotateCcw className="w-4 h-4 mr-1" />
-              Reset
-            </Button>
-            
-            <Button
-              onClick={downloadImage}
-              variant="default"
-              size="sm"
-              className="bg-cyan-500 hover:bg-cyan-600 text-white"
-            >
-              <Download className="w-4 h-4 mr-1" />
-              Download
-            </Button>
-          </div>
-        </div>
-
-        {/* Mobile Canvas */}
-        <div className="flex-1 flex items-center justify-center p-4 overflow-hidden">
-          <div 
-            className="shadow-soft rounded-2xl overflow-hidden border border-border max-w-full max-h-full"
-            style={{ 
-              transform: 'scale(0.4)',
-              borderRadius: '16px'
-            }}
-          >
-            <canvas ref={canvasRef} className="block rounded-2xl" style={{ borderRadius: '16px' }} />
-          </div>
-        </div>
-
-        {/* Mobile Editor Panel */}
-        <div className="max-h-[40vh] overflow-y-auto bg-white border-t border-border">
-          <EditorPanel
-            selectedBackgroundId={selectedBackgroundId}
-            onBackgroundSelect={handleBackgroundSelect}
-            activeObject={activeObject}
-            borderRadius={borderRadius}
-            setBorderRadius={setBorderRadius}
-          />
-        </div>
-      </div>
-
-      {/* Desktop Layout - Side by side */}
-      <div className="hidden lg:flex min-h-screen">
-        {/* Desktop Editor Panel */}
-        <EditorPanel
-          selectedBackgroundId={selectedBackgroundId}
-          onBackgroundSelect={handleBackgroundSelect}
-          activeObject={activeObject}
-          borderRadius={borderRadius}
-          setBorderRadius={setBorderRadius}
-        />
-
-        {/* Desktop Canvas Area */}
-        <div className="flex-1 pl-1 -mr-2 py-6 gradient-canvas ml-[360px]">
-          <div className="h-full flex flex-col">
-            {/* Desktop Toolbar */}
-            <div className="mb-4 flex justify-start ml-0">
-              <Card className="p-3 bg-white border-border w-fit">
-                <div className="flex items-center gap-2">
-                  <Button
-                    onClick={() => fileInputRef.current?.click()}
-                    variant="default"
-                    size="sm"
-                    className="bg-purple-600 hover:bg-purple-700 text-white"
-                  >
-                    <Upload className="w-4 h-4 mr-2" />
-                    Upload Image
-                  </Button>
-                  
-                  {activeObject && (
-                    <Button
-                      onClick={deleteActiveObject}
-                      variant="destructive"
-                      size="sm"
-                    >
-                      <Trash2 className="w-4 h-4 mr-2" />
-                      Delete
-                    </Button>
-                  )}
-                  
-                  <Button
-                    onClick={resetCanvas}
-                    variant="outline"
-                    size="sm"
-                  >
-                    <RotateCcw className="w-4 h-4 mr-2" />
-                    Reset
-                  </Button>
-                  
-                  <Button
-                    onClick={downloadImage}
-                    variant="default"
-                    size="sm"
-                    className="bg-cyan-500 hover:bg-cyan-600 text-white"
-                  >
-                    <Download className="w-4 h-4 mr-2" />
-                    Download
-                  </Button>
-                </div>
-              </Card>
-            </div>
-
-            {/* Desktop Canvas Container */}
-            <div className="flex-1 flex items-center justify-start ml-0">
-              <div 
-                className="shadow-soft rounded-2xl overflow-hidden border border-border transform origin-center"
-                style={{ 
-                  transform: 'scale(0.65)',
-                  borderRadius: '16px'
-                }}
-              >
-                <canvas ref={canvasRef} className="block rounded-2xl" style={{ borderRadius: '16px' }} />
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Hidden file input */}
-      <input
-        ref={fileInputRef}
-        type="file"
-        accept="image/*"
-        onChange={handleFileUpload}
-        className="hidden"
+    <div className="min-h-screen bg-background flex">
+      {/* Editor Panel */}
+      <EditorPanel
+        selectedBackgroundId={selectedBackgroundId}
+        onBackgroundSelect={handleBackgroundSelect}
+        activeObject={activeObject}
+        borderRadius={borderRadius}
+        setBorderRadius={setBorderRadius}
       />
-    </div>
-  );
+
+      {/* Canvas Area */}
+      <div className="flex-1 pl-1 -mr-2 py-6 gradient-canvas ml-[360px]">
+        <div className="h-full flex flex-col">
+          {/* Toolbar */}
+          <div className="mb-4 flex justify-start ml-0">
+            <Card className="p-3 bg-white border-border w-fit">
+              <div className="flex items-center gap-2">
+                <Button
+                  onClick={() => fileInputRef.current?.click()}
+                  variant="default"
+                  size="sm"
+                  className="bg-purple-600 hover:bg-purple-700 text-white"
+                >
+                  <Upload className="w-4 h-4 mr-2" />
+                  Upload Image
+                </Button>
+                
+                {activeObject && (
+                  <Button
+                    onClick={deleteActiveObject}
+                    variant="destructive"
+                    size="sm"
+                  >
+                    <Trash2 className="w-4 h-4 mr-2" />
+                    Delete
+                  </Button>
+                )}
+                
+                <Button
+                  onClick={resetCanvas}
+                  variant="outline"
+                  size="sm"
+                >
+                  <RotateCcw className="w-4 h-4 mr-2" />
+                  Reset
+                </Button>
+                
+                <Button
+                  onClick={downloadImage}
+                  variant="default"
+                  size="sm"
+                  className="bg-cyan-500 hover:bg-cyan-600 text-white"
+                >
+                  <Download className="w-4 h-4 mr-2" />
+                  Download
+                </Button>
+              </div>
+            </Card>
+          </div>
+
+          {/* Canvas Container */}
+          <div className="flex-1 flex items-center justify-start ml-0">
+            <div 
+              className="shadow-soft rounded-2xl overflow-hidden border border-border transform origin-center"
+              style={{ 
+                transform: 'scale(0.65)',
+                borderRadius: '16px'
+              }}
+            >
+              <canvas ref={canvasRef} className="block rounded-2xl" style={{ borderRadius: '16px' }} />
+            </div>
+          </div>
+        </div>
+      </div>
+
+       {/* Hidden file input */}
+       <input
+         ref={fileInputRef}
+         type="file"
+         accept="image/*"
+         onChange={handleFileUpload}
+         className="hidden"
+       />
+     </div>
+   );
  };
