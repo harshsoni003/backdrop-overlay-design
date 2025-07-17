@@ -36,14 +36,14 @@ const LandingPage = () => {
               <img 
                 src="/lovable-uploads/bf20a559-ddbd-4d6f-bca9-8f238979fcb1.png" 
                 alt="MVP launch example" 
-                className="w-full h-80 object-cover"
+                className="w-full"
               />
             </div>
             <div className="rounded-lg overflow-hidden shadow-lg">
               <img 
                 src="/lovable-uploads/3fe44c63-cd4d-479a-bb87-6667ea8a0a8e.png" 
                 alt="Profile example" 
-                className="w-full h-80 object-cover"
+                className="w-full"
               />
             </div>
           </div>
@@ -54,21 +54,21 @@ const LandingPage = () => {
               <img 
                 src="/lovable-uploads/d582d592-faf8-48a6-82d7-92d567925931.png" 
                 alt="Social media profile with Mac background" 
-                className="w-full h-64 object-cover"
+                className="w-full"
               />
             </div>
             <div className="rounded-lg overflow-hidden shadow-lg">
               <img 
                 src="/lovable-uploads/2c8fac2e-b6a2-4364-8a58-6f3c2ce34700.png" 
                 alt="Professional profile with gradient background" 
-                className="w-full h-64 object-cover"
+                className="w-full"
               />
             </div>
             <div className="rounded-lg overflow-hidden shadow-lg">
               <img 
                 src="/lovable-uploads/e04386aa-8cf1-416d-8531-6b615fcfaf6e.png" 
                 alt="Profile with stats visualization" 
-                className="w-full h-64 object-cover"
+                className="w-full"
               />
             </div>
           </div>
@@ -79,14 +79,14 @@ const LandingPage = () => {
               <img 
                 src="/lovable-uploads/bb1be333-f32b-48d9-b65e-f5bbccc4d96f.png" 
                 alt="Professional LinkedIn profile" 
-                className="w-full h-72 object-cover"
+                className="w-full"
               />
             </div>
             <div className="rounded-lg overflow-hidden shadow-lg">
               <img 
                 src="/lovable-uploads/9e0e3a91-4dd0-432d-86b7-800036ed1674.png" 
                 alt="Tech profile with hexagon pattern" 
-                className="w-full h-72 object-cover"
+                className="w-full"
               />
             </div>
           </div>
@@ -97,7 +97,7 @@ const LandingPage = () => {
               <img 
                 src="/lovable-uploads/d9b200c0-d91f-41d8-86c4-4ab204508f4c.png" 
                 alt="SaaS launch guide with starry background" 
-                className="w-full h-80 object-cover"
+                className="w-full"
               />
             </div>
           </div>
