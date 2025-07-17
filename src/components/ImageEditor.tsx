@@ -1,11 +1,12 @@
 import { useEffect, useRef, useState } from "react";
 import { Canvas as FabricCanvas, FabricImage, Rect, FabricObject, Path } from "fabric";
-import { Upload, Download, Move, RotateCcw, Trash2 } from "lucide-react";
+import { Upload, Download, Move, RotateCcw, Trash2, ZoomIn, ZoomOut, Maximize2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { toast } from "@/hooks/use-toast";
 import { BackgroundSelector, BackgroundOption } from "@/components/BackgroundSelector";
 import { EditorPanel } from "@/components/EditorPanel";
+import { cn } from "@/lib/utils";
 import defaultBg from "@/assets/default-bg.jpg";
 
 // Image Editor Component - Refactored to remove video functionality
@@ -16,14 +17,39 @@ export const ImageEditor = () => {
   const [activeObject, setActiveObject] = useState<any>(null);
   const [selectedBackgroundId, setSelectedBackgroundId] = useState("mountain-hiker");
   const [borderRadius, setBorderRadius] = useState([0]);
+  const [canvasAspectRatio, setCanvasAspectRatio] = useState("16:9");
+  const [zoomLevel, setZoomLevel] = useState(0.55);
+
+  // Canvas dimension presets
+  const canvasSizes = {
+    "16:9": { width: 1280, height: 720 },
+    "1:1": { width: 720, height: 720 },
+    "4:3": { width: 960, height: 720 },
+    "9:16": { width: 720, height: 1280 },
+    "21:9": { width: 1680, height: 720 },
+  };
+
+  // Zoom functions
+  const zoomIn = () => {
+    setZoomLevel(prev => Math.min(prev + 0.1, 2.0)); // Max zoom 200%
+  };
+
+  const zoomOut = () => {
+    setZoomLevel(prev => Math.max(prev - 0.1, 0.3)); // Min zoom 30%
+  };
+
+  const resetZoom = () => {
+    setZoomLevel(0.55); // Reset to default zoom
+  };
 
   // Initialize canvas
   useEffect(() => {
     if (!canvasRef.current) return;
 
+    const currentSize = canvasSizes[canvasAspectRatio as keyof typeof canvasSizes];
     const canvas = new FabricCanvas(canvasRef.current, {
-      width: 1280,
-      height: 720,
+      width: currentSize.width,
+      height: currentSize.height,
       backgroundColor: "#ffffff",
     });
 
@@ -73,6 +99,37 @@ export const ImageEditor = () => {
     return () => {
       canvas.dispose();
     };
+  }, [canvasAspectRatio]);
+
+  // Handle canvas aspect ratio change
+  const handleAspectRatioChange = (aspectRatio: string) => {
+    setCanvasAspectRatio(aspectRatio);
+  };
+
+  // Add keyboard shortcuts for zoom
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.ctrlKey || event.metaKey) {
+        switch (event.key) {
+          case '=':
+          case '+':
+            event.preventDefault();
+            zoomIn();
+            break;
+          case '-':
+            event.preventDefault();
+            zoomOut();
+            break;
+          case '0':
+            event.preventDefault();
+            resetZoom();
+            break;
+        }
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
   }, []);
 
   // Handle file upload (images only)
@@ -267,13 +324,28 @@ export const ImageEditor = () => {
         activeObject={activeObject}
         borderRadius={borderRadius}
         setBorderRadius={setBorderRadius}
+        canvasAspectRatio={canvasAspectRatio}
+        onAspectRatioChange={handleAspectRatioChange}
+        canvasSizes={canvasSizes}
       />
 
       {/* Canvas Area */}
-      <div className="flex-1 pl-1 -mr-2 py-6 gradient-canvas ml-[360px]">
-        <div className="h-full flex flex-col">
+      <div className="flex-1 py-6 ml-[360px] relative bg-white dark:bg-black overflow-x-auto overflow-y-hidden">
+        {/* Dot Background Pattern */}
+        <div
+          className={cn(
+            "absolute inset-0",
+            "[background-size:20px_20px]",
+            "[background-image:radial-gradient(#555555_1px,transparent_1px)]",
+            "dark:[background-image:radial-gradient(#888888_1px,transparent_1px)]",
+          )}
+        />
+        {/* Radial gradient for the container to give a faded look */}
+        <div className="pointer-events-none absolute inset-0 flex items-center justify-center bg-white [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)] dark:bg-black"></div>
+        
+        <div className="h-full flex flex-col relative z-10 min-w-max">
           {/* Toolbar */}
-          <div className="mb-4 flex justify-start ml-0">
+          <div className="mb-4 mt-8 flex justify-start ml-8 relative z-20">
             <Card className="p-3 bg-white border-border w-fit">
               <div className="flex items-center gap-2">
                 <Button
@@ -315,17 +387,61 @@ export const ImageEditor = () => {
                   <Download className="w-4 h-4 mr-2" />
                   Download
                 </Button>
+                
+                {/* Zoom Controls */}
+                <div className="flex items-center gap-1 ml-2 border-l pl-2">
+                  <Button
+                    onClick={zoomOut}
+                    variant="outline"
+                    size="sm"
+                    title="Zoom Out"
+                  >
+                    <ZoomOut className="w-4 h-4" />
+                  </Button>
+                  
+                  <span className="text-sm font-mono px-3 py-1 bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-100 rounded-md min-w-[3.5rem] text-center border border-gray-200 dark:border-gray-700">
+                    {Math.round(zoomLevel * 100)}%
+                  </span>
+                  
+                  <Button
+                    onClick={zoomIn}
+                    variant="outline"
+                    size="sm"
+                    title="Zoom In"
+                  >
+                    <ZoomIn className="w-4 h-4" />
+                  </Button>
+                  
+                  <Button
+                    onClick={resetZoom}
+                    variant="outline"
+                    size="sm"
+                    title="Reset Zoom"
+                  >
+                    <Maximize2 className="w-4 h-4" />
+                  </Button>
+                </div>
               </div>
             </Card>
           </div>
 
           {/* Canvas Container */}
-          <div className="flex-1 flex items-center justify-start ml-0">
+          <div className={cn(
+            "flex-1 flex items-center justify-start min-w-max",
+            {
+              "-ml-36 -mt-24": canvasAspectRatio === "16:9",
+              "-ml-8 -mt-12": canvasAspectRatio === "1:1",
+              "-ml-16 -mt-16": canvasAspectRatio === "4:3", 
+              "ml-31 -mt-52": canvasAspectRatio === "9:16",
+              "-ml-72 -mt-24": canvasAspectRatio === "21:9"
+            }
+          )}>
             <div 
-              className="shadow-soft rounded-2xl overflow-hidden border border-border transform origin-center"
+              className="shadow-soft rounded-2xl overflow-hidden border border-border transform origin-center transition-transform duration-200 ease-in-out"
               style={{ 
-                transform: 'scale(0.65)',
-                borderRadius: '16px'
+                transform: `scale(${zoomLevel})`,
+                borderRadius: '16px',
+                minWidth: 'fit-content'
               }}
             >
               <canvas ref={canvasRef} className="block rounded-2xl" style={{ borderRadius: '16px' }} />

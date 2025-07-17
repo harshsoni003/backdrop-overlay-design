@@ -76,8 +76,13 @@ const Navbar = () => {
   return (
     <nav className="flex items-center justify-between px-6 py-4 border-b bg-white">
       <div className="flex items-center">
-        <Link to="/">
-          <h1 className="text-xl font-bold text-gray-900">FramePost</h1>
+        <Link to="/" className="flex items-center gap-2">
+          <img 
+            src="/icons8-mac-logo-48.png" 
+            alt="Mac Logo" 
+            className="w-8 h-8"
+          />
+          <h1 className="text-xl font-bold text-gray-900">Mac iFrame</h1>
         </Link>
       </div>
       <div className="flex items-center gap-6">
