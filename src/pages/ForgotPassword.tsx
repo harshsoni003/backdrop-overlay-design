@@ -50,20 +50,20 @@ const ForgotPassword = () => {
   if (emailSent) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-white text-black p-4">
-        <Card className="w-full max-w-md">
+        <Card className="w-full max-w-md border border-black">
           <CardHeader className="space-y-1">
-            <CardTitle className="text-2xl font-bold text-center">Check Your Email</CardTitle>
-            <CardDescription className="text-center">
+            <CardTitle className="text-2xl font-bold text-center text-black">Check Your Email</CardTitle>
+            <CardDescription className="text-center text-neutral-600">
               We've sent a password reset link to {email}
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
-            <div className="text-center text-sm text-muted-foreground">
+            <div className="text-center text-sm text-neutral-600">
               Didn't receive the email? Check your spam folder or try again.
             </div>
             <Button
               variant="outline"
-              className="w-full"
+              className="w-full border-black text-black hover:bg-neutral-100"
               onClick={() => setEmailSent(false)}
             >
               Try Again
@@ -72,7 +72,7 @@ const ForgotPassword = () => {
           <CardFooter>
             <Link
               to="/signin"
-              className="w-full flex items-center justify-center text-sm text-muted-foreground hover:text-foreground"
+              className="w-full flex items-center justify-center text-sm text-neutral-600 hover:text-black"
             >
               <ArrowLeft className="h-4 w-4 mr-2" />
               Back to Sign In
@@ -85,10 +85,10 @@ const ForgotPassword = () => {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-white text-black p-4">
-      <Card className="w-full max-w-md">
+      <Card className="w-full max-w-md border border-black">
         <CardHeader className="space-y-1">
-          <CardTitle className="text-2xl font-bold text-center">Forgot Password</CardTitle>
-          <CardDescription className="text-center">
+          <CardTitle className="text-2xl font-bold text-center text-black">Forgot Password</CardTitle>
+          <CardDescription className="text-center text-neutral-600">
             Enter your email address and we'll send you a link to reset your password
           </CardDescription>
         </CardHeader>
@@ -105,7 +105,7 @@ const ForgotPassword = () => {
                 required
               />
             </div>
-            <Button type="submit" className="w-full" disabled={isLoading}>
+            <Button type="submit" className="w-full bg-black text-white hover:bg-neutral-800" disabled={isLoading}>
               {isLoading ? "Sending..." : "Send Reset Link"}
             </Button>
           </form>
@@ -113,7 +113,7 @@ const ForgotPassword = () => {
         <CardFooter>
           <Link
             to="/signin"
-            className="w-full flex items-center justify-center text-sm text-muted-foreground hover:text-foreground"
+            className="w-full flex items-center justify-center text-sm text-neutral-600 hover:text-black"
           >
             <ArrowLeft className="h-4 w-4 mr-2" />
             Back to Sign In
