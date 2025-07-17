@@ -33,19 +33,15 @@ const LandingPage = () => {
                 <div className="flex flex-col items-center">
                   <h3 className="text-xl font-semibold mb-4">See it in Action</h3>
                   <div className="w-full flex justify-center">
-                    <blockquote className="twitter-tweet" data-media-max-width="560">
-                      <p lang="en" dir="ltr">
-                        Just Launched: <a href="https://t.co/o1aZ9vXu41">https://t.co/o1aZ9vXu41</a><br/><br/>
-                        - Add a Mac background to your post in seconds.<br/><br/>
-                        • Just follow 3 simple steps:<br/><br/>
-                        1. Choose your post ratio and background<br/>
-                        2. Upload your image <br/>
-                        3. Adjust it and add border radius<br/><br/>
-                        - Free access for the first 20 users! <br/><br/>
-                        • fill waitlist… <a href="https://t.co/ekwIMP0JWx">pic.twitter.com/ekwIMP0JWx</a>
-                      </p>
-                      &mdash; Harsh Soni (@harshsoni_hs) <a href="https://twitter.com/harshsoni_hs/status/1945974904756793842?ref_src=twsrc%5Etfw">July 17, 2025</a>
-                    </blockquote>
+                    <iframe
+                      src="https://player.cloudinary.com/embed/?cloud_name=dhea2aqxb&public_id=maciframe_fxpusi&profile=cld-default"
+                      width="800"
+                      height="450"
+                      allow="autoplay; fullscreen; encrypted-media; picture-in-picture"
+                      allowFullScreen
+                      frameBorder="0"
+                      className="rounded-lg"
+                    ></iframe>
                   </div>
                 </div>
               </DialogContent>
