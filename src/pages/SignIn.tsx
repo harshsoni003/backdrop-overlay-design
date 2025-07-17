@@ -77,7 +77,7 @@ const SignIn = () => {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-white text-black p-4">
-      <Card className="w-full max-w-md border border-black">
+      <Card className="w-full max-w-md bg-white border border-neutral-200 rounded-lg shadow-sm">
         <CardHeader className="space-y-1">
           <CardTitle className="text-2xl font-bold text-center text-black">Sign In</CardTitle>
           <CardDescription className="text-center text-neutral-600">
@@ -87,7 +87,7 @@ const SignIn = () => {
         <CardContent className="space-y-4">
           <Button
             variant="outline"
-            className="w-full border-black text-black hover:bg-neutral-100"
+            className="w-full bg-white border-neutral-300 text-black hover:bg-neutral-50"
             onClick={handleGoogleSignIn}
             type="button"
           >
@@ -96,7 +96,7 @@ const SignIn = () => {
           
           <div className="relative">
             <div className="absolute inset-0 flex items-center">
-              <span className="w-full border-t bg-white" />
+              <span className="w-full border-t border-neutral-300" />
             </div>
             <div className="relative flex justify-center text-xs uppercase">
               <span className="bg-white px-2 text-neutral-600 z-10">
@@ -107,18 +107,19 @@ const SignIn = () => {
 
           <form onSubmit={handleSignIn} className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="email">Email</Label>
+              <Label htmlFor="email" className="text-black">Email</Label>
               <Input
                 id="email"
                 type="email"
                 placeholder="Enter your email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
+                className="bg-white border-neutral-300 text-black placeholder:text-neutral-500"
                 required
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="password">Password</Label>
+              <Label htmlFor="password" className="text-black">Password</Label>
               <div className="relative">
                 <Input
                   id="password"
@@ -126,13 +127,14 @@ const SignIn = () => {
                   placeholder="Enter your password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
+                  className="bg-white border-neutral-300 text-black placeholder:text-neutral-500 pr-10"
                   required
                 />
                 <Button
                   type="button"
                   variant="ghost"
                   size="sm"
-                  className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
+                  className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent text-neutral-600 hover:text-black"
                   onClick={() => setShowPassword(!showPassword)}
                 >
                   {showPassword ? (

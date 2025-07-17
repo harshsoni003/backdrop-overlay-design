@@ -50,7 +50,7 @@ const ForgotPassword = () => {
   if (emailSent) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-white text-black p-4">
-        <Card className="w-full max-w-md border border-black">
+        <Card className="w-full max-w-md bg-white border border-neutral-200 rounded-lg shadow-sm">
           <CardHeader className="space-y-1">
             <CardTitle className="text-2xl font-bold text-center text-black">Check Your Email</CardTitle>
             <CardDescription className="text-center text-neutral-600">
@@ -63,7 +63,7 @@ const ForgotPassword = () => {
             </div>
             <Button
               variant="outline"
-              className="w-full border-black text-black hover:bg-neutral-100"
+              className="w-full bg-white border-neutral-300 text-black hover:bg-neutral-50"
               onClick={() => setEmailSent(false)}
             >
               Try Again
@@ -85,7 +85,7 @@ const ForgotPassword = () => {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-white text-black p-4">
-      <Card className="w-full max-w-md border border-black">
+      <Card className="w-full max-w-md bg-white border border-neutral-200 rounded-lg shadow-sm">
         <CardHeader className="space-y-1">
           <CardTitle className="text-2xl font-bold text-center text-black">Forgot Password</CardTitle>
           <CardDescription className="text-center text-neutral-600">
@@ -95,13 +95,14 @@ const ForgotPassword = () => {
         <CardContent>
           <form onSubmit={handleForgotPassword} className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="email">Email</Label>
+              <Label htmlFor="email" className="text-black">Email</Label>
               <Input
                 id="email"
                 type="email"
                 placeholder="Enter your email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
+                className="bg-white border-neutral-300 text-black placeholder:text-neutral-500"
                 required
               />
             </div>
