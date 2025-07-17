@@ -60,7 +60,7 @@ const LandingPage = () => {
           </div>
           
           {/* Second row with 3 images */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="rounded-lg overflow-hidden shadow-lg">
               <img 
                 src="/lovable-uploads/d582d592-faf8-48a6-82d7-92d567925931.png" 
@@ -75,11 +75,7 @@ const LandingPage = () => {
                 className="w-full"
               />
             </div>
-          </div>
-          
-          {/* Third row with 1 image */}
-          <div className="flex justify-center">
-            <div className="rounded-lg overflow-hidden shadow-lg w-full md:w-1/2">
+            <div className="rounded-lg overflow-hidden shadow-lg">
               <img 
                 src="/lovable-uploads/e04386aa-8cf1-416d-8531-6b615fcfaf6e.png" 
                 alt="Profile with stats visualization" 
