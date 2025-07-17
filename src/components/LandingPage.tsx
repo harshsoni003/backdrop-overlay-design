@@ -48,12 +48,55 @@ const LandingPage = () => {
             </div>
           </div>
           
-          {/* Second row with 1 image */}
-          <div className="flex justify-center">
-            <div className="rounded-lg overflow-hidden shadow-lg w-full md:w-1/2">
+          {/* Second row with 3 images */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="rounded-lg overflow-hidden shadow-lg">
               <img 
-                src="/lovable-uploads/c8c53bed-e823-4e3c-88c5-fa6a2802b755.png" 
-                alt="SaaS launch example" 
+                src="/lovable-uploads/d582d592-faf8-48a6-82d7-92d567925931.png" 
+                alt="Social media profile with Mac background" 
+                className="w-full h-64 object-cover"
+              />
+            </div>
+            <div className="rounded-lg overflow-hidden shadow-lg">
+              <img 
+                src="/lovable-uploads/2c8fac2e-b6a2-4364-8a58-6f3c2ce34700.png" 
+                alt="Professional profile with gradient background" 
+                className="w-full h-64 object-cover"
+              />
+            </div>
+            <div className="rounded-lg overflow-hidden shadow-lg">
+              <img 
+                src="/lovable-uploads/e04386aa-8cf1-416d-8531-6b615fcfaf6e.png" 
+                alt="Profile with stats visualization" 
+                className="w-full h-64 object-cover"
+              />
+            </div>
+          </div>
+          
+          {/* Third row with 2 images */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div className="rounded-lg overflow-hidden shadow-lg">
+              <img 
+                src="/lovable-uploads/bb1be333-f32b-48d9-b65e-f5bbccc4d96f.png" 
+                alt="Professional LinkedIn profile" 
+                className="w-full h-72 object-cover"
+              />
+            </div>
+            <div className="rounded-lg overflow-hidden shadow-lg">
+              <img 
+                src="/lovable-uploads/9e0e3a91-4dd0-432d-86b7-800036ed1674.png" 
+                alt="Tech profile with hexagon pattern" 
+                className="w-full h-72 object-cover"
+              />
+            </div>
+          </div>
+          
+          {/* Fourth row with 1 image */}
+          <div className="flex justify-center">
+            <div className="rounded-lg overflow-hidden shadow-lg w-full md:w-2/3">
+              <img 
+                src="/lovable-uploads/d9b200c0-d91f-41d8-86c4-4ab204508f4c.png" 
+                alt="SaaS launch guide with starry background" 
                 className="w-full h-80 object-cover"
               />
             </div>
