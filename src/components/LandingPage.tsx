@@ -37,35 +37,35 @@ const LandingPage = () => {
               <img 
                 src="/lovable-uploads/0b4f2337-862e-4468-ad34-1a557a76b023.png" 
                 alt="Code snippet in Twitter/X post" 
-                className="w-full h-80 object-cover"
+                className="w-full h-auto"
               />
             </div>
             <div className="rounded-lg overflow-hidden shadow-lg">
               <img 
                 src="/lovable-uploads/356940fd-7911-4c56-aafa-72d68cb4e4f5.png" 
                 alt="MVP launch Twitter profile" 
-                className="w-full h-80 object-cover"
+                className="w-full h-auto"
               />
             </div>
             <div className="rounded-lg overflow-hidden shadow-lg">
               <img 
                 src="/lovable-uploads/917ef09a-53be-46db-93c6-0de4514fe637.png" 
                 alt="Developer profile with stats" 
-                className="w-full h-80 object-cover"
+                className="w-full h-auto"
               />
             </div>
             <div className="rounded-lg overflow-hidden shadow-lg md:col-span-2 lg:col-span-1">
               <img 
                 src="/lovable-uploads/5378329f-9d75-4b00-b789-1bc454ae4f71.png" 
                 alt="LinkedIn AI developer profile" 
-                className="w-full h-80 object-cover"
+                className="w-full h-auto"
               />
             </div>
             <div className="rounded-lg overflow-hidden shadow-lg md:col-span-2">
               <img 
                 src="/lovable-uploads/5f61b4cc-138b-40be-b672-e132d1d5609f.png" 
                 alt="Building brains for bots LinkedIn banner" 
-                className="w-full h-80 object-cover"
+                className="w-full h-auto"
               />
             </div>
           </div>
