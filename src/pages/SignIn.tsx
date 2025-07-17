@@ -77,17 +77,17 @@ const SignIn = () => {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-white text-black p-4">
-      <Card className="w-full max-w-md">
+      <Card className="w-full max-w-md border border-black">
         <CardHeader className="space-y-1">
-          <CardTitle className="text-2xl font-bold text-center">Sign In</CardTitle>
-          <CardDescription className="text-center">
+          <CardTitle className="text-2xl font-bold text-center text-black">Sign In</CardTitle>
+          <CardDescription className="text-center text-neutral-600">
             Enter your email and password to access your account
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           <Button
             variant="outline"
-            className="w-full"
+            className="w-full border-black text-black hover:bg-neutral-100"
             onClick={handleGoogleSignIn}
             type="button"
           >
@@ -99,7 +99,7 @@ const SignIn = () => {
               <span className="w-full border-t" />
             </div>
             <div className="relative flex justify-center text-xs uppercase">
-              <span className="bg-background px-2 text-muted-foreground">
+              <span className="bg-white px-2 text-neutral-600">
                 Or continue with
               </span>
             </div>
@@ -143,7 +143,7 @@ const SignIn = () => {
                 </Button>
               </div>
             </div>
-            <Button type="submit" className="w-full" disabled={isLoading}>
+            <Button type="submit" className="w-full bg-black text-white hover:bg-neutral-800" disabled={isLoading}>
               {isLoading ? "Signing in..." : "Sign In"}
             </Button>
           </form>
@@ -151,13 +151,13 @@ const SignIn = () => {
         <CardFooter className="flex flex-col space-y-2">
           <Link
             to="/forgot-password"
-            className="text-sm text-muted-foreground hover:text-foreground underline"
+            className="text-sm text-neutral-600 hover:text-black underline"
           >
             Forgot your password?
           </Link>
-          <div className="text-sm text-muted-foreground">
+          <div className="text-sm text-neutral-600">
             Don't have an account?{" "}
-            <Link to="/signup" className="text-foreground hover:underline">
+            <Link to="/signup" className="text-black hover:underline">
               Sign up
             </Link>
           </div>
