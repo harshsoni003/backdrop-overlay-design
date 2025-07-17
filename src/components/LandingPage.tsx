@@ -18,22 +18,7 @@ const LandingPage = () => {
             Make your post look professional and reach millions of views using a Mac-style background.
           </p>
           
-          {/* Video Container */}
-          <div className="mb-8 flex justify-center">
-            <div className="w-full max-w-4xl rounded-lg overflow-hidden shadow-lg">
-              <iframe
-                src="https://player.cloudinary.com/embed/?cloud_name=dhea2aqxb&public_id=maciframe_fxpusi&profile=cld-default&autoplay=true"
-                width="100%"
-                height="450"
-                allow="autoplay; fullscreen; encrypted-media; picture-in-picture"
-                allowFullScreen
-                frameBorder="0"
-                className="w-full"
-              ></iframe>
-            </div>
-          </div>
-          
-          <div className="flex items-center justify-center gap-4">
+          <div className="flex items-center justify-center gap-4 mb-8">
             <Link to="/editor">
               <Button size="lg" className="bg-black text-white hover:bg-gray-800 px-8">
                 Try Now
@@ -62,6 +47,21 @@ const LandingPage = () => {
                 </div>
               </DialogContent>
             </Dialog>
+          </div>
+
+          {/* Video Container */}
+          <div className="flex justify-center">
+            <div className="w-full max-w-4xl rounded-lg overflow-hidden shadow-lg">
+              <iframe
+                src="https://player.cloudinary.com/embed/?cloud_name=dhea2aqxb&public_id=maciframe_fxpusi&profile=cld-default&autoplay=true"
+                width="100%"
+                height="450"
+                allow="autoplay; fullscreen; encrypted-media; picture-in-picture"
+                allowFullScreen
+                frameBorder="0"
+                className="w-full"
+              ></iframe>
+            </div>
           </div>
         </div>
 
