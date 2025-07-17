@@ -20,9 +20,9 @@ export const EditorPanel = ({
   setBorderRadius,
 }: EditorPanelProps) => {
   return (
-    <div className="w-[360px] min-w-[360px] max-w-[360px] flex-shrink-0 bg-white border-r border-gray-200 shadow-sm h-screen overflow-y-auto fixed left-0 top-0 z-10">
+    <div className="w-full lg:w-[360px] lg:min-w-[360px] lg:max-w-[360px] flex-shrink-0 bg-white lg:border-r border-gray-200 shadow-sm lg:h-screen overflow-y-auto lg:fixed lg:left-0 lg:top-0 z-10">
       {/* Panel Header */}
-      <div className="p-6 border-b border-gray-100 bg-white">
+      <div className="p-4 lg:p-6 border-b border-gray-100 bg-white">
         <div className="flex items-center gap-3">
           <div className="p-2 bg-blue-50 rounded-lg">
             <Settings2 className="w-5 h-5 text-blue-600" />
@@ -35,7 +35,7 @@ export const EditorPanel = ({
       </div>
 
       {/* Panel Content */}
-      <div className="p-6 space-y-6">
+      <div className="p-4 lg:p-6 space-y-4 lg:space-y-6">
         {/* Image Controls */}
         {activeObject && activeObject.type === 'image' && (
         <div className="space-y-4">
