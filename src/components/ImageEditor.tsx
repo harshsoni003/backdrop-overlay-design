@@ -259,7 +259,7 @@ export const ImageEditor = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background flex overflow-hidden">
+    <div className="min-h-screen bg-background flex">
       {/* Editor Panel */}
       <EditorPanel
         selectedBackgroundId={selectedBackgroundId}
@@ -270,7 +270,7 @@ export const ImageEditor = () => {
       />
 
       {/* Canvas Area */}
-      <div className="flex-1 py-6 gradient-canvas overflow-hidden ml-[400px]">
+      <div className="flex-1 pl-1 -mr-2 py-6 gradient-canvas ml-[360px]">
         <div className="h-full flex flex-col">
           {/* Toolbar */}
           <div className="mb-4 flex justify-start ml-0">
@@ -320,7 +320,7 @@ export const ImageEditor = () => {
           </div>
 
           {/* Canvas Container */}
-          <div className="flex-1 flex items-center justify-center ml-8">
+          <div className="flex-1 flex items-center justify-start ml-0">
             <div 
               className="shadow-soft rounded-2xl overflow-hidden border border-border transform origin-center"
               style={{ 
