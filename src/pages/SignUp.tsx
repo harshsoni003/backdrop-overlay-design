@@ -113,7 +113,7 @@ const SignUp = () => {
         <CardContent className="space-y-4">
           <Button
             variant="outline"
-            className="w-full border-black text-black hover:bg-neutral-100"
+            className="w-full border-neutral-300 text-black hover:bg-neutral-100"
             onClick={handleGoogleSignUp}
             type="button"
           >
@@ -122,7 +122,7 @@ const SignUp = () => {
           
           <div className="relative">
             <div className="absolute inset-0 flex items-center">
-              <span className="w-full border-t" />
+              <span className="w-full border-t border-neutral-300" />
             </div>
             <div className="relative flex justify-center text-xs uppercase">
               <span className="bg-white px-2 text-neutral-600">
@@ -133,18 +133,19 @@ const SignUp = () => {
 
           <form onSubmit={handleSignUp} className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="email">Email</Label>
+              <Label htmlFor="email" className="text-black">Email</Label>
               <Input
                 id="email"
                 type="email"
                 placeholder="Enter your email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
+                className="bg-white border-neutral-300 text-black placeholder:text-neutral-500"
                 required
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="password">Password</Label>
+              <Label htmlFor="password" className="text-black">Password</Label>
               <div className="relative">
                 <Input
                   id="password"
@@ -152,13 +153,14 @@ const SignUp = () => {
                   placeholder="Create a password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
+                  className="bg-white border-neutral-300 text-black placeholder:text-neutral-500 pr-10"
                   required
                 />
                 <Button
                   type="button"
                   variant="ghost"
                   size="sm"
-                  className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
+                  className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent text-neutral-600 hover:text-black"
                   onClick={() => setShowPassword(!showPassword)}
                 >
                   {showPassword ? (
@@ -170,7 +172,7 @@ const SignUp = () => {
               </div>
             </div>
             <div className="space-y-2">
-              <Label htmlFor="confirmPassword">Confirm Password</Label>
+              <Label htmlFor="confirmPassword" className="text-black">Confirm Password</Label>
               <div className="relative">
                 <Input
                   id="confirmPassword"
@@ -178,13 +180,14 @@ const SignUp = () => {
                   placeholder="Confirm your password"
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
+                  className="bg-white border-neutral-300 text-black placeholder:text-neutral-500 pr-10"
                   required
                 />
                 <Button
                   type="button"
                   variant="ghost"
                   size="sm"
-                  className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
+                  className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent text-neutral-600 hover:text-black"
                   onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                 >
                   {showConfirmPassword ? (
