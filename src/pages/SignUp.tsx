@@ -103,7 +103,7 @@ const SignUp = () => {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-white text-black p-4">
-      <Card className="w-full max-w-md border border-black">
+      <Card className="w-full max-w-md bg-white border border-neutral-200 rounded-lg shadow-sm">
         <CardHeader className="space-y-1">
           <CardTitle className="text-2xl font-bold text-center text-black">Sign Up</CardTitle>
           <CardDescription className="text-center text-neutral-600">
