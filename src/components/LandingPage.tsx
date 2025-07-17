@@ -53,7 +53,7 @@ const LandingPage = () => {
           <div className="flex justify-center">
             <div className="w-full max-w-4xl rounded-lg overflow-hidden shadow-lg">
               <iframe
-                src="https://player.cloudinary.com/embed/?cloud_name=dhea2aqxb&public_id=maciframe_fxpusi&profile=cld-default&autoplay=true"
+                src="https://player.cloudinary.com/embed/?cloud_name=dhea2aqxb&public_id=maciframe_fxpusi&profile=mac"
                 width="100%"
                 height="450"
                 allow="autoplay; fullscreen; encrypted-media; picture-in-picture"
