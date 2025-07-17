@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import Navbar from "./Navbar";
-import { FeatureDemo } from "@/components/ui/demo";
 
 const LandingPage = () => {
   return (
@@ -31,49 +30,34 @@ const LandingPage = () => {
 
         {/* Image Grid */}
         <div className="space-y-8">
-          {/* Five new images in a grid layout */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {/* First row with 2 images */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div className="rounded-lg overflow-hidden shadow-lg">
               <img 
-                src="/lovable-uploads/0b4f2337-862e-4468-ad34-1a557a76b023.png" 
-                alt="Code snippet in Twitter/X post" 
-                className="w-full h-auto"
-              />
-            </div>
-            <div className="rounded-lg overflow-hidden shadow-lg">
-              <img 
-                src="/lovable-uploads/356940fd-7911-4c56-aafa-72d68cb4e4f5.png" 
-                alt="MVP launch Twitter profile" 
-                className="w-full h-auto"
+                src="/lovable-uploads/bf20a559-ddbd-4d6f-bca9-8f238979fcb1.png" 
+                alt="MVP launch example" 
+                className="w-full h-80 object-cover"
               />
             </div>
             <div className="rounded-lg overflow-hidden shadow-lg">
               <img 
-                src="/lovable-uploads/917ef09a-53be-46db-93c6-0de4514fe637.png" 
-                alt="Developer profile with stats" 
-                className="w-full h-auto"
-              />
-            </div>
-            <div className="rounded-lg overflow-hidden shadow-lg md:col-span-2 lg:col-span-1">
-              <img 
-                src="/lovable-uploads/5378329f-9d75-4b00-b789-1bc454ae4f71.png" 
-                alt="LinkedIn AI developer profile" 
-                className="w-full h-auto"
-              />
-            </div>
-            <div className="rounded-lg overflow-hidden shadow-lg md:col-span-2">
-              <img 
-                src="/lovable-uploads/5f61b4cc-138b-40be-b672-e132d1d5609f.png" 
-                alt="Building brains for bots LinkedIn banner" 
-                className="w-full h-auto"
+                src="/lovable-uploads/3fe44c63-cd4d-479a-bb87-6667ea8a0a8e.png" 
+                alt="Profile example" 
+                className="w-full h-80 object-cover"
               />
             </div>
           </div>
-        </div>
-        
-        {/* Feature Section */}
-        <div className="mt-20">
-          <FeatureDemo />
+          
+          {/* Second row with 1 image */}
+          <div className="flex justify-center">
+            <div className="rounded-lg overflow-hidden shadow-lg w-full md:w-1/2">
+              <img 
+                src="/lovable-uploads/c8c53bed-e823-4e3c-88c5-fa6a2802b755.png" 
+                alt="SaaS launch example" 
+                className="w-full h-80 object-cover"
+              />
+            </div>
+          </div>
         </div>
       </div>
     </div>
