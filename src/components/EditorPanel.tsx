@@ -59,6 +59,29 @@ export const EditorPanel = ({
         </div>
       </div>
 
+      {/* User Profile - Show when signed in */}
+      {user && (
+        <div className="px-6 pb-4 border-b border-gray-100">
+          <div className="p-4 bg-gray-50 border border-gray-200 rounded-lg shadow-sm">
+            <div className="flex items-center gap-3">
+              <Avatar className="h-10 w-10">
+                <AvatarImage 
+                  src={user.user_metadata?.avatar_url} 
+                  alt={getUserDisplayName()} 
+                />
+                <AvatarFallback className="bg-black text-white text-sm">
+                  {getUserInitials()}
+                </AvatarFallback>
+              </Avatar>
+              <div className="flex-1 min-w-0">
+                <p className="font-medium text-gray-900 truncate">{getUserDisplayName()}</p>
+                <p className="text-sm text-gray-500 truncate">{user.email}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Panel Content */}
       <div className="p-6 pl-8 space-y-6">
         {/* Canvas Settings */}
@@ -148,33 +171,6 @@ export const EditorPanel = ({
             onBackgroundSelect={onBackgroundSelect}
           />
         </div>
-
-        {/* User Profile - Show when signed in */}
-        {user && (
-          <div className="space-y-4">
-            <div className="flex items-center gap-2 pb-2">
-              <div className="w-1 h-6 bg-gradient-to-b from-gray-500 to-gray-400 rounded-full"></div>
-              <h3 className="font-medium text-gray-900">Profile</h3>
-            </div>
-            <div className="p-4 bg-gray-50 border border-gray-200 rounded-lg shadow-sm">
-              <div className="flex items-center gap-3">
-                <Avatar className="h-10 w-10">
-                  <AvatarImage 
-                    src={user.user_metadata?.avatar_url} 
-                    alt={getUserDisplayName()} 
-                  />
-                  <AvatarFallback className="bg-black text-white text-sm">
-                    {getUserInitials()}
-                  </AvatarFallback>
-                </Avatar>
-                <div className="flex-1 min-w-0">
-                  <p className="font-medium text-gray-900 truncate">{getUserDisplayName()}</p>
-                  <p className="text-sm text-gray-500 truncate">{user.email}</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
 
       </div>
     </div>
