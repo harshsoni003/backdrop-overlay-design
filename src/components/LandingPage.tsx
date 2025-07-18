@@ -65,16 +65,16 @@ const LandingPage = () => {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="rounded-lg overflow-hidden shadow-lg">
               <img 
-                src="/lovable-uploads/19ef08bd-88c0-40dc-b719-213ad8cfff92.png" 
-                alt="Harsh Soni profile with MVP launch background" 
+                src="/lovable-uploads/71aff636-01a3-4877-a510-d7f4600c8945.png" 
+                alt="Lovable profile with mountain background" 
                 className="w-full"
               />
             </div>
             
             <div className="rounded-lg overflow-hidden shadow-lg">
               <img 
-                src="/lovable-uploads/fdfd1095-0301-4dca-b8c9-bdeb8fc8eb6d.png" 
-                alt="Lovable profile with gradient background" 
+                src="/lovable-uploads/7ebf5c66-78aa-46c6-989f-85a3b509c587.png" 
+                alt="Harsh Soni profile with blue mountain background" 
                 className="w-full"
               />
             </div>
