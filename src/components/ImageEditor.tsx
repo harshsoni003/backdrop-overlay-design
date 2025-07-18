@@ -10,6 +10,7 @@ import { toast } from "@/hooks/use-toast";
 import { BackgroundSelector, BackgroundOption } from "@/components/BackgroundSelector";
 import { EditorPanel } from "@/components/EditorPanel";
 import { cn } from "@/lib/utils";
+import { Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { User } from "@supabase/supabase-js";
 import defaultBg from "@/assets/default-bg.jpg";
@@ -640,22 +641,22 @@ export const ImageEditor = () => {
              </form>
              
              <div className="flex flex-col space-y-2 text-center">
-               <button
-                 type="button"
+               <Link
+                 to="/forgot-password"
                  className="text-sm text-gray-600 hover:text-gray-800 underline"
                  onClick={() => setShowSignInDialog(false)}
                >
                  Forgot your password?
-               </button>
+               </Link>
                <div className="text-sm text-gray-600">
                  Don't have an account?{" "}
-                 <button
-                   type="button"
+                 <Link
+                   to="/signup"
                    className="text-blue-600 hover:text-blue-800 underline"
                    onClick={() => setShowSignInDialog(false)}
                  >
                    Sign up
-                 </button>
+                 </Link>
                </div>
              </div>
            </div>
