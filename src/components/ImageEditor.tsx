@@ -208,28 +208,7 @@ export const ImageEditor = () => {
       return;
     }
 
-    // Check credits again before processing
-    if (!credits || credits.credits_remaining <= 0) {
-      setShowUpgradeDialog(true);
-      toast({
-        title: "No credits remaining",
-        description: "You need credits to upload images. Contact admin to upgrade.",
-        variant: "destructive",
-      });
-      return;
-    }
-
-    // Deduct credit first
-    const creditDeducted = await deductCredits(1);
-    if (!creditDeducted) {
-      setShowUpgradeDialog(true);
-      toast({
-        title: "Unable to process upload",
-        description: "Could not deduct credit. Contact admin if this persists.",
-        variant: "destructive",
-      });
-      return;
-    }
+    // No credit check needed for uploads - credits are only for downloads
 
     const reader = new FileReader();
     reader.onload = (e) => {

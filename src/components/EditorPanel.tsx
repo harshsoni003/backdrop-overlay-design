@@ -87,7 +87,7 @@ export const EditorPanel = ({
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <Coins className="w-4 h-4 text-yellow-600" />
-                  <span className="text-sm font-medium text-gray-700">Upload Credits</span>
+                  <span className="text-sm font-medium text-gray-700">Download Credits</span>
                 </div>
                 <div className="flex items-center gap-1">
                   <span className="text-lg font-bold text-gray-900">
