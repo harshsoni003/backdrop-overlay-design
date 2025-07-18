@@ -7,6 +7,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { BackgroundSelector, BackgroundOption } from "@/components/BackgroundSelector";
 import { User as SupabaseUser } from "@supabase/supabase-js";
 import { useUserCredits } from "@/hooks/useUserCredits";
+import { Link } from "react-router-dom";
 
 interface EditorPanelProps {
   selectedBackgroundId: string;
@@ -51,7 +52,7 @@ export const EditorPanel = ({
     <div className="w-[360px] min-w-[360px] max-w-[360px] flex-shrink-0 bg-white border-r border-gray-200 shadow-sm h-screen overflow-y-auto fixed left-0 top-0 z-10">
       {/* Panel Header */}
       <div className="p-6 border-b border-gray-100 bg-white">
-        <div className="flex items-center gap-3">
+        <Link to="/" className="flex items-center gap-3 hover:opacity-80 transition-opacity">
           <div className="p-2 bg-blue-50 rounded-lg">
             <img src="/icons8-mac-logo-48.png" alt="Mac Logo" className="w-5 h-5" />
           </div>
@@ -59,7 +60,7 @@ export const EditorPanel = ({
             <h2 className="text-lg font-semibold text-gray-900">Mac iFrame</h2>
             <p className="text-sm text-gray-600">Customize your design</p>
           </div>
-        </div>
+        </Link>
       </div>
 
       {/* User Profile - Show when signed in */}
