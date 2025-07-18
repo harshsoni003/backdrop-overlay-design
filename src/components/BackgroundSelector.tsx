@@ -73,6 +73,12 @@ const backgroundOptions: BackgroundOption[] = [
     name: "Valley Golden",
     image: "/lovable-uploads/e3bb28ea-89fb-445e-a12c-da9bb9daec73.png",
     category: "Nature"
+  },
+  {
+    id: "misty-mountains",
+    name: "Misty Mountains",
+    image: "/lovable-uploads/e337bb92-b378-4af2-bb0e-f7469c3d9970.png",
+    category: "Nature"
   }
 ];
 
