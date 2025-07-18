@@ -27,7 +27,7 @@ const PricingPage = () => {
             <CardHeader>
               <CardTitle className="text-xl text-gray-900">Monthly</CardTitle>
               <CardDescription className="text-gray-600">For regular content creators</CardDescription>
-              <div className="text-3xl font-bold text-gray-900">$22<span className="text-lg font-normal text-gray-600">/month</span></div>
+              <div className="text-3xl font-bold text-gray-900">$11<span className="text-lg font-normal text-gray-600">/month</span></div>
             </CardHeader>
             <CardContent>
               <ul className="space-y-3">
@@ -59,7 +59,7 @@ const PricingPage = () => {
             <CardHeader>
               <CardTitle className="text-xl text-gray-900">Lifetime</CardTitle>
               <CardDescription className="text-gray-600">One-time payment, forever access</CardDescription>
-              <div className="text-3xl font-bold text-gray-900">$67<span className="text-lg font-normal text-gray-600"> once</span></div>
+              <div className="text-3xl font-bold text-gray-900">$49<span className="text-lg font-normal text-gray-600"> once</span></div>
             </CardHeader>
             <CardContent>
               <ul className="space-y-3">
