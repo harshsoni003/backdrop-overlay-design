@@ -99,8 +99,8 @@ const LandingPage = () => {
             </div>
             <div className="rounded-lg overflow-hidden shadow-lg">
               <img 
-                src="/lovable-uploads/9e0e3a91-4dd0-432d-86b7-800036ed1674.png" 
-                alt="Tech profile with hexagon pattern" 
+                src="/lovable-uploads/0e448bf4-706a-4006-9ebe-077a112fe3e2.png" 
+                alt="Tanmay Kapurkar LinkedIn profile with hexagon pattern" 
                 className="w-full"
               />
             </div>
