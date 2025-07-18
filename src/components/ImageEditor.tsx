@@ -566,60 +566,64 @@ export const ImageEditor = () => {
        {/* Sign In Dialog */}
        <Dialog open={showSignInDialog} onOpenChange={setShowSignInDialog}>
          <DialogContent className="sm:max-w-md">
-           <DialogHeader>
-             <DialogTitle>Sign In Required</DialogTitle>
-             <DialogDescription>
-               Please sign in to upload images to the editor
-             </DialogDescription>
-           </DialogHeader>
-           <div className="space-y-4">
-             <Button
-               variant="outline"
-               className="w-full"
-               onClick={handleGoogleSignIn}
-               type="button"
-             >
-               Continue with Google
-             </Button>
-             
-             <div className="relative">
-               <div className="absolute inset-0 flex items-center">
-                 <span className="w-full border-t" />
-               </div>
-               <div className="relative flex justify-center text-xs uppercase">
-                 <span className="bg-background px-2 text-muted-foreground">
-                   Or continue with
-                 </span>
-               </div>
+           <div className="w-full max-w-md bg-white border border-neutral-200 rounded-lg shadow-sm p-6">
+             <div className="space-y-1 mb-6">
+               <h2 className="text-2xl font-bold text-center text-black">Sign In</h2>
+               <p className="text-center text-neutral-600">
+                 Enter your email and password to access your account
+               </p>
              </div>
-
-             <form onSubmit={handleSignIn} className="space-y-4">
-               <div className="space-y-2">
-                 <Label htmlFor="dialog-email">Email</Label>
-                 <Input
-                   id="dialog-email"
-                   type="email"
-                   placeholder="Enter your email"
-                   value={email}
-                   onChange={(e) => setEmail(e.target.value)}
-                   required
-                 />
-               </div>
-               <div className="space-y-2">
-                 <Label htmlFor="dialog-password">Password</Label>
-                 <Input
-                   id="dialog-password"
-                   type="password"
-                   placeholder="Enter your password"
-                   value={password}
-                   onChange={(e) => setPassword(e.target.value)}
-                   required
-                 />
-               </div>
-               <Button type="submit" className="w-full" disabled={isSigningIn}>
-                 {isSigningIn ? "Signing in..." : "Sign In"}
+             <div className="space-y-4">
+               <Button
+                 variant="outline"
+                 className="w-full bg-white border-neutral-300 text-black hover:bg-neutral-50"
+                 onClick={handleGoogleSignIn}
+                 type="button"
+               >
+                 Continue with Google
                </Button>
-             </form>
+               
+               <div className="relative">
+                 <div className="absolute inset-0 flex items-center">
+                   <span className="w-full border-t border-neutral-300" />
+                 </div>
+                 <div className="relative flex justify-center text-xs uppercase">
+                   <span className="bg-white px-2 text-neutral-600 z-10">
+                     Or continue with
+                   </span>
+                 </div>
+               </div>
+
+               <form onSubmit={handleSignIn} className="space-y-4">
+                 <div className="space-y-2">
+                   <Label htmlFor="dialog-email" className="text-black">Email</Label>
+                   <Input
+                     id="dialog-email"
+                     type="email"
+                     placeholder="Enter your email"
+                     value={email}
+                     onChange={(e) => setEmail(e.target.value)}
+                     className="bg-white border-neutral-300 text-black placeholder:text-neutral-500"
+                     required
+                   />
+                 </div>
+                 <div className="space-y-2">
+                   <Label htmlFor="dialog-password" className="text-black">Password</Label>
+                   <Input
+                     id="dialog-password"
+                     type="password"
+                     placeholder="Enter your password"
+                     value={password}
+                     onChange={(e) => setPassword(e.target.value)}
+                     className="bg-white border-neutral-300 text-black placeholder:text-neutral-500"
+                     required
+                   />
+                 </div>
+                 <Button type="submit" className="w-full bg-black text-white hover:bg-neutral-800" disabled={isSigningIn}>
+                   {isSigningIn ? "Signing in..." : "Sign In"}
+                 </Button>
+               </form>
+             </div>
            </div>
          </DialogContent>
        </Dialog>
