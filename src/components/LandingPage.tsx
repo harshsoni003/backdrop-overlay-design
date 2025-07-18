@@ -69,14 +69,7 @@ const LandingPage = () => {
                 alt="Social media profile with Mac background" 
                 className="w-full"
               />
-            </div>
-            <div className="rounded-lg overflow-hidden shadow-lg">
-              <img 
-                src="/lovable-uploads/2c8fac2e-b6a2-4364-8a58-6f3c2ce34700.png" 
-                alt="Professional profile with gradient background" 
-                className="w-full"
-              />
-            </div>
+            
             <div className="rounded-lg overflow-hidden shadow-lg">
               <img 
                 src="/lovable-uploads/e04386aa-8cf1-416d-8531-6b615fcfaf6e.png" 
