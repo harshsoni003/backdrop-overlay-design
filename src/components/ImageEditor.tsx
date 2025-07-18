@@ -433,6 +433,7 @@ export const ImageEditor = () => {
         canvasAspectRatio={canvasAspectRatio}
         onAspectRatioChange={handleAspectRatioChange}
         canvasSizes={canvasSizes}
+        user={user}
       />
 
       {/* Canvas Area */}
