@@ -3,10 +3,15 @@ import { Canvas as FabricCanvas, FabricImage, Rect, FabricObject, Path } from "f
 import { Upload, Download, Move, RotateCcw, Trash2, ZoomIn, ZoomOut, Maximize2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { toast } from "@/hooks/use-toast";
 import { BackgroundSelector, BackgroundOption } from "@/components/BackgroundSelector";
 import { EditorPanel } from "@/components/EditorPanel";
 import { cn } from "@/lib/utils";
+import { supabase } from "@/integrations/supabase/client";
+import { User } from "@supabase/supabase-js";
 import defaultBg from "@/assets/default-bg.jpg";
 
 // Image Editor Component - Refactored to remove video functionality
@@ -19,6 +24,13 @@ export const ImageEditor = () => {
   const [borderRadius, setBorderRadius] = useState([0]);
   const [canvasAspectRatio, setCanvasAspectRatio] = useState("16:9");
   const [zoomLevel, setZoomLevel] = useState(0.55);
+  
+  // Authentication state
+  const [user, setUser] = useState<User | null>(null);
+  const [showSignInDialog, setShowSignInDialog] = useState(false);
+  const [isSigningIn, setIsSigningIn] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   // Canvas dimension presets
   const canvasSizes = {
@@ -41,6 +53,21 @@ export const ImageEditor = () => {
   const resetZoom = () => {
     setZoomLevel(0.55); // Reset to default zoom
   };
+
+  // Set up authentication listener
+  useEffect(() => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(
+      (event, session) => {
+        setUser(session?.user ?? null);
+      }
+    );
+
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setUser(session?.user ?? null);
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
 
   // Initialize canvas
   useEffect(() => {
@@ -132,6 +159,20 @@ export const ImageEditor = () => {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, []);
 
+  // Handle upload button click with authentication check
+  const handleUploadClick = () => {
+    if (!user) {
+      setShowSignInDialog(true);
+      toast({
+        title: "Sign in required",
+        description: "Please sign in to upload images",
+        variant: "destructive",
+      });
+      return;
+    }
+    fileInputRef.current?.click();
+  };
+
   // Handle file upload (images only)
   const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -179,6 +220,69 @@ export const ImageEditor = () => {
       });
     };
     reader.readAsDataURL(file);
+  };
+
+  // Handle sign in
+  const handleSignIn = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSigningIn(true);
+
+    try {
+      const { error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
+
+      if (error) {
+        toast({
+          title: "Error",
+          description: error.message,
+          variant: "destructive",
+        });
+      } else {
+        toast({
+          title: "Success",
+          description: "Signed in successfully!",
+        });
+        setShowSignInDialog(false);
+        setEmail("");
+        setPassword("");
+      }
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "An unexpected error occurred",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSigningIn(false);
+    }
+  };
+
+  // Handle Google sign in
+  const handleGoogleSignIn = async () => {
+    try {
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider: "google",
+        options: {
+          redirectTo: `${window.location.origin}/`,
+        },
+      });
+
+      if (error) {
+        toast({
+          title: "Error",
+          description: error.message,
+          variant: "destructive",
+        });
+      }
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to sign in with Google",
+        variant: "destructive",
+      });
+    }
   };
 
 
@@ -349,7 +453,7 @@ export const ImageEditor = () => {
             <Card className="p-3 bg-white border-border w-fit">
               <div className="flex items-center gap-2">
                 <Button
-                  onClick={() => fileInputRef.current?.click()}
+                  onClick={handleUploadClick}
                   variant="default"
                   size="sm"
                   className="bg-purple-600 hover:bg-purple-700 text-white"
@@ -458,6 +562,67 @@ export const ImageEditor = () => {
          onChange={handleFileUpload}
          className="hidden"
        />
+
+       {/* Sign In Dialog */}
+       <Dialog open={showSignInDialog} onOpenChange={setShowSignInDialog}>
+         <DialogContent className="sm:max-w-md">
+           <DialogHeader>
+             <DialogTitle>Sign In Required</DialogTitle>
+             <DialogDescription>
+               Please sign in to upload images to the editor
+             </DialogDescription>
+           </DialogHeader>
+           <div className="space-y-4">
+             <Button
+               variant="outline"
+               className="w-full"
+               onClick={handleGoogleSignIn}
+               type="button"
+             >
+               Continue with Google
+             </Button>
+             
+             <div className="relative">
+               <div className="absolute inset-0 flex items-center">
+                 <span className="w-full border-t" />
+               </div>
+               <div className="relative flex justify-center text-xs uppercase">
+                 <span className="bg-background px-2 text-muted-foreground">
+                   Or continue with
+                 </span>
+               </div>
+             </div>
+
+             <form onSubmit={handleSignIn} className="space-y-4">
+               <div className="space-y-2">
+                 <Label htmlFor="dialog-email">Email</Label>
+                 <Input
+                   id="dialog-email"
+                   type="email"
+                   placeholder="Enter your email"
+                   value={email}
+                   onChange={(e) => setEmail(e.target.value)}
+                   required
+                 />
+               </div>
+               <div className="space-y-2">
+                 <Label htmlFor="dialog-password">Password</Label>
+                 <Input
+                   id="dialog-password"
+                   type="password"
+                   placeholder="Enter your password"
+                   value={password}
+                   onChange={(e) => setPassword(e.target.value)}
+                   required
+                 />
+               </div>
+               <Button type="submit" className="w-full" disabled={isSigningIn}>
+                 {isSigningIn ? "Signing in..." : "Sign In"}
+               </Button>
+             </form>
+           </div>
+         </DialogContent>
+       </Dialog>
      </div>
    );
  };
