@@ -67,7 +67,7 @@ const LandingPage = () => {
               <img 
                 src="/lovable-uploads/d582d592-faf8-48a6-82d7-92d567925931.png" 
                 alt="Social media profile with Mac background" 
-                className="w-full"
+                className=""
               />
             </div>
             
