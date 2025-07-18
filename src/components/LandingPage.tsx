@@ -69,6 +69,7 @@ const LandingPage = () => {
                 alt="Social media profile with Mac background" 
                 className="w-full"
               />
+            </div>
             
             <div className="rounded-lg overflow-hidden shadow-lg">
               <img 
