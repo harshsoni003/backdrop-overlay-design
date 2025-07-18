@@ -102,6 +102,35 @@ export const useUserCredits = (user: User | null) => {
     }
   }, [user]);
 
+  // Set up real-time subscription for credits updates
+  useEffect(() => {
+    if (!user) return;
+
+    const channel = supabase
+      .channel('user_credits_changes')
+      .on(
+        'postgres_changes',
+        {
+          event: '*',
+          schema: 'public',
+          table: 'user_credits',
+          filter: `user_id=eq.${user.id}`
+        },
+        (payload) => {
+          if (payload.eventType === 'UPDATE' && payload.new) {
+            setCredits(payload.new as UserCredits);
+          } else if (payload.eventType === 'INSERT' && payload.new) {
+            setCredits(payload.new as UserCredits);
+          }
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, [user]);
+
   return {
     credits,
     loading,
