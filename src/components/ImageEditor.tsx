@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Canvas as FabricCanvas, FabricImage, Rect, FabricObject, Path } from "fabric";
-import { Upload, Download, Move, RotateCcw, Trash2, ZoomIn, ZoomOut, Maximize2 } from "lucide-react";
+import { Upload, Download, Move, RotateCcw, Trash2, ZoomIn, ZoomOut, Maximize2, Eye, EyeOff } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
@@ -31,6 +31,7 @@ export const ImageEditor = () => {
   const [isSigningIn, setIsSigningIn] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
 
   // Canvas dimension presets
   const canvasSizes = {
@@ -588,7 +589,7 @@ export const ImageEditor = () => {
                </div>
                <div className="relative flex justify-center text-xs uppercase">
                  <span className="bg-white px-2 text-neutral-600 z-10">
-                   Or continue with
+                   OR CONTINUE WITH
                  </span>
                </div>
              </div>
@@ -608,20 +609,55 @@ export const ImageEditor = () => {
                </div>
                <div className="space-y-2">
                  <Label htmlFor="dialog-password" className="text-black">Password</Label>
-                 <Input
-                   id="dialog-password"
-                   type="password"
-                   placeholder="Enter your password"
-                   value={password}
-                   onChange={(e) => setPassword(e.target.value)}
-                   className="bg-white border-neutral-300 text-black placeholder:text-neutral-500"
-                   required
-                 />
+                 <div className="relative">
+                   <Input
+                     id="dialog-password"
+                     type={showPassword ? "text" : "password"}
+                     placeholder="Enter your password"
+                     value={password}
+                     onChange={(e) => setPassword(e.target.value)}
+                     className="bg-white border-neutral-300 text-black placeholder:text-neutral-500 pr-10"
+                     required
+                   />
+                   <Button
+                     type="button"
+                     variant="ghost"
+                     size="sm"
+                     className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent text-neutral-600 hover:text-black"
+                     onClick={() => setShowPassword(!showPassword)}
+                   >
+                     {showPassword ? (
+                       <EyeOff className="h-4 w-4" />
+                     ) : (
+                       <Eye className="h-4 w-4" />
+                     )}
+                   </Button>
+                 </div>
                </div>
                <Button type="submit" className="w-full bg-black text-white hover:bg-neutral-800" disabled={isSigningIn}>
                  {isSigningIn ? "Signing in..." : "Sign In"}
                </Button>
              </form>
+             
+             <div className="flex flex-col space-y-2 text-center">
+               <button
+                 type="button"
+                 className="text-sm text-neutral-600 hover:text-black underline"
+                 onClick={() => setShowSignInDialog(false)}
+               >
+                 Forgot your password?
+               </button>
+               <div className="text-sm text-neutral-600">
+                 Don't have an account?{" "}
+                 <button
+                   type="button"
+                   className="text-black hover:underline"
+                   onClick={() => setShowSignInDialog(false)}
+                 >
+                   Sign up
+                 </button>
+               </div>
+             </div>
            </div>
          </DialogContent>
        </Dialog>
