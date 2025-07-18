@@ -1,4 +1,4 @@
-import { Settings2, ImageIcon, Crop, User } from "lucide-react";
+import { Settings2, ImageIcon, Crop, User, Coins } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
@@ -6,6 +6,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { BackgroundSelector, BackgroundOption } from "@/components/BackgroundSelector";
 import { User as SupabaseUser } from "@supabase/supabase-js";
+import { useUserCredits } from "@/hooks/useUserCredits";
 
 interface EditorPanelProps {
   selectedBackgroundId: string;
@@ -30,6 +31,8 @@ export const EditorPanel = ({
   canvasSizes,
   user,
 }: EditorPanelProps) => {
+  const { credits } = useUserCredits(user);
+
   const getUserDisplayName = () => {
     if (user?.user_metadata?.full_name) {
       return user.user_metadata.full_name;
@@ -77,6 +80,29 @@ export const EditorPanel = ({
                 <p className="font-medium text-gray-900 truncate">{getUserDisplayName()}</p>
                 <p className="text-sm text-gray-500 truncate">{user.email}</p>
               </div>
+            </div>
+            
+            {/* Credits Display */}
+            <div className="mt-3 p-3 bg-white border border-gray-200 rounded-lg">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <Coins className="w-4 h-4 text-yellow-600" />
+                  <span className="text-sm font-medium text-gray-700">Upload Credits</span>
+                </div>
+                <div className="flex items-center gap-1">
+                  <span className="text-lg font-bold text-gray-900">
+                    {credits?.credits_remaining ?? 0}
+                  </span>
+                  <span className="text-sm text-gray-500">left</span>
+                </div>
+              </div>
+              {credits && credits.credits_remaining <= 2 && (
+                <p className="text-xs text-orange-600 mt-1">
+                  {credits.credits_remaining === 0 
+                    ? "No credits remaining! Contact admin to upgrade."
+                    : "Running low on credits!"}
+                </p>
+              )}
             </div>
           </div>
         </div>

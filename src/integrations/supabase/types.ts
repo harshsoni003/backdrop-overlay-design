@@ -14,6 +14,36 @@ export type Database = {
   }
   public: {
     Tables: {
+      user_credits: {
+        Row: {
+          created_at: string
+          credits_remaining: number
+          id: string
+          monthly_upgrade: boolean
+          updated_at: string
+          user_id: string
+          yearly_upgrade: boolean
+        }
+        Insert: {
+          created_at?: string
+          credits_remaining?: number
+          id?: string
+          monthly_upgrade?: boolean
+          updated_at?: string
+          user_id: string
+          yearly_upgrade?: boolean
+        }
+        Update: {
+          created_at?: string
+          credits_remaining?: number
+          id?: string
+          monthly_upgrade?: boolean
+          updated_at?: string
+          user_id?: string
+          yearly_upgrade?: boolean
+        }
+        Relationships: []
+      }
       waitlist: {
         Row: {
           budget_amount: number | null

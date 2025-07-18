@@ -9,10 +9,12 @@ import { Label } from "@/components/ui/label";
 import { toast } from "@/hooks/use-toast";
 import { BackgroundSelector, BackgroundOption } from "@/components/BackgroundSelector";
 import { EditorPanel } from "@/components/EditorPanel";
+import { UpgradeDialog } from "@/components/UpgradeDialog";
 import { cn } from "@/lib/utils";
 import { Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { User } from "@supabase/supabase-js";
+import { useUserCredits } from "@/hooks/useUserCredits";
 import defaultBg from "@/assets/default-bg.jpg";
 
 // Image Editor Component - Refactored to remove video functionality
@@ -29,10 +31,14 @@ export const ImageEditor = () => {
   // Authentication state
   const [user, setUser] = useState<User | null>(null);
   const [showSignInDialog, setShowSignInDialog] = useState(false);
+  const [showUpgradeDialog, setShowUpgradeDialog] = useState(false);
   const [isSigningIn, setIsSigningIn] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+
+  // Credits management
+  const { credits, deductCredits } = useUserCredits(user);
 
   // Canvas dimension presets
   const canvasSizes = {
@@ -161,7 +167,7 @@ export const ImageEditor = () => {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, []);
 
-  // Handle upload button click with authentication check
+  // Handle upload button click with authentication and credit check
   const handleUploadClick = () => {
     if (!user) {
       setShowSignInDialog(true);
@@ -172,11 +178,22 @@ export const ImageEditor = () => {
       });
       return;
     }
+
+    if (!credits || credits.credits_remaining <= 0) {
+      setShowUpgradeDialog(true);
+      toast({
+        title: "No credits remaining",
+        description: "You need credits to upload images. Contact admin to upgrade.",
+        variant: "destructive",
+      });
+      return;
+    }
+
     fileInputRef.current?.click();
   };
 
-  // Handle file upload (images only)
-  const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+  // Handle file upload (images only) with credit deduction
+  const handleFileUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (!file || !fabricCanvas) return;
 
@@ -186,6 +203,29 @@ export const ImageEditor = () => {
       toast({
         title: "Invalid file type",
         description: "Please upload an image file",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    // Check credits again before processing
+    if (!credits || credits.credits_remaining <= 0) {
+      setShowUpgradeDialog(true);
+      toast({
+        title: "No credits remaining",
+        description: "You need credits to upload images. Contact admin to upgrade.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    // Deduct credit first
+    const creditDeducted = await deductCredits(1);
+    if (!creditDeducted) {
+      setShowUpgradeDialog(true);
+      toast({
+        title: "Unable to process upload",
+        description: "Could not deduct credit. Contact admin if this persists.",
         variant: "destructive",
       });
       return;
@@ -217,7 +257,7 @@ export const ImageEditor = () => {
         
         toast({
           title: "Image uploaded!",
-          description: "Your image has been added to the canvas",
+          description: `Image added to canvas. ${credits.credits_remaining - 1} credits remaining.`,
         });
       });
     };
@@ -398,9 +438,41 @@ export const ImageEditor = () => {
     });
   };
 
-  // Download image
-  const downloadImage = () => {
+  // Download image with credit check
+  const downloadImage = async () => {
     if (!fabricCanvas) return;
+
+    if (!user) {
+      setShowSignInDialog(true);
+      toast({
+        title: "Sign in required",
+        description: "Please sign in to download images",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    if (!credits || credits.credits_remaining <= 0) {
+      setShowUpgradeDialog(true);
+      toast({
+        title: "No credits remaining",
+        description: "You need credits to download images. Contact admin to upgrade.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    // Deduct credit for download
+    const creditDeducted = await deductCredits(1);
+    if (!creditDeducted) {
+      setShowUpgradeDialog(true);
+      toast({
+        title: "Unable to process download",
+        description: "Could not deduct credit. Contact admin if this persists.",
+        variant: "destructive",
+      });
+      return;
+    }
 
     const dataURL = fabricCanvas.toDataURL({
       format: 'png',
@@ -417,7 +489,7 @@ export const ImageEditor = () => {
 
     toast({
       title: "Image downloaded!",
-      description: "Your edited image has been saved",
+      description: `Your edited image has been saved. ${(credits?.credits_remaining || 1) - 1} credits remaining.`,
     });
   };
 
@@ -662,7 +734,13 @@ export const ImageEditor = () => {
              </div>
            </div>
          </DialogContent>
-       </Dialog>
+        </Dialog>
+
+        {/* Upgrade Dialog */}
+        <UpgradeDialog 
+          open={showUpgradeDialog} 
+          onOpenChange={setShowUpgradeDialog} 
+        />
      </div>
    );
  };
