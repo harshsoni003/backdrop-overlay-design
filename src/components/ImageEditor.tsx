@@ -566,17 +566,17 @@ export const ImageEditor = () => {
 
        {/* Sign In Dialog */}
        <Dialog open={showSignInDialog} onOpenChange={setShowSignInDialog}>
-         <DialogContent className="sm:max-w-md">
+         <DialogContent className="sm:max-w-md bg-white">
            <div className="space-y-1 mb-6">
              <h2 className="text-2xl font-bold text-center text-black">Sign In</h2>
-             <p className="text-center text-neutral-600">
+             <p className="text-center text-gray-600">
                Enter your email and password to access your account
              </p>
            </div>
            <div className="space-y-4">
              <Button
                variant="outline"
-               className="w-full bg-white border-neutral-300 text-black hover:bg-neutral-50"
+               className="w-full bg-white border-gray-300 text-black hover:bg-gray-50"
                onClick={handleGoogleSignIn}
                type="button"
              >
@@ -585,10 +585,10 @@ export const ImageEditor = () => {
              
              <div className="relative">
                <div className="absolute inset-0 flex items-center">
-                 <span className="w-full border-t border-neutral-300" />
+                 <span className="w-full border-t border-gray-300" />
                </div>
                <div className="relative flex justify-center text-xs uppercase">
-                 <span className="bg-white px-2 text-neutral-600 z-10">
+                 <span className="bg-white px-2 text-gray-500 z-10">
                    OR CONTINUE WITH
                  </span>
                </div>
@@ -596,19 +596,19 @@ export const ImageEditor = () => {
 
              <form onSubmit={handleSignIn} className="space-y-4">
                <div className="space-y-2">
-                 <Label htmlFor="dialog-email" className="text-black">Email</Label>
+                 <Label htmlFor="dialog-email" className="text-black font-medium">Email</Label>
                  <Input
                    id="dialog-email"
                    type="email"
                    placeholder="Enter your email"
                    value={email}
                    onChange={(e) => setEmail(e.target.value)}
-                   className="bg-white border-neutral-300 text-black placeholder:text-neutral-500"
+                   className="bg-white border-gray-300 text-black placeholder:text-gray-400 focus:border-gray-400 focus:ring-0"
                    required
                  />
                </div>
                <div className="space-y-2">
-                 <Label htmlFor="dialog-password" className="text-black">Password</Label>
+                 <Label htmlFor="dialog-password" className="text-black font-medium">Password</Label>
                  <div className="relative">
                    <Input
                      id="dialog-password"
@@ -616,14 +616,14 @@ export const ImageEditor = () => {
                      placeholder="Enter your password"
                      value={password}
                      onChange={(e) => setPassword(e.target.value)}
-                     className="bg-white border-neutral-300 text-black placeholder:text-neutral-500 pr-10"
+                     className="bg-white border-gray-300 text-black placeholder:text-gray-400 focus:border-gray-400 focus:ring-0 pr-10"
                      required
                    />
                    <Button
                      type="button"
                      variant="ghost"
                      size="sm"
-                     className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent text-neutral-600 hover:text-black"
+                     className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent text-gray-600 hover:text-black"
                      onClick={() => setShowPassword(!showPassword)}
                    >
                      {showPassword ? (
@@ -634,7 +634,7 @@ export const ImageEditor = () => {
                    </Button>
                  </div>
                </div>
-               <Button type="submit" className="w-full bg-black text-white hover:bg-neutral-800" disabled={isSigningIn}>
+               <Button type="submit" className="w-full bg-black text-white hover:bg-gray-800 rounded-lg" disabled={isSigningIn}>
                  {isSigningIn ? "Signing in..." : "Sign In"}
                </Button>
              </form>
@@ -642,16 +642,16 @@ export const ImageEditor = () => {
              <div className="flex flex-col space-y-2 text-center">
                <button
                  type="button"
-                 className="text-sm text-neutral-600 hover:text-black underline"
+                 className="text-sm text-gray-600 hover:text-gray-800 underline"
                  onClick={() => setShowSignInDialog(false)}
                >
                  Forgot your password?
                </button>
-               <div className="text-sm text-neutral-600">
+               <div className="text-sm text-gray-600">
                  Don't have an account?{" "}
                  <button
                    type="button"
-                   className="text-black hover:underline"
+                   className="text-blue-600 hover:text-blue-800 underline"
                    onClick={() => setShowSignInDialog(false)}
                  >
                    Sign up
