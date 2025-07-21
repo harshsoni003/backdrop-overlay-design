@@ -1,10 +1,48 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Check } from "lucide-react";
+import { useEffect, useState } from "react";
+import { User } from "@supabase/supabase-js";
+import { supabase } from "@/integrations/supabase/client";
+import { useToast } from "@/hooks/use-toast";
 import Navbar from "./Navbar";
 
 const PricingPage = () => {
+  const [user, setUser] = useState<User | null>(null);
+  const navigate = useNavigate();
+  const { toast } = useToast();
+
+  useEffect(() => {
+    // Check current user
+    supabase.auth.getUser().then(({ data: { user } }) => {
+      setUser(user);
+    });
+
+    // Listen for auth changes
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+      setUser(session?.user ?? null);
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
+
+  const handlePayment = (paymentUrl: string) => {
+    if (!user) {
+      toast({
+        title: "Sign in required",
+        description: "Please sign in to purchase a subscription",
+        variant: "destructive",
+      });
+      navigate('/signin');
+      return;
+    }
+    
+    // Add user ID to the payment URL for tracking
+    const urlWithUserId = `${paymentUrl}&custom_data=${user.id}`;
+    window.open(urlWithUserId, '_blank');
+  };
+
   return (
     <div className="min-h-screen bg-white">
       <Navbar />
@@ -50,7 +88,7 @@ const PricingPage = () => {
               </ul>
               <Button 
                 className="w-full mt-6 bg-black text-white hover:bg-gray-800"
-                onClick={() => window.open('https://checkout.dodopayments.com/buy/pdt_qTqiT2IJ8IpwtLFOIrplE?quantity=1&redirect_url=https://maciframe.lovable.app%2Feditor', '_blank')}
+                onClick={() => handlePayment('https://checkout.dodopayments.com/buy/pdt_qTqiT2IJ8IpwtLFOIrplE?quantity=1&redirect_url=https://maciframe.lovable.app%2Feditor')}
               >
                 Choose Monthly
               </Button>
@@ -90,7 +128,7 @@ const PricingPage = () => {
               <Button 
                 className="w-full mt-6" 
                 variant="outline"
-                onClick={() => window.open('https://checkout.dodopayments.com/buy/pdt_Hnxf8C6pkmQ8oixcS9ESe?quantity=1&redirect_url=https://maciframe.lovable.app%2Feditor', '_blank')}
+                onClick={() => handlePayment('https://checkout.dodopayments.com/buy/pdt_Hnxf8C6pkmQ8oixcS9ESe?quantity=1&redirect_url=https://maciframe.lovable.app%2Feditor')}
               >
                 Get Lifetime
               </Button>
