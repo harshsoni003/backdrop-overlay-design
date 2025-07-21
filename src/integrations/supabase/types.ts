@@ -19,6 +19,8 @@ export type Database = {
           created_at: string
           credits_remaining: number
           id: string
+          lifetime_access: boolean
+          monthly_expires_at: string | null
           monthly_upgrade: boolean
           updated_at: string
           user_id: string
@@ -28,6 +30,8 @@ export type Database = {
           created_at?: string
           credits_remaining?: number
           id?: string
+          lifetime_access?: boolean
+          monthly_expires_at?: string | null
           monthly_upgrade?: boolean
           updated_at?: string
           user_id: string
@@ -37,6 +41,8 @@ export type Database = {
           created_at?: string
           credits_remaining?: number
           id?: string
+          lifetime_access?: boolean
+          monthly_expires_at?: string | null
           monthly_upgrade?: boolean
           updated_at?: string
           user_id?: string
@@ -76,7 +82,14 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      handle_successful_payment: {
+        Args: { user_id_param: string; payment_type: string }
+        Returns: undefined
+      }
+      has_unlimited_credits: {
+        Args: { user_id_param: string }
+        Returns: boolean
+      }
     }
     Enums: {
       [_ in never]: never

@@ -1,6 +1,7 @@
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { Crown, Mail } from "lucide-react";
+import { Crown, CreditCard } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 interface UpgradeDialogProps {
   open: boolean;
@@ -8,8 +9,11 @@ interface UpgradeDialogProps {
 }
 
 export const UpgradeDialog = ({ open, onOpenChange }: UpgradeDialogProps) => {
-  const handleContactAdmin = () => {
-    window.location.href = 'mailto:admin@maciframe.com?subject=Upgrade Request&body=Hi, I would like to upgrade my account to get more credits for image uploads.';
+  const navigate = useNavigate();
+
+  const handleUpgrade = () => {
+    onOpenChange(false);
+    navigate('/pricing');
   };
 
   return (
@@ -31,19 +35,19 @@ export const UpgradeDialog = ({ open, onOpenChange }: UpgradeDialogProps) => {
           <div className="rounded-lg bg-gradient-to-r from-blue-50 to-purple-50 p-4">
             <h3 className="font-semibold text-gray-900 mb-2">Upgrade Benefits:</h3>
             <ul className="text-sm text-gray-700 space-y-1">
-              <li>• Unlimited image uploads</li>
+              <li>• Unlimited image editing</li>
+              <li>• No credit limits</li>
+              <li>• All backgrounds included</li>
               <li>• Priority support</li>
-              <li>• Advanced editing features</li>
-              <li>• No watermarks</li>
             </ul>
           </div>
           
           <Button
-            onClick={handleContactAdmin}
+            onClick={handleUpgrade}
             className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white"
           >
-            <Mail className="w-4 h-4 mr-2" />
-            Contact Admin for Upgrade
+            <CreditCard className="w-4 h-4 mr-2" />
+            View Pricing Plans
           </Button>
           
           <Button

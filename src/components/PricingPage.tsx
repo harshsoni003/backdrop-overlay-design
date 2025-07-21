@@ -33,22 +33,25 @@ const PricingPage = () => {
               <ul className="space-y-3">
                 <li className="flex items-center gap-2">
                   <Check className="w-4 h-4 text-green-600" />
-                  <span className="text-gray-700">Unlimited posts</span>
+                  <span className="text-gray-700">Unlimited image editing</span>
                 </li>
                 <li className="flex items-center gap-2">
                   <Check className="w-4 h-4 text-green-600" />
-                  <span className="text-gray-700">Weekly updates</span>
+                  <span className="text-gray-700">No credit limits</span>
                 </li>
                 <li className="flex items-center gap-2">
                   <Check className="w-4 h-4 text-green-600" />
-                  <span className="text-gray-700">Limited Mac backgrounds</span>
+                  <span className="text-gray-700">All backgrounds included</span>
                 </li>
                 <li className="flex items-center gap-2">
                   <Check className="w-4 h-4 text-green-600" />
                   <span className="text-gray-700">Priority support</span>
                 </li>
               </ul>
-              <Button className="w-full mt-6 bg-black text-white hover:bg-gray-800">
+              <Button 
+                className="w-full mt-6 bg-black text-white hover:bg-gray-800"
+                onClick={() => window.open('https://checkout.dodopayments.com/buy/pdt_qTqiT2IJ8IpwtLFOIrplE?quantity=1&redirect_url=https://maciframe.lovable.app%2Feditor', '_blank')}
+              >
                 Choose Monthly
               </Button>
             </CardContent>
@@ -65,15 +68,15 @@ const PricingPage = () => {
               <ul className="space-y-3">
                 <li className="flex items-center gap-2">
                   <Check className="w-4 h-4 text-green-600" />
-                  <span className="text-gray-700">Unlimited posts</span>
+                  <span className="text-gray-700">Unlimited image editing</span>
                 </li>
                 <li className="flex items-center gap-2">
                   <Check className="w-4 h-4 text-green-600" />
-                  <span className="text-gray-700">Weekly updates</span>
+                  <span className="text-gray-700">No credit limits</span>
                 </li>
                 <li className="flex items-center gap-2">
                   <Check className="w-4 h-4 text-green-600" />
-                  <span className="text-gray-700">Unlimited Mac backgrounds</span>
+                  <span className="text-gray-700">All backgrounds included</span>
                 </li>
                 <li className="flex items-center gap-2">
                   <Check className="w-4 h-4 text-green-600" />
@@ -84,7 +87,11 @@ const PricingPage = () => {
                   <span className="text-gray-700">Lifetime access</span>
                 </li>
               </ul>
-              <Button className="w-full mt-6" variant="outline">
+              <Button 
+                className="w-full mt-6" 
+                variant="outline"
+                onClick={() => window.open('https://checkout.dodopayments.com/buy/pdt_Hnxf8C6pkmQ8oixcS9ESe?quantity=1&redirect_url=https://maciframe.lovable.app%2Feditor', '_blank')}
+              >
                 Get Lifetime
               </Button>
             </CardContent>

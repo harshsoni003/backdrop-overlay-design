@@ -8,6 +8,8 @@ export interface UserCredits {
   credits_remaining: number;
   monthly_upgrade: boolean;
   yearly_upgrade: boolean;
+  monthly_expires_at: string | null;
+  lifetime_access: boolean;
   created_at: string;
   updated_at: string;
 }
@@ -62,9 +64,30 @@ export const useUserCredits = (user: User | null) => {
     }
   };
 
+  // Check if user has unlimited credits
+  const hasUnlimitedCredits = (): boolean => {
+    if (!credits) return false;
+    
+    // Check for lifetime access
+    if (credits.lifetime_access) return true;
+    
+    // Check for active monthly subscription
+    if (credits.monthly_upgrade && credits.monthly_expires_at) {
+      const expiryDate = new Date(credits.monthly_expires_at);
+      return expiryDate > new Date();
+    }
+    
+    return false;
+  };
+
   // Deduct credits
   const deductCredits = async (amount: number = 1): Promise<boolean> => {
     if (!user || !credits) return false;
+
+    // If user has unlimited credits, allow the action without deducting
+    if (hasUnlimitedCredits()) {
+      return true;
+    }
 
     if (credits.credits_remaining < amount) {
       return false; // Not enough credits
@@ -135,6 +158,7 @@ export const useUserCredits = (user: User | null) => {
     credits,
     loading,
     deductCredits,
+    hasUnlimitedCredits: hasUnlimitedCredits(),
     refetchCredits: fetchCredits
   };
 };
