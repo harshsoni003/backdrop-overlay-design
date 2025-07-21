@@ -32,7 +32,7 @@ export const EditorPanel = ({
   canvasSizes,
   user,
 }: EditorPanelProps) => {
-  const { credits } = useUserCredits(user);
+  const { credits, hasUnlimitedCredits } = useUserCredits(user);
 
   const getUserDisplayName = () => {
     if (user?.user_metadata?.full_name) {
@@ -92,12 +92,12 @@ export const EditorPanel = ({
                 </div>
                 <div className="flex items-center gap-1">
                   <span className="text-lg font-bold text-gray-900">
-                    {credits?.credits_remaining ?? 0}
+                    {hasUnlimitedCredits ? "unlimited" : (credits?.credits_remaining ?? 0)}
                   </span>
-                  <span className="text-sm text-gray-500">left</span>
+                  {!hasUnlimitedCredits && <span className="text-sm text-gray-500">left</span>}
                 </div>
               </div>
-              {credits && credits.credits_remaining <= 2 && (
+              {credits && !hasUnlimitedCredits && credits.credits_remaining <= 2 && (
                 <p className="text-xs text-orange-600 mt-1">
                   {credits.credits_remaining === 0 
                     ? "No credits remaining! Contact admin to upgrade."
