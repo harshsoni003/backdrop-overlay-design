@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Canvas as FabricCanvas, FabricImage, Rect, FabricObject, Path } from "fabric";
+import { Canvas as FabricCanvas, FabricImage, Rect, FabricObject, Path, Circle, Triangle, Polygon } from "fabric";
 import { Upload, Download, Move, RotateCcw, Trash2, ZoomIn, ZoomOut, Maximize2, Eye, EyeOff } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -27,6 +27,8 @@ export const ImageEditor = () => {
   const [borderRadius, setBorderRadius] = useState([0]);
   const [canvasAspectRatio, setCanvasAspectRatio] = useState("16:9");
   const [zoomLevel, setZoomLevel] = useState(0.55);
+  const [shapeColor, setShapeColor] = useState("#ff3b30");
+  const [showBackdrop, setShowBackdrop] = useState(true);
   
   // Authentication state
   const [user, setUser] = useState<User | null>(null);

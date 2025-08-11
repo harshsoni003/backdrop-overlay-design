@@ -1,4 +1,4 @@
-import { Settings2, ImageIcon, Crop, User, Coins } from "lucide-react";
+import { Settings2, ImageIcon, Crop, User, Coins, Square, Circle as CircleIcon, Triangle, Star } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
@@ -8,6 +8,8 @@ import { BackgroundSelector, BackgroundOption } from "@/components/BackgroundSel
 import { User as SupabaseUser } from "@supabase/supabase-js";
 import { useUserCredits } from "@/hooks/useUserCredits";
 import { Link } from "react-router-dom";
+import { Button } from "@/components/ui/button";
+import { Switch } from "@/components/ui/switch";
 
 interface EditorPanelProps {
   selectedBackgroundId: string;
@@ -19,6 +21,14 @@ interface EditorPanelProps {
   onAspectRatioChange: (aspectRatio: string) => void;
   canvasSizes: { [key: string]: { width: number; height: number } };
   user: SupabaseUser | null;
+  // New props for shapes and background controls
+  onAddShape: (type: "rect" | "circle" | "triangle" | "star") => void;
+  shapeColor: string;
+  onShapeColorChange: (color: string) => void;
+  onApplyColorToSelection: () => void;
+  onRemoveCanvasBackground: () => void;
+  showBackdrop: boolean;
+  onToggleBackdrop: (show: boolean) => void;
 }
 
 export const EditorPanel = ({
@@ -31,6 +41,13 @@ export const EditorPanel = ({
   onAspectRatioChange,
   canvasSizes,
   user,
+  onAddShape,
+  shapeColor,
+  onShapeColorChange,
+  onApplyColorToSelection,
+  onRemoveCanvasBackground,
+  showBackdrop,
+  onToggleBackdrop,
 }: EditorPanelProps) => {
   const { credits, hasUnlimitedCredits } = useUserCredits(user);
 
@@ -143,6 +160,11 @@ export const EditorPanel = ({
                 ))}
               </SelectContent>
             </Select>
+            {/* Page backdrop toggle */}
+            <div className="flex items-center justify-between mt-4 pt-4 border-t border-gray-200">
+              <Label className="text-sm font-medium text-gray-700">Show page background</Label>
+              <Switch checked={showBackdrop} onCheckedChange={onToggleBackdrop} />
+            </div>
           </div>
         </div>
 
@@ -187,6 +209,45 @@ export const EditorPanel = ({
         </div>
         )}
 
+        {/* Shapes */}
+        <div className="space-y-4">
+          <div className="flex items-center gap-2 pb-2">
+            <div className="w-1 h-6 bg-gradient-to-b from-indigo-500 to-indigo-400 rounded-full"></div>
+            <h3 className="font-medium text-gray-900">Shapes</h3>
+          </div>
+          <div className="p-4 bg-gray-50 border border-gray-200 rounded-lg shadow-sm space-y-4">
+            <div className="flex items-center justify-between">
+              <Label className="text-sm font-medium text-gray-700">Color</Label>
+              <input
+                type="color"
+                value={shapeColor}
+                onChange={(e) => onShapeColorChange(e.target.value)}
+                className="h-8 w-12 rounded border border-gray-300 cursor-pointer"
+                aria-label="Shape color picker"
+              />
+            </div>
+            <div className="grid grid-cols-2 gap-2">
+              <Button variant="outline" className="justify-start" onClick={() => onAddShape("rect")}> 
+                <Square className="w-4 h-4 mr-2" /> Rectangle
+              </Button>
+              <Button variant="outline" className="justify-start" onClick={() => onAddShape("circle")}>
+                <CircleIcon className="w-4 h-4 mr-2" /> Circle
+              </Button>
+              <Button variant="outline" className="justify-start" onClick={() => onAddShape("triangle")}>
+                <Triangle className="w-4 h-4 mr-2" /> Triangle
+              </Button>
+              <Button variant="outline" className="justify-start" onClick={() => onAddShape("star")}>
+                <Star className="w-4 h-4 mr-2" /> Star
+              </Button>
+            </div>
+            {activeObject && (
+              <Button variant="secondary" onClick={onApplyColorToSelection} className="w-full">
+                Apply color to selected shape
+              </Button>
+            )}
+          </div>
+        </div>
+
         {/* Background Selection */}
         <div className="space-y-4">
           <div className="flex items-center gap-2 pb-2">
@@ -197,6 +258,9 @@ export const EditorPanel = ({
             selectedBackground={selectedBackgroundId}
             onBackgroundSelect={onBackgroundSelect}
           />
+          <Button variant="outline" className="w-full" onClick={onRemoveCanvasBackground}>
+            Remove canvas background
+          </Button>
         </div>
 
       </div>
