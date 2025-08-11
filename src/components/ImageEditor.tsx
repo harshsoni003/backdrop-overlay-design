@@ -419,6 +419,92 @@ export const ImageEditor = () => {
     });
   };
 
+  // Shape and background handlers
+  const onAddShape = (type: "rect" | "circle" | "triangle" | "star") => {
+    if (!fabricCanvas) return;
+    const canvasWidth = fabricCanvas.getWidth();
+    const canvasHeight = fabricCanvas.getHeight();
+
+    if (type === "rect") {
+      const rect = new Rect({
+        left: canvasWidth / 2,
+        top: canvasHeight / 2,
+        originX: 'center',
+        originY: 'center',
+        width: 180,
+        height: 120,
+        fill: shapeColor,
+      });
+      fabricCanvas.add(rect);
+      fabricCanvas.setActiveObject(rect);
+    } else if (type === "circle") {
+      const circle = new Circle({
+        left: canvasWidth / 2,
+        top: canvasHeight / 2,
+        originX: 'center',
+        originY: 'center',
+        radius: 70,
+        fill: shapeColor,
+      });
+      fabricCanvas.add(circle);
+      fabricCanvas.setActiveObject(circle);
+    } else if (type === "triangle") {
+      const tri = new Triangle({
+        left: canvasWidth / 2,
+        top: canvasHeight / 2,
+        originX: 'center',
+        originY: 'center',
+        width: 140,
+        height: 120,
+        fill: shapeColor,
+      });
+      fabricCanvas.add(tri);
+      fabricCanvas.setActiveObject(tri);
+    } else if (type === "star") {
+      const spikes = 5;
+      const outerRadius = 80;
+      const innerRadius = 40;
+      const points = [] as { x: number; y: number }[];
+      for (let i = 0; i < spikes * 2; i++) {
+        const radius = i % 2 === 0 ? outerRadius : innerRadius;
+        const angle = (Math.PI / spikes) * i - Math.PI / 2;
+        points.push({ x: Math.cos(angle) * radius, y: Math.sin(angle) * radius });
+      }
+      const star = new Polygon(points, {
+        left: canvasWidth / 2,
+        top: canvasHeight / 2,
+        originX: 'center',
+        originY: 'center',
+        fill: shapeColor,
+      });
+      fabricCanvas.add(star);
+      fabricCanvas.setActiveObject(star);
+    }
+
+    fabricCanvas.renderAll();
+  };
+
+  const onShapeColorChange = (color: string) => {
+    setShapeColor(color);
+  };
+
+  const onApplyColorToSelection = () => {
+    if (!fabricCanvas || !activeObject) return;
+    try {
+      activeObject.set({ fill: shapeColor });
+      fabricCanvas.renderAll();
+    } catch {}
+  };
+
+  const onRemoveCanvasBackground = () => {
+    if (!fabricCanvas) return;
+    fabricCanvas.backgroundImage = undefined;
+    fabricCanvas.renderAll();
+    setSelectedBackgroundId("");
+  };
+
+  const onToggleBackdrop = (show: boolean) => setShowBackdrop(show);
+
   // Download image with credit check
   const downloadImage = async () => {
     if (!fabricCanvas) return;
@@ -487,21 +573,32 @@ export const ImageEditor = () => {
         onAspectRatioChange={handleAspectRatioChange}
         canvasSizes={canvasSizes}
         user={user}
+        onAddShape={onAddShape}
+        shapeColor={shapeColor}
+        onShapeColorChange={onShapeColorChange}
+        onApplyColorToSelection={onApplyColorToSelection}
+        onRemoveCanvasBackground={onRemoveCanvasBackground}
+        showBackdrop={showBackdrop}
+        onToggleBackdrop={onToggleBackdrop}
       />
 
       {/* Canvas Area */}
       <div className="flex-1 py-6 ml-[360px] relative bg-white dark:bg-black overflow-x-auto overflow-y-hidden">
-        {/* Dot Background Pattern */}
-        <div
-          className={cn(
-            "absolute inset-0",
-            "[background-size:20px_20px]",
-            "[background-image:radial-gradient(#555555_1px,transparent_1px)]",
-            "dark:[background-image:radial-gradient(#888888_1px,transparent_1px)]",
-          )}
-        />
-        {/* Radial gradient for the container to give a faded look */}
-        <div className="pointer-events-none absolute inset-0 flex items-center justify-center bg-white [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)] dark:bg-black"></div>
+        {showBackdrop && (
+          <>
+            {/* Dot Background Pattern */}
+            <div
+              className={cn(
+                "absolute inset-0",
+                "[background-size:20px_20px]",
+                "[background-image:radial-gradient(#555555_1px,transparent_1px)]",
+                "dark:[background-image:radial-gradient(#888888_1px,transparent_1px)]",
+              )}
+            />
+            {/* Radial gradient for the container to give a faded look */}
+            <div className="pointer-events-none absolute inset-0 flex items-center justify-center bg-white [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)] dark:bg-black"></div>
+          </>
+        )}
         
         <div className="h-full flex flex-col relative z-10 min-w-max">
           {/* Toolbar */}
