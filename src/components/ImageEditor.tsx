@@ -494,7 +494,7 @@ export const ImageEditor = () => {
   };
 
   // Shape and background handlers
-  const onAddShape = (type: "rect" | "circle" | "triangle" | "star" | "arrow" | "pencil" | "highlighter") => {
+  const onAddShape = (type: "rect" | "circle" | "triangle" | "star" | "arrow") => {
     if (!fabricCanvas) return;
     const canvasWidth = fabricCanvas.getWidth();
     const canvasHeight = fabricCanvas.getHeight();
@@ -582,52 +582,6 @@ export const ImageEditor = () => {
       });
       fabricCanvas.add(arrow);
       fabricCanvas.setActiveObject(arrow);
-    } else if (type === "pencil") {
-      // Enable drawing mode for pencil
-      fabricCanvas.isDrawingMode = true;
-      fabricCanvas.freeDrawingBrush.color = shapeColor;
-      fabricCanvas.freeDrawingBrush.width = strokeWidth;
-      
-      toast({
-        title: "Pencil mode activated",
-        description: "Click and drag to draw. Press Escape to exit drawing mode.",
-      });
-      
-      // Add escape key listener to exit drawing mode
-      const handleEscape = (e: KeyboardEvent) => {
-        if (e.key === 'Escape') {
-          fabricCanvas.isDrawingMode = false;
-          document.removeEventListener('keydown', handleEscape);
-          toast({
-            title: "Pencil mode deactivated",
-            description: "Drawing mode is now off.",
-          });
-        }
-      };
-      document.addEventListener('keydown', handleEscape);
-    } else if (type === "highlighter") {
-      // Enable drawing mode for highlighter with different brush properties
-      fabricCanvas.isDrawingMode = true;
-      fabricCanvas.freeDrawingBrush.color = shapeColor;
-      fabricCanvas.freeDrawingBrush.width = strokeWidth * 3; // Thicker for highlighter effect
-      
-      toast({
-        title: "Highlighter mode activated", 
-        description: "Click and drag to highlight. Press Escape to exit drawing mode.",
-      });
-      
-      // Add escape key listener to exit drawing mode
-      const handleEscape = (e: KeyboardEvent) => {
-        if (e.key === 'Escape') {
-          fabricCanvas.isDrawingMode = false;
-          document.removeEventListener('keydown', handleEscape);
-          toast({
-            title: "Highlighter mode deactivated",
-            description: "Drawing mode is now off.",
-          });
-        }
-      };
-      document.addEventListener('keydown', handleEscape);
     }
 
     fabricCanvas.renderAll();
@@ -764,6 +718,7 @@ export const ImageEditor = () => {
             <div className="pointer-events-none absolute inset-0 flex items-center justify-center bg-white [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)] dark:bg-black"></div>
           </>
         )}
+        
         <div className="h-full flex flex-col relative z-10 min-w-max">
           {/* Toolbar */}
           <div className="mb-4 mt-8 flex justify-start ml-8 relative z-20">

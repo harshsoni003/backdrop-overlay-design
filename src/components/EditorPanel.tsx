@@ -1,4 +1,4 @@
-import { Settings2, ImageIcon, Crop, User, Coins, Square, Circle as CircleIcon, Triangle, Star, ArrowRight, Pencil, Highlighter } from "lucide-react";
+import { Settings2, ImageIcon, Crop, User, Coins, Square, Circle as CircleIcon, Triangle, Star, ArrowRight } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
@@ -22,7 +22,7 @@ interface EditorPanelProps {
   canvasSizes: { [key: string]: { width: number; height: number } };
   user: SupabaseUser | null;
   // New props for shapes and background controls
-  onAddShape: (type: "rect" | "circle" | "triangle" | "star" | "arrow" | "pencil" | "highlighter") => void;
+  onAddShape: (type: "rect" | "circle" | "triangle" | "star" | "arrow") => void;
   shapeColor: string;
   onShapeColorChange: (color: string) => void;
   strokeWidth: number;
@@ -263,14 +263,8 @@ export const EditorPanel = ({
               <Button variant="outline" className="justify-start" onClick={() => onAddShape("star")}>
                 <Star className="w-4 h-4 mr-2" /> Star
               </Button>
-              <Button variant="outline" className="justify-start" onClick={() => onAddShape("arrow")}>
+              <Button variant="outline" className="col-span-2 justify-start" onClick={() => onAddShape("arrow")}>
                 <ArrowRight className="w-4 h-4 mr-2" /> Arrow
-              </Button>
-              <Button variant="outline" className="justify-start" onClick={() => onAddShape("pencil")}>
-                <Pencil className="w-4 h-4 mr-2" /> Pencil
-              </Button>
-              <Button variant="outline" className="justify-start" onClick={() => onAddShape("highlighter")}>
-                <Highlighter className="w-4 h-4 mr-2" /> Highlighter
               </Button>
             </div>
             {activeObject && (
