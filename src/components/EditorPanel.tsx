@@ -28,10 +28,8 @@ interface EditorPanelProps {
   strokeWidth: number;
   onStrokeWidthChange: (width: number) => void;
   onApplyColorToSelection: () => void;
-  onRemoveCanvasBackground: () => void;
   backgroundColor: string;
   onBackgroundColorChange: (color: string) => void;
-  onApplyBackgroundColor: () => void;
   showBackdrop: boolean;
   onToggleBackdrop: (show: boolean) => void;
 }
@@ -52,10 +50,8 @@ export const EditorPanel = ({
   strokeWidth,
   onStrokeWidthChange,
   onApplyColorToSelection,
-  onRemoveCanvasBackground,
   backgroundColor,
   onBackgroundColorChange,
-  onApplyBackgroundColor,
   showBackdrop,
   onToggleBackdrop,
 }: EditorPanelProps) => {
@@ -286,7 +282,7 @@ export const EditorPanel = ({
             <h3 className="font-medium text-gray-900">Background</h3>
           </div>
           <div className="space-y-4">
-            <div className="p-4 bg-gray-50 border border-gray-200 rounded-lg shadow-sm space-y-4">
+            <div className="p-4 bg-gray-50 border border-gray-200 rounded-lg shadow-sm">
               <div className="flex items-center justify-between">
                 <Label className="text-sm font-medium text-gray-700">Background Color</Label>
                 <input
@@ -297,12 +293,6 @@ export const EditorPanel = ({
                   aria-label="Background color picker"
                 />
               </div>
-              <Button variant="secondary" onClick={onApplyBackgroundColor} className="w-full">
-                Apply background color
-              </Button>
-              <Button variant="outline" className="w-full" onClick={onRemoveCanvasBackground}>
-                Remove canvas background
-              </Button>
             </div>
             <BackgroundSelector
               selectedBackground={selectedBackgroundId}

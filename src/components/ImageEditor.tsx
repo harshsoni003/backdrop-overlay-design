@@ -538,22 +538,11 @@ export const ImageEditor = () => {
     } catch {}
   };
 
-  const onRemoveCanvasBackground = () => {
-    if (!fabricCanvas) return;
-    fabricCanvas.backgroundImage = undefined;
-    fabricCanvas.backgroundColor = "#ffffff";
-    fabricCanvas.renderAll();
-    setSelectedBackgroundId("");
-  };
-
   const onBackgroundColorChange = (color: string) => {
     setBackgroundColor(color);
-  };
-
-  const onApplyBackgroundColor = () => {
     if (!fabricCanvas) return;
     fabricCanvas.backgroundImage = undefined;
-    fabricCanvas.backgroundColor = backgroundColor;
+    fabricCanvas.backgroundColor = color;
     fabricCanvas.renderAll();
     setSelectedBackgroundId("");
   };
@@ -634,10 +623,8 @@ export const ImageEditor = () => {
         strokeWidth={strokeWidth}
         onStrokeWidthChange={onStrokeWidthChange}
         onApplyColorToSelection={onApplyColorToSelection}
-        onRemoveCanvasBackground={onRemoveCanvasBackground}
         backgroundColor={backgroundColor}
         onBackgroundColorChange={onBackgroundColorChange}
-        onApplyBackgroundColor={onApplyBackgroundColor}
         showBackdrop={showBackdrop}
         onToggleBackdrop={onToggleBackdrop}
       />
