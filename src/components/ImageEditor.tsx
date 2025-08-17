@@ -702,129 +702,127 @@ export const ImageEditor = () => {
       />
 
       {/* Canvas Area */}
-      <div className="flex-1 py-6 ml-[360px] relative bg-white dark:bg-black overflow-x-auto overflow-y-hidden">
-        {showBackdrop && (
-          <>
-            {/* Dot Background Pattern */}
-            <div
-              className={cn(
-                "absolute inset-0",
-                "[background-size:20px_20px]",
-                "[background-image:radial-gradient(#555555_1px,transparent_1px)]",
-                "dark:[background-image:radial-gradient(#888888_1px,transparent_1px)]",
-              )}
-            />
-            {/* Radial gradient for the container to give a faded look */}
-            <div className="pointer-events-none absolute inset-0 flex items-center justify-center bg-white [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)] dark:bg-black"></div>
-          </>
-        )}
-        
-        <div className="h-full flex flex-col relative z-10 min-w-max">
-          {/* Toolbar */}
-          <div className="mb-4 mt-8 flex justify-start ml-8 relative z-20">
-            <Card className="p-3 bg-white border-border w-fit">
-              <div className="flex items-center gap-2">
-                <Button
-                  onClick={handleUploadClick}
-                  variant="default"
-                  size="sm"
-                  className="bg-purple-600 hover:bg-purple-700 text-white"
-                >
-                  <Upload className="w-4 h-4 mr-2" />
-                  Upload Image
-                </Button>
-                
-                {activeObject && (
+      {showBackdrop && (
+        <div className="flex-1 py-6 ml-[360px] relative bg-white dark:bg-black overflow-x-auto overflow-y-hidden">
+          {/* Dot Background Pattern */}
+          <div
+            className={cn(
+              "absolute inset-0",
+              "[background-size:20px_20px]",
+              "[background-image:radial-gradient(#555555_1px,transparent_1px)]",
+              "dark:[background-image:radial-gradient(#888888_1px,transparent_1px)]",
+            )}
+          />
+          {/* Radial gradient for the container to give a faded look */}
+          <div className="pointer-events-none absolute inset-0 flex items-center justify-center bg-white [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)] dark:bg-black"></div>
+          
+          <div className="h-full flex flex-col relative z-10 min-w-max">
+            {/* Toolbar */}
+            <div className="mb-4 mt-8 flex justify-start ml-8 relative z-20">
+              <Card className="p-3 bg-white border-border w-fit">
+                <div className="flex items-center gap-2">
                   <Button
-                    onClick={deleteActiveObject}
-                    variant="destructive"
+                    onClick={handleUploadClick}
+                    variant="default"
                     size="sm"
+                    className="bg-purple-600 hover:bg-purple-700 text-white"
                   >
-                    <Trash2 className="w-4 h-4 mr-2" />
-                    Delete
-                  </Button>
-                )}
-                
-                <Button
-                  onClick={resetCanvas}
-                  variant="outline"
-                  size="sm"
-                >
-                  <RotateCcw className="w-4 h-4 mr-2" />
-                  Reset
-                </Button>
-                
-                <Button
-                  onClick={downloadImage}
-                  variant="default"
-                  size="sm"
-                  className="bg-cyan-500 hover:bg-cyan-600 text-white"
-                >
-                  <Download className="w-4 h-4 mr-2" />
-                  Download
-                </Button>
-                
-                {/* Zoom Controls */}
-                <div className="flex items-center gap-1 ml-2 border-l pl-2">
-                  <Button
-                    onClick={zoomOut}
-                    variant="outline"
-                    size="sm"
-                    title="Zoom Out"
-                  >
-                    <ZoomOut className="w-4 h-4" />
+                    <Upload className="w-4 h-4 mr-2" />
+                    Upload Image
                   </Button>
                   
-                  <span className="text-sm font-mono px-3 py-1 bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-100 rounded-md min-w-[3.5rem] text-center border border-gray-200 dark:border-gray-700">
-                    {Math.round(zoomLevel * 100)}%
-                  </span>
+                  {activeObject && (
+                    <Button
+                      onClick={deleteActiveObject}
+                      variant="destructive"
+                      size="sm"
+                    >
+                      <Trash2 className="w-4 h-4 mr-2" />
+                      Delete
+                    </Button>
+                  )}
                   
                   <Button
-                    onClick={zoomIn}
+                    onClick={resetCanvas}
                     variant="outline"
                     size="sm"
-                    title="Zoom In"
                   >
-                    <ZoomIn className="w-4 h-4" />
+                    <RotateCcw className="w-4 h-4 mr-2" />
+                    Reset
                   </Button>
                   
                   <Button
-                    onClick={resetZoom}
-                    variant="outline"
+                    onClick={downloadImage}
+                    variant="default"
                     size="sm"
-                    title="Reset Zoom"
+                    className="bg-cyan-500 hover:bg-cyan-600 text-white"
                   >
-                    <Maximize2 className="w-4 h-4" />
+                    <Download className="w-4 h-4 mr-2" />
+                    Download
                   </Button>
+                  
+                  {/* Zoom Controls */}
+                  <div className="flex items-center gap-1 ml-2 border-l pl-2">
+                    <Button
+                      onClick={zoomOut}
+                      variant="outline"
+                      size="sm"
+                      title="Zoom Out"
+                    >
+                      <ZoomOut className="w-4 h-4" />
+                    </Button>
+                    
+                    <span className="text-sm font-mono px-3 py-1 bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-100 rounded-md min-w-[3.5rem] text-center border border-gray-200 dark:border-gray-700">
+                      {Math.round(zoomLevel * 100)}%
+                    </span>
+                    
+                    <Button
+                      onClick={zoomIn}
+                      variant="outline"
+                      size="sm"
+                      title="Zoom In"
+                    >
+                      <ZoomIn className="w-4 h-4" />
+                    </Button>
+                    
+                    <Button
+                      onClick={resetZoom}
+                      variant="outline"
+                      size="sm"
+                      title="Reset Zoom"
+                    >
+                      <Maximize2 className="w-4 h-4" />
+                    </Button>
+                  </div>
                 </div>
-              </div>
-            </Card>
-          </div>
+              </Card>
+            </div>
 
-          {/* Canvas Container */}
-          <div className={cn(
-            "flex-1 flex items-center justify-start min-w-max",
-            {
-              "-ml-36 -mt-24": canvasAspectRatio === "16:9",
-              "-ml-8 -mt-12": canvasAspectRatio === "1:1",
-              "-ml-16 -mt-16": canvasAspectRatio === "4:3", 
-              "ml-31 -mt-52": canvasAspectRatio === "9:16",
-              "-ml-72 -mt-24": canvasAspectRatio === "21:9"
-            }
-          )}>
-            <div 
-              className="shadow-soft rounded-2xl overflow-hidden border border-border transform origin-center transition-transform duration-200 ease-in-out"
-              style={{ 
-                transform: `scale(${zoomLevel})`,
-                borderRadius: '16px',
-                minWidth: 'fit-content'
-              }}
-            >
-              <canvas ref={canvasRef} className="block rounded-2xl" style={{ borderRadius: '16px' }} />
+            {/* Canvas Container */}
+            <div className={cn(
+              "flex-1 flex items-center justify-start min-w-max",
+              {
+                "-ml-36 -mt-24": canvasAspectRatio === "16:9",
+                "-ml-8 -mt-12": canvasAspectRatio === "1:1",
+                "-ml-16 -mt-16": canvasAspectRatio === "4:3", 
+                "ml-31 -mt-52": canvasAspectRatio === "9:16",
+                "-ml-72 -mt-24": canvasAspectRatio === "21:9"
+              }
+            )}>
+              <div 
+                className="shadow-soft rounded-2xl overflow-hidden border border-border transform origin-center transition-transform duration-200 ease-in-out"
+                style={{ 
+                  transform: `scale(${zoomLevel})`,
+                  borderRadius: '16px',
+                  minWidth: 'fit-content'
+                }}
+              >
+                <canvas ref={canvasRef} className="block rounded-2xl" style={{ borderRadius: '16px' }} />
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      )}
 
        {/* Hidden file input */}
        <input
