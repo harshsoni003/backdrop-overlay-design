@@ -1,4 +1,4 @@
-import { Settings2, ImageIcon, Crop, User, Coins, Square, Circle as CircleIcon, Triangle, Star } from "lucide-react";
+import { Settings2, ImageIcon, Crop, User, Coins, Square, Circle as CircleIcon, Triangle, Star, ArrowRight } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
@@ -22,9 +22,11 @@ interface EditorPanelProps {
   canvasSizes: { [key: string]: { width: number; height: number } };
   user: SupabaseUser | null;
   // New props for shapes and background controls
-  onAddShape: (type: "rect" | "circle" | "triangle" | "star") => void;
+  onAddShape: (type: "rect" | "circle" | "triangle" | "star" | "arrow") => void;
   shapeColor: string;
   onShapeColorChange: (color: string) => void;
+  strokeWidth: number;
+  onStrokeWidthChange: (width: number) => void;
   onApplyColorToSelection: () => void;
   onRemoveCanvasBackground: () => void;
   showBackdrop: boolean;
@@ -44,6 +46,8 @@ export const EditorPanel = ({
   onAddShape,
   shapeColor,
   onShapeColorChange,
+  strokeWidth,
+  onStrokeWidthChange,
   onApplyColorToSelection,
   onRemoveCanvasBackground,
   showBackdrop,
@@ -226,6 +230,24 @@ export const EditorPanel = ({
                 aria-label="Shape color picker"
               />
             </div>
+            <div className="space-y-3">
+              <div className="flex items-center justify-between">
+                <Label className="text-sm font-medium text-gray-700">
+                  Stroke Width
+                </Label>
+                <span className="text-sm font-mono bg-gray-100 px-2 py-1 rounded text-gray-800">
+                  {strokeWidth}px
+                </span>
+              </div>
+              <Slider
+                value={[strokeWidth]}
+                onValueChange={(value) => onStrokeWidthChange(value[0])}
+                max={10}
+                min={1}
+                step={1}
+                className="w-full"
+              />
+            </div>
             <div className="grid grid-cols-2 gap-2">
               <Button variant="outline" className="justify-start" onClick={() => onAddShape("rect")}> 
                 <Square className="w-4 h-4 mr-2" /> Rectangle
@@ -238,6 +260,9 @@ export const EditorPanel = ({
               </Button>
               <Button variant="outline" className="justify-start" onClick={() => onAddShape("star")}>
                 <Star className="w-4 h-4 mr-2" /> Star
+              </Button>
+              <Button variant="outline" className="col-span-2 justify-start" onClick={() => onAddShape("arrow")}>
+                <ArrowRight className="w-4 h-4 mr-2" /> Arrow
               </Button>
             </div>
             {activeObject && (

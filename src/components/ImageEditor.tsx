@@ -28,6 +28,7 @@ export const ImageEditor = () => {
   const [canvasAspectRatio, setCanvasAspectRatio] = useState("16:9");
   const [zoomLevel, setZoomLevel] = useState(0.55);
   const [shapeColor, setShapeColor] = useState("#ff3b30");
+  const [strokeWidth, setStrokeWidth] = useState(2);
   const [showBackdrop, setShowBackdrop] = useState(true);
   
   // Authentication state
@@ -420,7 +421,7 @@ export const ImageEditor = () => {
   };
 
   // Shape and background handlers
-  const onAddShape = (type: "rect" | "circle" | "triangle" | "star") => {
+  const onAddShape = (type: "rect" | "circle" | "triangle" | "star" | "arrow") => {
     if (!fabricCanvas) return;
     const canvasWidth = fabricCanvas.getWidth();
     const canvasHeight = fabricCanvas.getHeight();
@@ -435,7 +436,7 @@ export const ImageEditor = () => {
         height: 120,
         fill: 'transparent',
         stroke: shapeColor,
-        strokeWidth: 2,
+        strokeWidth: strokeWidth,
       });
       fabricCanvas.add(rect);
       fabricCanvas.setActiveObject(rect);
@@ -448,7 +449,7 @@ export const ImageEditor = () => {
         radius: 70,
         fill: 'transparent',
         stroke: shapeColor,
-        strokeWidth: 2,
+        strokeWidth: strokeWidth,
       });
       fabricCanvas.add(circle);
       fabricCanvas.setActiveObject(circle);
@@ -462,7 +463,7 @@ export const ImageEditor = () => {
         height: 120,
         fill: 'transparent',
         stroke: shapeColor,
-        strokeWidth: 2,
+        strokeWidth: strokeWidth,
       });
       fabricCanvas.add(tri);
       fabricCanvas.setActiveObject(tri);
@@ -483,10 +484,31 @@ export const ImageEditor = () => {
         originY: 'center',
         fill: 'transparent',
         stroke: shapeColor,
-        strokeWidth: 2,
+        strokeWidth: strokeWidth,
       });
       fabricCanvas.add(star);
       fabricCanvas.setActiveObject(star);
+    } else if (type === "arrow") {
+      const arrowPoints = [
+        { x: -60, y: 0 },   // tail left
+        { x: 30, y: 0 },    // before head
+        { x: 30, y: -15 },  // head top
+        { x: 60, y: 0 },    // head tip
+        { x: 30, y: 15 },   // head bottom
+        { x: 30, y: 0 },    // back to body
+        { x: -60, y: 0 }    // close tail
+      ];
+      const arrow = new Polygon(arrowPoints, {
+        left: canvasWidth / 2,
+        top: canvasHeight / 2,
+        originX: 'center',
+        originY: 'center',
+        fill: 'transparent',
+        stroke: shapeColor,
+        strokeWidth: strokeWidth,
+      });
+      fabricCanvas.add(arrow);
+      fabricCanvas.setActiveObject(arrow);
     }
 
     fabricCanvas.renderAll();
@@ -496,10 +518,14 @@ export const ImageEditor = () => {
     setShapeColor(color);
   };
 
+  const onStrokeWidthChange = (width: number) => {
+    setStrokeWidth(width);
+  };
+
   const onApplyColorToSelection = () => {
     if (!fabricCanvas || !activeObject) return;
     try {
-      activeObject.set({ stroke: shapeColor });
+      activeObject.set({ stroke: shapeColor, strokeWidth: strokeWidth });
       fabricCanvas.renderAll();
     } catch {}
   };
@@ -584,6 +610,8 @@ export const ImageEditor = () => {
         onAddShape={onAddShape}
         shapeColor={shapeColor}
         onShapeColorChange={onShapeColorChange}
+        strokeWidth={strokeWidth}
+        onStrokeWidthChange={onStrokeWidthChange}
         onApplyColorToSelection={onApplyColorToSelection}
         onRemoveCanvasBackground={onRemoveCanvasBackground}
         showBackdrop={showBackdrop}
