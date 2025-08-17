@@ -702,103 +702,103 @@ export const ImageEditor = () => {
       />
 
       {/* Canvas Area */}
-      {showBackdrop && (
-        <div className="flex-1 py-6 ml-[360px] relative bg-white dark:bg-black overflow-x-auto overflow-y-hidden">
-          {/* Dot Background Pattern */}
-          <div
-            className={cn(
-              "absolute inset-0",
-              "[background-size:20px_20px]",
-              "[background-image:radial-gradient(#555555_1px,transparent_1px)]",
-              "dark:[background-image:radial-gradient(#888888_1px,transparent_1px)]",
-            )}
-          />
-          {/* Radial gradient for the container to give a faded look */}
-          <div className="pointer-events-none absolute inset-0 flex items-center justify-center bg-white [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)] dark:bg-black"></div>
-          
-          <div className="h-full flex flex-col relative z-10 min-w-max">
-            {/* Toolbar */}
-            <div className="mb-4 mt-8 flex justify-start ml-8 relative z-20">
-              <Card className="p-3 bg-white border-border w-fit">
-                <div className="flex items-center gap-2">
+      <div className="flex-1 py-6 ml-[360px] relative bg-white dark:bg-black overflow-x-auto overflow-y-hidden">
+        {/* Dot Background Pattern */}
+        <div
+          className={cn(
+            "absolute inset-0",
+            "[background-size:20px_20px]",
+            "[background-image:radial-gradient(#555555_1px,transparent_1px)]",
+            "dark:[background-image:radial-gradient(#888888_1px,transparent_1px)]",
+          )}
+        />
+        {/* Radial gradient for the container to give a faded look */}
+        <div className="pointer-events-none absolute inset-0 flex items-center justify-center bg-white [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)] dark:bg-black"></div>
+        
+        <div className="h-full flex flex-col relative z-10 min-w-max">
+          {/* Toolbar */}
+          <div className="mb-4 mt-8 flex justify-start ml-8 relative z-20">
+            <Card className="p-3 bg-white border-border w-fit">
+              <div className="flex items-center gap-2">
+                <Button
+                  onClick={handleUploadClick}
+                  variant="default"
+                  size="sm"
+                  className="bg-purple-600 hover:bg-purple-700 text-white"
+                >
+                  <Upload className="w-4 h-4 mr-2" />
+                  Upload Image
+                </Button>
+                
+                {activeObject && (
                   <Button
-                    onClick={handleUploadClick}
-                    variant="default"
+                    onClick={deleteActiveObject}
+                    variant="destructive"
                     size="sm"
-                    className="bg-purple-600 hover:bg-purple-700 text-white"
                   >
-                    <Upload className="w-4 h-4 mr-2" />
-                    Upload Image
+                    <Trash2 className="w-4 h-4 mr-2" />
+                    Delete
                   </Button>
-                  
-                  {activeObject && (
-                    <Button
-                      onClick={deleteActiveObject}
-                      variant="destructive"
-                      size="sm"
-                    >
-                      <Trash2 className="w-4 h-4 mr-2" />
-                      Delete
-                    </Button>
-                  )}
-                  
+                )}
+                
+                <Button
+                  onClick={resetCanvas}
+                  variant="outline"
+                  size="sm"
+                >
+                  <RotateCcw className="w-4 h-4 mr-2" />
+                  Reset
+                </Button>
+                
+                <Button
+                  onClick={downloadImage}
+                  variant="default"
+                  size="sm"
+                  className="bg-cyan-500 hover:bg-cyan-600 text-white"
+                >
+                  <Download className="w-4 h-4 mr-2" />
+                  Download
+                </Button>
+                
+                {/* Zoom Controls */}
+                <div className="flex items-center gap-1 ml-2 border-l pl-2">
                   <Button
-                    onClick={resetCanvas}
+                    onClick={zoomOut}
                     variant="outline"
                     size="sm"
+                    title="Zoom Out"
                   >
-                    <RotateCcw className="w-4 h-4 mr-2" />
-                    Reset
+                    <ZoomOut className="w-4 h-4" />
+                  </Button>
+                  
+                  <span className="text-sm font-mono px-3 py-1 bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-100 rounded-md min-w-[3.5rem] text-center border border-gray-200 dark:border-gray-700">
+                    {Math.round(zoomLevel * 100)}%
+                  </span>
+                  
+                  <Button
+                    onClick={zoomIn}
+                    variant="outline"
+                    size="sm"
+                    title="Zoom In"
+                  >
+                    <ZoomIn className="w-4 h-4" />
                   </Button>
                   
                   <Button
-                    onClick={downloadImage}
-                    variant="default"
+                    onClick={resetZoom}
+                    variant="outline"
                     size="sm"
-                    className="bg-cyan-500 hover:bg-cyan-600 text-white"
+                    title="Reset Zoom"
                   >
-                    <Download className="w-4 h-4 mr-2" />
-                    Download
+                    <Maximize2 className="w-4 h-4" />
                   </Button>
-                  
-                  {/* Zoom Controls */}
-                  <div className="flex items-center gap-1 ml-2 border-l pl-2">
-                    <Button
-                      onClick={zoomOut}
-                      variant="outline"
-                      size="sm"
-                      title="Zoom Out"
-                    >
-                      <ZoomOut className="w-4 h-4" />
-                    </Button>
-                    
-                    <span className="text-sm font-mono px-3 py-1 bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-100 rounded-md min-w-[3.5rem] text-center border border-gray-200 dark:border-gray-700">
-                      {Math.round(zoomLevel * 100)}%
-                    </span>
-                    
-                    <Button
-                      onClick={zoomIn}
-                      variant="outline"
-                      size="sm"
-                      title="Zoom In"
-                    >
-                      <ZoomIn className="w-4 h-4" />
-                    </Button>
-                    
-                    <Button
-                      onClick={resetZoom}
-                      variant="outline"
-                      size="sm"
-                      title="Reset Zoom"
-                    >
-                      <Maximize2 className="w-4 h-4" />
-                    </Button>
-                  </div>
                 </div>
-              </Card>
-            </div>
+              </div>
+            </Card>
+          </div>
 
-            {/* Canvas Container */}
+          {/* Canvas Container - only show when showBackdrop is true */}
+          {showBackdrop && (
             <div className={cn(
               "flex-1 flex items-center justify-start min-w-max",
               {
@@ -820,9 +820,9 @@ export const ImageEditor = () => {
                 <canvas ref={canvasRef} className="block rounded-2xl" style={{ borderRadius: '16px' }} />
               </div>
             </div>
-          </div>
+          )}
         </div>
-      )}
+      </div>
 
        {/* Hidden file input */}
        <input
