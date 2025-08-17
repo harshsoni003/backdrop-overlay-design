@@ -92,6 +92,77 @@ export const ImageEditor = () => {
       backgroundColor: "#ffffff",
     });
 
+    // Add keyboard event listeners
+    const handleKeyDown = (e: KeyboardEvent) => {
+      // Delete selected objects when Delete key is pressed
+      if (e.key === 'Delete' || e.key === 'Backspace') {
+        const activeObjects = canvas.getActiveObjects();
+        if (activeObjects.length > 0) {
+          activeObjects.forEach(obj => canvas.remove(obj));
+          canvas.discardActiveObject();
+          canvas.renderAll();
+          toast({
+            title: "Objects deleted",
+            description: `${activeObjects.length} object(s) removed from canvas`,
+          });
+        }
+      }
+      
+      // Paste image from clipboard when Ctrl+V (or Cmd+V) is pressed
+      if ((e.ctrlKey || e.metaKey) && e.key === 'v') {
+        e.preventDefault();
+        navigator.clipboard.read().then(clipboardItems => {
+          for (const clipboardItem of clipboardItems) {
+            for (const type of clipboardItem.types) {
+              if (type.startsWith('image/')) {
+                clipboardItem.getType(type).then(blob => {
+                  const url = URL.createObjectURL(blob);
+                  FabricImage.fromURL(url).then((img) => {
+                    // Scale image to fit canvas if it's too large
+                    const maxWidth = canvas.getWidth() * 0.8;
+                    const maxHeight = canvas.getHeight() * 0.8;
+                    
+                    if (img.width! > maxWidth || img.height! > maxHeight) {
+                      const scaleX = maxWidth / img.width!;
+                      const scaleY = maxHeight / img.height!;
+                      const scale = Math.min(scaleX, scaleY);
+                      img.scale(scale);
+                    }
+                    
+                    // Center the image
+                    img.set({
+                      left: (canvas.getWidth() - img.getScaledWidth()) / 2,
+                      top: (canvas.getHeight() - img.getScaledHeight()) / 2,
+                    });
+                    
+                    canvas.add(img);
+                    canvas.setActiveObject(img);
+                    canvas.renderAll();
+                    URL.revokeObjectURL(url);
+                    
+                    toast({
+                      title: "Image pasted",
+                      description: "Image from clipboard added to canvas",
+                    });
+                  });
+                });
+                break;
+              }
+            }
+          }
+        }).catch(() => {
+          toast({
+            title: "Paste failed",
+            description: "No image found in clipboard",
+            variant: "destructive",
+          });
+        });
+      }
+    };
+
+    // Add event listener to document
+    document.addEventListener('keydown', handleKeyDown);
+
     // Set default background with proper scaling
     FabricImage.fromURL("/lovable-uploads/24711e9d-7e61-42fe-8fa0-71748aa71822.png").then((img) => {
       // Scale image to fit canvas while maintaining aspect ratio
@@ -136,6 +207,7 @@ export const ImageEditor = () => {
     });
 
     return () => {
+      document.removeEventListener('keydown', handleKeyDown);
       canvas.dispose();
     };
   }, [canvasAspectRatio]);
