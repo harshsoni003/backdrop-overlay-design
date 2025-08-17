@@ -619,7 +619,15 @@ export const ImageEditor = () => {
     setSelectedBackgroundId("");
   };
 
-  const onToggleBackdrop = (show: boolean) => setShowBackdrop(show);
+  const onToggleBackdrop = (show: boolean) => {
+    setShowBackdrop(show);
+    // Re-render canvas when toggling back on to fix visibility issues
+    if (show && fabricCanvas) {
+      setTimeout(() => {
+        fabricCanvas.renderAll();
+      }, 100);
+    }
+  };
 
   // Download image with credit check
   const downloadImage = async () => {
