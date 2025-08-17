@@ -494,7 +494,7 @@ export const ImageEditor = () => {
   };
 
   // Shape and background handlers
-  const onAddShape = (type: "rect" | "circle" | "triangle" | "star" | "arrow" | "diamond" | "hexagon" | "pentagon" | "heart" | "plus" | "ellipse" | "lightning") => {
+  const onAddShape = (type: "rect" | "circle" | "triangle" | "star" | "arrow") => {
     if (!fabricCanvas) return;
     const canvasWidth = fabricCanvas.getWidth();
     const canvasHeight = fabricCanvas.getHeight();
@@ -510,8 +510,6 @@ export const ImageEditor = () => {
         fill: 'transparent',
         stroke: shapeColor,
         strokeWidth: strokeWidth,
-        rx: 8, // Rounded corners
-        ry: 8,
       });
       fabricCanvas.add(rect);
       fabricCanvas.setActiveObject(rect);
@@ -528,21 +526,6 @@ export const ImageEditor = () => {
       });
       fabricCanvas.add(circle);
       fabricCanvas.setActiveObject(circle);
-    } else if (type === "ellipse") {
-      const ellipse = new Circle({
-        left: canvasWidth / 2,
-        top: canvasHeight / 2,
-        originX: 'center',
-        originY: 'center',
-        radius: 50,
-        fill: 'transparent',
-        stroke: shapeColor,
-        strokeWidth: strokeWidth,
-        scaleX: 1.5,
-        scaleY: 0.7,
-      });
-      fabricCanvas.add(ellipse);
-      fabricCanvas.setActiveObject(ellipse);
     } else if (type === "triangle") {
       const tri = new Triangle({
         left: canvasWidth / 2,
@@ -578,121 +561,6 @@ export const ImageEditor = () => {
       });
       fabricCanvas.add(star);
       fabricCanvas.setActiveObject(star);
-    } else if (type === "diamond") {
-      const diamondPoints = [
-        { x: 0, y: -60 },   // top
-        { x: 60, y: 0 },    // right
-        { x: 0, y: 60 },    // bottom
-        { x: -60, y: 0 }    // left
-      ];
-      const diamond = new Polygon(diamondPoints, {
-        left: canvasWidth / 2,
-        top: canvasHeight / 2,
-        originX: 'center',
-        originY: 'center',
-        fill: 'transparent',
-        stroke: shapeColor,
-        strokeWidth: strokeWidth,
-      });
-      fabricCanvas.add(diamond);
-      fabricCanvas.setActiveObject(diamond);
-    } else if (type === "hexagon") {
-      const hexPoints = [];
-      for (let i = 0; i < 6; i++) {
-        const angle = (Math.PI / 3) * i;
-        hexPoints.push({
-          x: Math.cos(angle) * 60,
-          y: Math.sin(angle) * 60
-        });
-      }
-      const hexagon = new Polygon(hexPoints, {
-        left: canvasWidth / 2,
-        top: canvasHeight / 2,
-        originX: 'center',
-        originY: 'center',
-        fill: 'transparent',
-        stroke: shapeColor,
-        strokeWidth: strokeWidth,
-      });
-      fabricCanvas.add(hexagon);
-      fabricCanvas.setActiveObject(hexagon);
-    } else if (type === "pentagon") {
-      const pentPoints = [];
-      for (let i = 0; i < 5; i++) {
-        const angle = (Math.PI * 2 / 5) * i - Math.PI / 2;
-        pentPoints.push({
-          x: Math.cos(angle) * 60,
-          y: Math.sin(angle) * 60
-        });
-      }
-      const pentagon = new Polygon(pentPoints, {
-        left: canvasWidth / 2,
-        top: canvasHeight / 2,
-        originX: 'center',
-        originY: 'center',
-        fill: 'transparent',
-        stroke: shapeColor,
-        strokeWidth: strokeWidth,
-      });
-      fabricCanvas.add(pentagon);
-      fabricCanvas.setActiveObject(pentagon);
-    } else if (type === "heart") {
-      const heartPath = "M12,21.35l-1.45-1.32C5.4,15.36,2,12.28,2,8.5 C2,5.42,4.42,3,7.5,3c1.74,0,3.41,0.81,4.5,2.09C13.09,3.81,14.76,3,16.5,3 C19.58,3,22,5.42,22,8.5c0,3.78-3.4,6.86-8.55,11.54L12,21.35z";
-      const heart = new Path(heartPath, {
-        left: canvasWidth / 2,
-        top: canvasHeight / 2,
-        originX: 'center',
-        originY: 'center',
-        fill: 'transparent',
-        stroke: shapeColor,
-        strokeWidth: strokeWidth,
-        scaleX: 4,
-        scaleY: 4,
-      });
-      fabricCanvas.add(heart);
-      fabricCanvas.setActiveObject(heart);
-    } else if (type === "plus") {
-      const plusPoints = [
-        { x: -15, y: -45 }, { x: 15, y: -45 },  // top arm
-        { x: 15, y: -15 }, { x: 45, y: -15 },   // right arm start
-        { x: 45, y: 15 }, { x: 15, y: 15 },     // right arm end
-        { x: 15, y: 45 }, { x: -15, y: 45 },    // bottom arm
-        { x: -15, y: 15 }, { x: -45, y: 15 },   // left arm start
-        { x: -45, y: -15 }, { x: -15, y: -15 }  // left arm end
-      ];
-      const plus = new Polygon(plusPoints, {
-        left: canvasWidth / 2,
-        top: canvasHeight / 2,
-        originX: 'center',
-        originY: 'center',
-        fill: 'transparent',
-        stroke: shapeColor,
-        strokeWidth: strokeWidth,
-      });
-      fabricCanvas.add(plus);
-      fabricCanvas.setActiveObject(plus);
-    } else if (type === "lightning") {
-      const lightningPoints = [
-        { x: -20, y: -60 },  // top left
-        { x: 10, y: -60 },   // top right
-        { x: -10, y: -10 },  // middle left
-        { x: 20, y: -10 },   // middle right
-        { x: -30, y: 60 },   // bottom left
-        { x: -5, y: 60 },    // bottom middle
-        { x: 15, y: 10 },    // middle right point
-        { x: -15, y: 10 },   // middle left point
-      ];
-      const lightning = new Polygon(lightningPoints, {
-        left: canvasWidth / 2,
-        top: canvasHeight / 2,
-        originX: 'center',
-        originY: 'center',
-        fill: 'transparent',
-        stroke: shapeColor,
-        strokeWidth: strokeWidth,
-      });
-      fabricCanvas.add(lightning);
-      fabricCanvas.setActiveObject(lightning);
     } else if (type === "arrow") {
       const arrowPoints = [
         { x: -60, y: 0 },   // tail left

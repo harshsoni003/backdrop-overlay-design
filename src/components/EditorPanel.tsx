@@ -1,4 +1,4 @@
-import { Settings2, ImageIcon, Crop, User, Coins, Square, Circle as CircleIcon, Triangle, Star, ArrowRight, Diamond, Hexagon, Pentagon, Heart, Plus, Ellipsis, Zap } from "lucide-react";
+import { Settings2, ImageIcon, Crop, User, Coins, Square, Circle as CircleIcon, Triangle, Star, ArrowRight } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
@@ -22,7 +22,7 @@ interface EditorPanelProps {
   canvasSizes: { [key: string]: { width: number; height: number } };
   user: SupabaseUser | null;
   // New props for shapes and background controls
-  onAddShape: (type: "rect" | "circle" | "triangle" | "star" | "arrow" | "diamond" | "hexagon" | "pentagon" | "heart" | "plus" | "ellipse" | "lightning") => void;
+  onAddShape: (type: "rect" | "circle" | "triangle" | "star" | "arrow") => void;
   shapeColor: string;
   onShapeColorChange: (color: string) => void;
   strokeWidth: number;
@@ -250,54 +250,21 @@ export const EditorPanel = ({
                 className="w-full"
               />
             </div>
-            <div className="grid grid-cols-3 gap-2">
-              <Button variant="outline" className="h-12 flex-col gap-1" onClick={() => onAddShape("rect")}> 
-                <Square className="w-4 h-4" />
-                <span className="text-xs">Rectangle</span>
+            <div className="grid grid-cols-2 gap-2">
+              <Button variant="outline" className="justify-start" onClick={() => onAddShape("rect")}> 
+                <Square className="w-4 h-4 mr-2" /> Rectangle
               </Button>
-              <Button variant="outline" className="h-12 flex-col gap-1" onClick={() => onAddShape("circle")}>
-                <CircleIcon className="w-4 h-4" />
-                <span className="text-xs">Circle</span>
+              <Button variant="outline" className="justify-start" onClick={() => onAddShape("circle")}>
+                <CircleIcon className="w-4 h-4 mr-2" /> Circle
               </Button>
-              <Button variant="outline" className="h-12 flex-col gap-1" onClick={() => onAddShape("triangle")}>
-                <Triangle className="w-4 h-4" />
-                <span className="text-xs">Triangle</span>
+              <Button variant="outline" className="justify-start" onClick={() => onAddShape("triangle")}>
+                <Triangle className="w-4 h-4 mr-2" /> Triangle
               </Button>
-              <Button variant="outline" className="h-12 flex-col gap-1" onClick={() => onAddShape("star")}>
-                <Star className="w-4 h-4" />
-                <span className="text-xs">Star</span>
+              <Button variant="outline" className="justify-start" onClick={() => onAddShape("star")}>
+                <Star className="w-4 h-4 mr-2" /> Star
               </Button>
-              <Button variant="outline" className="h-12 flex-col gap-1" onClick={() => onAddShape("arrow")}>
-                <ArrowRight className="w-4 h-4" />
-                <span className="text-xs">Arrow</span>
-              </Button>
-              <Button variant="outline" className="h-12 flex-col gap-1" onClick={() => onAddShape("diamond")}>
-                <Diamond className="w-4 h-4" />
-                <span className="text-xs">Diamond</span>
-              </Button>
-              <Button variant="outline" className="h-12 flex-col gap-1" onClick={() => onAddShape("hexagon")}>
-                <Hexagon className="w-4 h-4" />
-                <span className="text-xs">Hexagon</span>
-              </Button>
-              <Button variant="outline" className="h-12 flex-col gap-1" onClick={() => onAddShape("pentagon")}>
-                <Pentagon className="w-4 h-4" />
-                <span className="text-xs">Pentagon</span>
-              </Button>
-              <Button variant="outline" className="h-12 flex-col gap-1" onClick={() => onAddShape("heart")}>
-                <Heart className="w-4 h-4" />
-                <span className="text-xs">Heart</span>
-              </Button>
-              <Button variant="outline" className="h-12 flex-col gap-1" onClick={() => onAddShape("plus")}>
-                <Plus className="w-4 h-4" />
-                <span className="text-xs">Plus</span>
-              </Button>
-              <Button variant="outline" className="h-12 flex-col gap-1" onClick={() => onAddShape("ellipse")}>
-                <Ellipsis className="w-4 h-4" />
-                <span className="text-xs">Ellipse</span>
-              </Button>
-              <Button variant="outline" className="h-12 flex-col gap-1" onClick={() => onAddShape("lightning")}>
-                <Zap className="w-4 h-4" />
-                <span className="text-xs">Lightning</span>
+              <Button variant="outline" className="col-span-2 justify-start" onClick={() => onAddShape("arrow")}>
+                <ArrowRight className="w-4 h-4 mr-2" /> Arrow
               </Button>
             </div>
             {activeObject && (
