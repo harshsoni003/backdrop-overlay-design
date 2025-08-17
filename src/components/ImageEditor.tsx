@@ -621,6 +621,8 @@ export const ImageEditor = () => {
 
   const onToggleBackdrop = (show: boolean) => {
     setShowBackdrop(show);
+    // Reload the entire page when toggling
+    window.location.reload();
   };
 
   // Download image with credit check
