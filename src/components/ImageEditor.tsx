@@ -621,12 +621,6 @@ export const ImageEditor = () => {
 
   const onToggleBackdrop = (show: boolean) => {
     setShowBackdrop(show);
-    // Re-render canvas when toggling back on to fix visibility issues
-    if (show && fabricCanvas) {
-      setTimeout(() => {
-        fabricCanvas.renderAll();
-      }, 100);
-    }
   };
 
   // Download image with credit check
