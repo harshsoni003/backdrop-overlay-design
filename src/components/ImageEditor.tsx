@@ -433,7 +433,9 @@ export const ImageEditor = () => {
         originY: 'center',
         width: 180,
         height: 120,
-        fill: shapeColor,
+        fill: 'transparent',
+        stroke: shapeColor,
+        strokeWidth: 2,
       });
       fabricCanvas.add(rect);
       fabricCanvas.setActiveObject(rect);
@@ -444,7 +446,9 @@ export const ImageEditor = () => {
         originX: 'center',
         originY: 'center',
         radius: 70,
-        fill: shapeColor,
+        fill: 'transparent',
+        stroke: shapeColor,
+        strokeWidth: 2,
       });
       fabricCanvas.add(circle);
       fabricCanvas.setActiveObject(circle);
@@ -456,7 +460,9 @@ export const ImageEditor = () => {
         originY: 'center',
         width: 140,
         height: 120,
-        fill: shapeColor,
+        fill: 'transparent',
+        stroke: shapeColor,
+        strokeWidth: 2,
       });
       fabricCanvas.add(tri);
       fabricCanvas.setActiveObject(tri);
@@ -475,7 +481,9 @@ export const ImageEditor = () => {
         top: canvasHeight / 2,
         originX: 'center',
         originY: 'center',
-        fill: shapeColor,
+        fill: 'transparent',
+        stroke: shapeColor,
+        strokeWidth: 2,
       });
       fabricCanvas.add(star);
       fabricCanvas.setActiveObject(star);
@@ -491,7 +499,7 @@ export const ImageEditor = () => {
   const onApplyColorToSelection = () => {
     if (!fabricCanvas || !activeObject) return;
     try {
-      activeObject.set({ fill: shapeColor });
+      activeObject.set({ stroke: shapeColor });
       fabricCanvas.renderAll();
     } catch {}
   };
