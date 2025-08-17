@@ -29,6 +29,7 @@ export const ImageEditor = () => {
   const [zoomLevel, setZoomLevel] = useState(0.55);
   const [shapeColor, setShapeColor] = useState("#ff3b30");
   const [strokeWidth, setStrokeWidth] = useState(2);
+  const [backgroundColor, setBackgroundColor] = useState("#ffffff");
   const [showBackdrop, setShowBackdrop] = useState(true);
   
   // Authentication state
@@ -540,6 +541,19 @@ export const ImageEditor = () => {
   const onRemoveCanvasBackground = () => {
     if (!fabricCanvas) return;
     fabricCanvas.backgroundImage = undefined;
+    fabricCanvas.backgroundColor = "#ffffff";
+    fabricCanvas.renderAll();
+    setSelectedBackgroundId("");
+  };
+
+  const onBackgroundColorChange = (color: string) => {
+    setBackgroundColor(color);
+  };
+
+  const onApplyBackgroundColor = () => {
+    if (!fabricCanvas) return;
+    fabricCanvas.backgroundImage = undefined;
+    fabricCanvas.backgroundColor = backgroundColor;
     fabricCanvas.renderAll();
     setSelectedBackgroundId("");
   };
@@ -621,6 +635,9 @@ export const ImageEditor = () => {
         onStrokeWidthChange={onStrokeWidthChange}
         onApplyColorToSelection={onApplyColorToSelection}
         onRemoveCanvasBackground={onRemoveCanvasBackground}
+        backgroundColor={backgroundColor}
+        onBackgroundColorChange={onBackgroundColorChange}
+        onApplyBackgroundColor={onApplyBackgroundColor}
         showBackdrop={showBackdrop}
         onToggleBackdrop={onToggleBackdrop}
       />
