@@ -520,6 +520,13 @@ export const ImageEditor = () => {
 
   const onStrokeWidthChange = (width: number) => {
     setStrokeWidth(width);
+    // Apply stroke width to currently selected object in real-time
+    if (fabricCanvas && activeObject) {
+      try {
+        activeObject.set({ strokeWidth: width });
+        fabricCanvas.renderAll();
+      } catch {}
+    }
   };
 
   const onApplyColorToSelection = () => {
