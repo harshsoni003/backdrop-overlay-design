@@ -621,8 +621,10 @@ export const ImageEditor = () => {
 
   const onToggleBackdrop = (show: boolean) => {
     setShowBackdrop(show);
-    // Reload the entire page when toggling
-    window.location.reload();
+    // Only reload when turning backdrop ON, not when turning it OFF
+    if (show) {
+      window.location.reload();
+    }
   };
 
   // Download image with credit check
