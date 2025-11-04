@@ -243,28 +243,8 @@ export const ImageEditor = () => {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, []);
 
-  // Handle upload button click with authentication and credit check
+  // Handle upload button click
   const handleUploadClick = () => {
-    if (!user) {
-      setShowSignInDialog(true);
-      toast({
-        title: "Sign in required",
-        description: "Please sign in to upload images",
-        variant: "destructive",
-      });
-      return;
-    }
-
-    if (!credits || credits.credits_remaining <= 0) {
-      setShowUpgradeDialog(true);
-      toast({
-        title: "No credits remaining",
-        description: "You need credits to upload images. Contact admin to upgrade.",
-        variant: "destructive",
-      });
-      return;
-    }
-
     fileInputRef.current?.click();
   };
 
@@ -312,7 +292,7 @@ export const ImageEditor = () => {
         
         toast({
           title: "Image uploaded!",
-          description: `Image added to canvas. ${credits.credits_remaining - 1} credits remaining.`,
+          description: "Image added to canvas.",
         });
       });
     };
@@ -627,41 +607,9 @@ export const ImageEditor = () => {
     }
   };
 
-  // Download image with credit check
+  // Download image
   const downloadImage = async () => {
     if (!fabricCanvas) return;
-
-    if (!user) {
-      setShowSignInDialog(true);
-      toast({
-        title: "Sign in required",
-        description: "Please sign in to download images",
-        variant: "destructive",
-      });
-      return;
-    }
-
-    if (!credits || credits.credits_remaining <= 0) {
-      setShowUpgradeDialog(true);
-      toast({
-        title: "No credits remaining",
-        description: "You need credits to download images. Contact admin to upgrade.",
-        variant: "destructive",
-      });
-      return;
-    }
-
-    // Deduct credit for download
-    const creditDeducted = await deductCredits(1);
-    if (!creditDeducted) {
-      setShowUpgradeDialog(true);
-      toast({
-        title: "Unable to process download",
-        description: "Could not deduct credit. Contact admin if this persists.",
-        variant: "destructive",
-      });
-      return;
-    }
 
     const dataURL = fabricCanvas.toDataURL({
       format: 'png',
@@ -678,7 +626,7 @@ export const ImageEditor = () => {
 
     toast({
       title: "Image downloaded!",
-      description: `Your edited image has been saved. ${(credits?.credits_remaining || 1) - 1} credits remaining.`,
+      description: "Your edited image has been saved.",
     });
   };
 
