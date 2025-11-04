@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils";
 import { useRef, useState, useEffect } from "react";
 import { toast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
+import { supabase } from "@/integrations/supabase/client";
 
 // Import default background only
 import defaultBg from "@/assets/default-bg.jpg";
@@ -93,25 +94,51 @@ interface BackgroundSelectorProps {
 export const BackgroundSelector = ({ selectedBackground, onBackgroundSelect }: BackgroundSelectorProps) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [customBackgrounds, setCustomBackgrounds] = useState<BackgroundOption[]>([]);
+  const [isUploading, setIsUploading] = useState(false);
 
-  // Load custom backgrounds from localStorage on mount
+  // Load custom backgrounds from Supabase Storage on mount
   useEffect(() => {
-    const stored = localStorage.getItem('customBackgrounds');
-    if (stored) {
-      try {
-        setCustomBackgrounds(JSON.parse(stored));
-      } catch (error) {
-        console.error('Failed to load custom backgrounds:', error);
-      }
-    }
+    loadCustomBackgrounds();
   }, []);
+
+  const loadCustomBackgrounds = async () => {
+    try {
+      const { data, error } = await supabase.storage
+        .from('custom-backgrounds')
+        .list();
+
+      if (error) {
+        console.error('Failed to load custom backgrounds:', error);
+        return;
+      }
+
+      if (data) {
+        const backgrounds: BackgroundOption[] = data.map(file => {
+          const { data: publicUrl } = supabase.storage
+            .from('custom-backgrounds')
+            .getPublicUrl(file.name);
+
+          return {
+            id: file.id,
+            name: file.name.replace(/\.[^/.]+$/, "").replace(/^\d+-/, ""),
+            image: publicUrl.publicUrl,
+            category: "Custom"
+          };
+        });
+
+        setCustomBackgrounds(backgrounds);
+      }
+    } catch (error) {
+      console.error('Failed to load custom backgrounds:', error);
+    }
+  };
 
   // Handle custom background upload
   const handleUploadClick = () => {
     fileInputRef.current?.click();
   };
 
-  const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (!file) return;
 
@@ -124,40 +151,73 @@ export const BackgroundSelector = ({ selectedBackground, onBackgroundSelect }: B
       return;
     }
 
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      const imageUrl = e.target?.result as string;
-      const newBackground: BackgroundOption = {
-        id: `custom-${Date.now()}`,
-        name: file.name.replace(/\.[^/.]+$/, ""),
-        image: imageUrl,
-        category: "Custom"
-      };
+    setIsUploading(true);
 
-      const updatedCustomBackgrounds = [...customBackgrounds, newBackground];
-      setCustomBackgrounds(updatedCustomBackgrounds);
-      localStorage.setItem('customBackgrounds', JSON.stringify(updatedCustomBackgrounds));
+    try {
+      // Create a unique filename
+      const fileExt = file.name.split('.').pop();
+      const fileName = `${Date.now()}-${file.name}`;
+      const filePath = fileName;
+
+      // Upload to Supabase Storage
+      const { error: uploadError } = await supabase.storage
+        .from('custom-backgrounds')
+        .upload(filePath, file);
+
+      if (uploadError) {
+        throw uploadError;
+      }
+
+      // Reload custom backgrounds
+      await loadCustomBackgrounds();
 
       toast({
         title: "Background added!",
-        description: "Your custom background has been saved",
+        description: "Your custom background is now available to all users",
       });
-    };
-
-    reader.readAsDataURL(file);
-    // Reset input
-    event.target.value = '';
+    } catch (error) {
+      console.error('Upload failed:', error);
+      toast({
+        title: "Upload failed",
+        description: "Failed to upload custom background. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsUploading(false);
+      // Reset input
+      event.target.value = '';
+    }
   };
 
-  const handleDeleteCustomBackground = (id: string) => {
-    const updatedBackgrounds = customBackgrounds.filter(bg => bg.id !== id);
-    setCustomBackgrounds(updatedBackgrounds);
-    localStorage.setItem('customBackgrounds', JSON.stringify(updatedBackgrounds));
-    
-    toast({
-      title: "Background removed",
-      description: "Custom background has been deleted",
-    });
+  const handleDeleteCustomBackground = async (background: BackgroundOption) => {
+    try {
+      // Extract filename from public URL
+      const urlParts = background.image.split('/');
+      const fileName = urlParts[urlParts.length - 1];
+
+      const { error } = await supabase.storage
+        .from('custom-backgrounds')
+        .remove([fileName]);
+
+      if (error) {
+        throw error;
+      }
+
+      // Reload custom backgrounds
+      await loadCustomBackgrounds();
+
+      toast({
+        title: "Background removed",
+        description: "Custom background has been deleted",
+      });
+    } catch (error) {
+      console.error('Delete failed:', error);
+      toast({
+        title: "Delete failed",
+        description: "Failed to delete custom background. Please try again.",
+        variant: "destructive",
+      });
+    }
   };
 
   const allBackgrounds = [...customBackgrounds, ...backgroundOptions];
@@ -179,15 +239,22 @@ export const BackgroundSelector = ({ selectedBackground, onBackgroundSelect }: B
         <div className="grid grid-cols-1 gap-3 pr-2">
           {/* Add Background Button */}
           <div
-            className="relative aspect-video rounded-lg overflow-hidden cursor-pointer border-2 border-dashed border-primary/30 hover:border-primary hover:bg-primary/5 transition-all duration-300 flex items-center justify-center group"
+            className={cn(
+              "relative aspect-video rounded-lg overflow-hidden cursor-pointer border-2 border-dashed border-primary/30 hover:border-primary hover:bg-primary/5 transition-all duration-300 flex items-center justify-center group",
+              isUploading && "opacity-50 pointer-events-none"
+            )}
             onClick={handleUploadClick}
           >
             <div className="flex flex-col items-center gap-2 text-primary">
               <div className="p-3 bg-primary/10 rounded-full group-hover:bg-primary/20 transition-colors">
                 <Plus className="w-6 h-6" />
               </div>
-              <p className="text-sm font-medium">Add Custom Background</p>
-              <p className="text-xs text-muted-foreground">Click to upload</p>
+              <p className="text-sm font-medium">
+                {isUploading ? "Uploading..." : "Add Custom Background"}
+              </p>
+              <p className="text-xs text-muted-foreground">
+                {isUploading ? "Please wait" : "Shared with all users"}
+              </p>
             </div>
           </div>
 
@@ -235,7 +302,7 @@ export const BackgroundSelector = ({ selectedBackground, onBackgroundSelect }: B
                   className="absolute top-2 right-2 h-7 w-7 opacity-0 group-hover:opacity-100 transition-opacity z-10"
                   onClick={(e) => {
                     e.stopPropagation();
-                    handleDeleteCustomBackground(background.id);
+                    handleDeleteCustomBackground(background);
                   }}
                 >
                   <X className="w-4 h-4" />
